@@ -1,0 +1,24 @@
+{
+  "name": "conebot-discord",
+  "version": "1.0.0",
+  "description": "Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone), adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gearysw/conebot-discord.git"
+  },
+  "author": "Geary Wariwisaya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gearysw/conebot-discord/issues"
+  },
+  "homepage": "https://github.com/gearysw/conebot-discord#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "discord.js": "^11.5.1",
+    "eslint": "^6.6.0"
+  }
+}
