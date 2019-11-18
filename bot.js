@@ -20,5 +20,11 @@ bot.on('guildMemberAdd', async (member) => {
 
 bot.on('message', async (message) => {
     // console.log(message);
+    if (message.author.bot === true) { // ignores messages made by bots
+        return;
+    }
+    if (message.content.toLowerCase().includes('\`')) { // ignores code blocks
+        return;
+    }
 
 });
