@@ -19,7 +19,7 @@ module.exports = {
             .addField('!order', 'Ordering form')
             .addField('!affiliate', 'Tutorial on how to affiliate yourself with the team on sae.org')
             .addField('!tutorials', 'List of links to tutorials')
-            .addField('!role', 'Commands for role management')
+            .addField('!role <add|remove> <role>', 'Commands for role management')
             .addField('!roll XdY', 'Roll X standard (4, 6, 8, 10, 12, 20) Y-sided dice');
 
         message.channel.send(helpEmbed);
