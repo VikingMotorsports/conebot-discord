@@ -61,4 +61,5 @@ typings/
 .next
 
 # others
-botSettings.json
+config.json
+.vscode
