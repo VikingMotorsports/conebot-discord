@@ -9,6 +9,7 @@ module.exports = {
         axios.get('http://inspirobot.me/api?generate=true').then(res => {
             const payload = res.data;
             const embed = new Discord.RichEmbed()
+                .setColor('#96031A')
                 .setImage(`${payload}`)
                 .setFooter('Generated from InspiroBot');
 

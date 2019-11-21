@@ -1,6 +1,8 @@
 module.exports = {
     name: 'vaporwave',
     description: 'Converts text to vaporwave',
+    usage: '<string>',
+    args: true,
     execute(message, args) {
         let str = message.content.substring(10);
         let vaporWave = str.replace(/[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?/;:'"@#$%^&*()-_=+<>1234567890~]/g, (m) => {

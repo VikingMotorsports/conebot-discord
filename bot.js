@@ -37,10 +37,6 @@ bot.on('ready', async () => {
     msg.react('✅');
 });
 
-// bot.on('guildMemberAdd', async (member) => {
-
-// });
-
 bot.on('messageReactionAdd', (reaction, user) => {
     if (!user) return;
     if (user.bot) return;

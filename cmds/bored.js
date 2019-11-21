@@ -33,6 +33,7 @@ module.exports = {
             }
 
             const embed = new Discord.RichEmbed()
+                .setColor('#96031A')
                 .setTitle(`${res.data.activity}`)
                 .addField('Type', `${res.data.type}`)
                 .addField('Difficulty', difficulty)

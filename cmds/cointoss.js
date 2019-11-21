@@ -1,6 +1,6 @@
 module.exports = {
     name: 'cointoss',
-    aliases: ['heads', 'tails', 'headstails', 'headsortails'],
+    aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
     description: 'Heads or tails',
     // args: true,
     execute(message, args) {

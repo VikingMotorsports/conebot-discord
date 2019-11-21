@@ -5,6 +5,7 @@ module.exports = {
     name: 'tronaldump',
     aliases: ['tronald', 'dump', 'trump', 'donald', 'donaltrump'],
     description: 'Inspirational quotes from Our Great President',
+    usage: 'random or [topic]',
     args: true,
     execute(message, args) {
         if (args[0] === 'random') {
@@ -20,7 +21,8 @@ module.exports = {
                     .setTitle(`${payload.value}`)
                     .setDescription(`- ${payload._embedded.author[0].name}`)
                     .addField('Source', `${payload._embedded.source[0].url}`)
-                    .setFooter('Powered by https://tronalddump.io/');
+                    .setFooter('Powered by https://tronalddump.io/')
+                    .setColor('#96031A');
 
                 message.channel.send(embed);
             }).catch(console.error);
@@ -51,7 +53,8 @@ module.exports = {
                         .setTitle(quote)
                         .setDescription(`- ${author}`)
                         .addField('Source', source)
-                        .setFooter('Powered by https://www.tronalddump.io/');
+                        .setFooter('Powered by https://www.tronalddump.io/')
+                        .setColor('#96031A');
 
                     message.channel.send(embed);
                 }

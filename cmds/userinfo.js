@@ -4,6 +4,7 @@ module.exports = {
     name: 'userinfo',
     aliases: ['user', 'avatar', 'username'],
     description: 'VMS stash directory',
+    usage: '<@user>',
     execute(message, args) {
         if (!message.mentions.users.size) {
             const name = message.author.username;
