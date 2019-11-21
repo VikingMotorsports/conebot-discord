@@ -1,6 +1,7 @@
 module.exports = {
     name: 'roll',
-    description: 'Roll X standard (4, 6, 8, 10, 12, 20) Y-sided dice',
+    aliases: ['rolldice', 'diceroll', 'dice'],
+    description: 'Roll X Y-sided dice',
     args: true,
     execute(message, args) {
         if (args[0].match(/\dd\d/)) {

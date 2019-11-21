@@ -84,7 +84,7 @@ bot.on('message', async (message) => {
     if (message.content.toLowerCase().includes('sticky liquid' || 'sticky juice')) {
         message.react('💦');
     }
-    if (message.author.id === '216771586651455492' && (message.content.includes('vodka') || message.content.toLowerCase.includes('russian water') || message.content.toLowerCase.includes('slav') || message.content.toLowerCase.includes('whiskey'))) {
+    if (message.author.id === '216771586651455492' && (message.content.toLowerCase().includes('vodka') || message.content.toLowerCase().includes('russian water') || message.content.toLowerCase().includes('slav') || message.content.toLowerCase().includes('whiskey'))) {
         const blyat = await findEmoji('blyat');
         message.react(blyat);
     }

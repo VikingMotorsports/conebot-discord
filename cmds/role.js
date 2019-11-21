@@ -4,11 +4,12 @@ module.exports = {
     description: 'Commands for adding or removing roles',
     args: true,
     execute(message, args) {
+        var arguments = [];
         // const roleNames = message.guild.roles.map(r => r.name).join('\n');
         // console.log(roleNames);
         if (args[1]) {
             if (args[2]) {
-
+                
             }
             if (args[0] != 'add' && args[0] != 'remove') {
                 message.channel.send('Invalid syntax. Use `add` or `remove`');

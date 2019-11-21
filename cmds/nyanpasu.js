@@ -21,9 +21,10 @@ module.exports = {
                 const embed = new Discord.RichEmbed()
                     .setThumbnail('https://i.imgur.com/E83gsQh.jpg')
                     .setTitle('Current Nyanpasu Count')
+                    .setURL('http://nyanpass.com/')
                     .setColor('#96031A')
                     .setDescription(`${res.data.cnt}`)
-                    .setFooter('http://nyanpass.com/|Nyanpasu');
+                    .setFooter('http://nyanpass.com/');
 
                 message.channel.send(embed);
             }).catch(console.error);
