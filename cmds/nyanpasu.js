@@ -10,6 +10,7 @@ module.exports = {
     name: 'nyanpasu',
     aliases: ['nyanpass'],
     description: 'Nyanpasu~',
+    easteregg: true,
     execute(message, args) {
         axios({
                 method: 'post',

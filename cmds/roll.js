@@ -1,7 +1,8 @@
 module.exports = {
     name: 'roll',
     aliases: ['rolldice', 'diceroll', 'dice'],
-    description: 'Roll some dice\nX = number of dice\nY = number of sides',
+    description: 'Roll XdY dice\nX = number of dice\nY = number of sides',
+    easteregg: false,
     usage: 'XdY',
     args: true,
     execute(message, args) {

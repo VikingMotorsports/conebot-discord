@@ -5,6 +5,7 @@ module.exports = {
     name: 'kanye',
     aliases: ['kanyequote'],
     description: 'Kanye West quotes',
+    easteregg: true,
     execute(message, args) {
         axios.get('https://api.kanye.rest/').then(res => {
             const quote = res.data.quote;

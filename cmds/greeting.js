@@ -2,6 +2,7 @@ module.exports = {
     name: 'greeting',
     aliases: ['greetings', 'morning', 'night', 'afternoon', 'goodmorning', 'goodnight', 'goodafternoon'],
     description: 'Greets the user',
+    easteregg: true,
     execute(message, args) {
         if (message.content.toLowerCase().includes('good morning')) {
             return message.channel.send(`Good morning, ${message.member.nickname || message.author.username}!`);

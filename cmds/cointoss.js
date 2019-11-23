@@ -2,7 +2,7 @@ module.exports = {
     name: 'cointoss',
     aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
     description: 'Heads or tails',
-    // args: true,
+    easteregg: false,
     execute(message, args) {
         let chance = Math.ceil(Math.random() * 2);
         if (chance == 1) {

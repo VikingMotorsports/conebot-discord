@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'stash',
     description: 'VMS stash directory',
+    easteregg: false,
     execute(message, args) {
         const stashEmbed = new Discord.RichEmbed()
             .setColor('#1B998B')

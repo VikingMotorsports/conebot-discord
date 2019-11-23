@@ -2,6 +2,7 @@ module.exports = {
     name: 'role',
     aliases: ['roles'],
     description: 'Commands for adding or removing roles',
+    easteregg: false,
     usage: '<add|remove> <role>',
     args: true,
     execute(message, args) {
@@ -17,7 +18,7 @@ module.exports = {
                 let role = message.guild.roles.find(r => r.name.toLowerCase() === roleQuery);
                 if (!role) {
                     message.channel.send('That role does not exist.');
-                } else if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot' || role.name === 'Member') {
+                } else if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot') {
                     message.channel.send('That\'s illegal!');
                 } else {
                     if (member.roles.has(role.id)) {

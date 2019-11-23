@@ -5,6 +5,7 @@ module.exports = {
     name: 'fuckall',
     aliases: ['fuckeverything', 'fuckyouall'],
     description: 'When you wanna curse the whole world',
+    easteregg: true,
     execute(message, args) {
         const fuckalls = ['everyone', 'everything'];
         const endpoint = fuckalls[Math.floor(Math.random() * fuckoffs.length)];

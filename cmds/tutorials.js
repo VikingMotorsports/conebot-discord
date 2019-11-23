@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'tutorials',
     description: 'List of links to tutorials',
+    easteregg: false,
     execute(message, args) {
         const tutorialEmbed = new Discord.RichEmbed()
             .setColor('#FFFD82')

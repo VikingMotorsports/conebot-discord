@@ -5,6 +5,7 @@ module.exports = {
     name: 'yesno',
     aliases: ['yesorno'],
     description: 'Yes or no?',
+    easteregg: true,
     execute(message, args) {
         axios.get('https://yesno.wtf/api').then(res => {
             const payload = res.data;

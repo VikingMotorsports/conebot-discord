@@ -5,6 +5,7 @@ module.exports = {
     name: 'tronaldump',
     aliases: ['tronald', 'dump', 'trump', 'donald', 'donaltrump'],
     description: 'Inspirational quotes from Our Great President',
+    easteregg: true,
     usage: 'random or [topic]',
     args: true,
     execute(message, args) {

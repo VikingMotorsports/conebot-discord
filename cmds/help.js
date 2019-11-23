@@ -13,27 +13,31 @@ module.exports = {
             commands
         } = message.client;
         if (!args.length) {
-            const helpEmbed = new Discord.RichEmbed()
-                .setColor('#004225')
-                .setTitle('Available commands')
-                .setDescription(`Type ${prefix}help [command name] to get info on a specific command.`)
-                .addField('!drive', 'Google Drive folder')
-                .addField('!stash', 'VMS stash directory')
-                .addField('!handbook', 'Member Handbook')
-                .addField('!rules', 'Link to FSAE rule book')
-                .addField('!reference', 'Reference documents folder')
-                .addField('!timeline', 'View the current timeline of projects')
-                .addField('!currentcar', 'Google Drive folder of the current car')
-                .addField('!minutes', 'General meeting minutes')
-                // .addField('!order', 'Ordering form')
-                .addField('!affiliate', 'Tutorial on how to affiliate yourself with the team on sae.org')
-                .addField('!tutorials', 'List of links to tutorials')
-                .addField('!role <add|remove> <role>', 'Commands for role management')
-                .addField('!roll XdY', 'Roll X Y-sided dice');
+            let cmd = [];
+            let cmdDesc = [];
+            const commandsArray = commands.map(c => {
+                if (!c.easteregg && c.easteregg != undefined) {
+                    cmd.push(`${prefix}${c.name}`);
+                    cmdDesc.push(c.description);
+                }
+            });
+            // commandsArray.forEach(command => {
+            //     if (command != undefined) cmd.push(`${prefix}${command}`);
+            // });
 
-            message.channel.send(helpEmbed);
+            const allCmds = new Discord.RichEmbed()
+                .setTitle('All available commands')
+                .setDescription(`Type ${prefix}help [command name] to get info on a specific command.\n`)
+                .setColor('#004426');
+
+            for (let i = 0; i < cmd.length; i++) {
+                allCmds.addField(cmd[i], cmdDesc[i]);
+            }
+            // console.log(allCmds);
+            message.channel.send(allCmds);
         } else if (args.length == 1) {
-            const name = args[0];
+            let name = args[0];
+            if (name.startsWith(prefix)) name = name.slice(prefix.length);
             const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
             if (!command) {
@@ -41,15 +45,15 @@ module.exports = {
             }
 
             const commandHelp = new Discord.RichEmbed()
-                .setAuthor(`Command: ${command.name}`)
+                // .setAuthor(`Command: ${command.name}`)
                 .setColor('#004225');
 
             if (command.aliases) commandHelp.addField('Aliases', command.aliases.join(', '));
             if (command.description) commandHelp.setDescription(command.description);
             if (command.usage) {
-                commandHelp.setTitle(`Usage: ${prefix}${command.name} ${command.usage}`);
+                commandHelp.setTitle(`${prefix}${command.name} ${command.usage}`);
             } else if (!command.usage) {
-                commandHelp.setTitle(`Usage: ${prefix}${command.name}`);
+                commandHelp.setTitle(`${prefix}${command.name}`);
             }
 
             message.channel.send(commandHelp);

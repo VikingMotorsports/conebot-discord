@@ -5,6 +5,7 @@ module.exports = {
     name: 'bored',
     aliases: ['activity', 'newactivity'],
     description: 'Find something to do',
+    easteregg: true,
     execute(message, args) {
         axios.get('https://boredapi.com/api/activity/').then(res => {
             let price, difficulty;
