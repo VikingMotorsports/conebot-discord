@@ -6,16 +6,19 @@ module.exports = {
     aliases: ['kanyequote'],
     description: 'Kanye West quotes',
     easteregg: true,
-    execute(message, args) {
-        axios.get('https://api.kanye.rest/').then(res => {
-            const quote = res.data.quote;
+    execute: async (message, args) => {
+        try {
+            const response = await axios.get('https://api.kanye.rest/');
+            const quote = response.data.quote;
             const embed = new Discord.RichEmbed()
                 .setColor('#96031A')
                 .setDescription(`"${quote}"\n*- Kanye West*`)
                 .setThumbnail('https://i.imgur.com/IHr3gbj.jpg')
-                .setFooter('https://kanye.rest/')
+                .setFooter('https://kanye.rest/');
 
             message.channel.send(embed);
-        });
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

@@ -6,15 +6,17 @@ module.exports = {
     aliases: ['yesorno'],
     description: 'Yes or no?',
     easteregg: true,
-    execute(message, args) {
-        axios.get('https://yesno.wtf/api').then(res => {
-            const payload = res.data;
+    execute: async (message, args) => {
+        try {
+            const res = await axios.get('https://yesno.wtf/api');
             const embed = new Discord.RichEmbed()
-                .setTitle(`${payload.answer.capitalize()}`)
-                .setImage(`${payload.image}`);
+                .setTitle(res.data.answer.capitalize())
+                .setImage(res.data.image);
 
             message.channel.send(embed);
-        });
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
 

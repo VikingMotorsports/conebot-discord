@@ -8,7 +8,7 @@ module.exports = {
     aliases: ['commands'],
     description: 'List of commands the bot can perform or info about a specific command.',
     usage: '[command name]',
-    execute(message, args) {
+    execute: async (message, args) => {
         const {
             commands
         } = message.client;

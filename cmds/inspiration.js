@@ -3,18 +3,20 @@ const axios = require('axios');
 
 module.exports = {
     name: 'inspiration',
-    aliases: ['inspirationalimage', 'inspirational', 'motivation', 'getmotivated'],
+    aliases: ['inspirationalimage', 'inspirational', 'motivation', 'getmotivated', 'inspire'],
     description: 'When you need motivation to get through the day...',
     easteregg: true,
-    execute(message, args) {
-        axios.get('http://inspirobot.me/api?generate=true').then(res => {
-            const payload = res.data;
+    execute: async (message, args) => {
+        try {
+            const response = await axios.get('http://inspirobot.me/api?generate=true');
             const embed = new Discord.RichEmbed()
                 .setColor('#96031A')
-                .setImage(`${payload}`)
+                .setImage(response.data)
                 .setFooter('Generated from InspiroBot');
 
             message.channel.send(embed);
-        });
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

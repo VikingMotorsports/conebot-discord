@@ -5,10 +5,13 @@ module.exports = {
     aliases: ['programmerjoke', 'jokes', 'programmerjokes'],
     description: 'Cheesy programmer jokes',
     easteregg: true,
-    execute(message, args) {
-        axios.get('https://official-joke-api.appspot.com/jokes/programming/random').then(res => {
-            const joke = res.data[0];
+    execute: async (message, args) => {
+        try {
+            const response = await axios.get('https://official-joke-api.appspot.com/jokes/programming/random')
+            const joke = response.data[0];
             message.channel.send(`${joke.setup}\n\n${joke.punchline}`);
-        });
+        } catch (error) {
+
+        }
     }
 }

@@ -6,9 +6,11 @@ module.exports = {
     aliases: ['activity', 'newactivity'],
     description: 'Find something to do',
     easteregg: true,
-    execute(message, args) {
-        axios.get('https://boredapi.com/api/activity/').then(res => {
+    execute: async (message, args) => {
+        try {
+            const res = await axios.get('https://boredapi.com/api/activity/');
             let price, difficulty;
+
             if (res.data.price <= 0.2) {
                 price = '💵';
             } else if (res.data.price <= 0.4) {
@@ -35,12 +37,18 @@ module.exports = {
 
             const embed = new Discord.RichEmbed()
                 .setColor('#96031A')
-                .setTitle(`${res.data.activity}`)
-                .addField('Type', `${res.data.type}`)
+                .setTitle(res.data.activity)
+                .addField('Type', res.data.type.capitalize())
                 .addField('Difficulty', difficulty)
                 .addField('Price', price);
 
             message.channel.send(embed);
-        });
+        } catch (error) {
+            console.error(error);
+        }
     }
+}
+
+String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }

@@ -8,7 +8,7 @@ module.exports = {
     description: 'Upload or show picture of your face for identifying purposes',
     usage: '<@user> or [attachment]',
     easteregg: false,
-    execute(message, args) {
+    execute: async (message, args) => {
         const authorID = message.author.id;
         if (args.length && args[0] === 'remove') { //* delete picture logic
             fs.readdir('./faces', (err, files) => {
@@ -26,11 +26,12 @@ module.exports = {
             });
         } else if (message.mentions.users.first()) {
             const userID = message.mentions.users.first().id;
-            fs.readdir('./faces', (err, files) => {
+            fs.readdir('./faces', async (err, files) => {
                 const file = files.filter(f => {
                     return path.basename(f).includes(userID);
                 });
                 if (file.length >= 1) {
+                    const retrieveMsg = await message.channel.send('Retrieving...');
                     let nickname;
                     if (message.mentions.members.first().nickname) {
                         nickname = message.mentions.members.first().nickname;
@@ -44,6 +45,8 @@ module.exports = {
                             name: file[0]
                         }]
                     });
+
+                    retrieveMsg.delete();
                 } else {
                     // console.log('not found');
                     message.channel.send(`No picture found.`);
@@ -78,11 +81,12 @@ module.exports = {
                     }
                 });
             } else { //* attachment logic
-                fs.readdir('./faces', (err, files) => {
+                fs.readdir('./faces', async (err, files) => {
                     const file = files.filter(f => {
                         return path.basename(f).includes(authorID);
                     });
                     if (file.length >= 1) {
+                        const retrieveMsg = await message.channel.send('Retrieving...');
                         let nickname;
                         if (message.member.nickname) {
                             nickname = message.member.nickname;
@@ -96,6 +100,7 @@ module.exports = {
                                 name: file[0]
                             }]
                         });
+                        retrieveMsg.delete();
                     } else {
                         // console.log('not found');
                         message.channel.send(`No picture found.`);

@@ -8,25 +8,27 @@ module.exports = {
     easteregg: true,
     usage: 'random or [topic]',
     args: true,
-    execute(message, args) {
+    execute: async (message, args) => {
         if (args[0] === 'random') {
-            axios({
-                method: 'get',
-                url: 'https://api.tronalddump.io/random/quote',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(res => {
-                const payload = res.data;
+            try {
+                const res = await axios({
+                    method: 'get',
+                    url: 'https://api.tronalddump.io/random/quote',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
                 const embed = new Discord.RichEmbed()
-                    .setTitle(`${payload.value}`)
-                    .setDescription(`- ${payload._embedded.author[0].name}`)
-                    .addField('Source', `${payload._embedded.source[0].url}`)
+                    .setTitle(res.data.value)
+                    .setDescription(`- ${res.data._embedded.author[0].name}`)
+                    .setColor('#96031A')
+                    .addField('Source', res.data._embedded.source[0].url)
                     .setFooter('Powered by https://tronalddump.io/')
-                    .setColor('#96031A');
 
                 message.channel.send(embed);
-            }).catch(console.error);
+            } catch (error) {
+                console.error(error);
+            }
         } else {
             const arguments = args.splice(0, 1).join(' ');
             var parseArgs;
@@ -36,30 +38,32 @@ module.exports = {
                 parseArgs = arguments;
             }
 
-            axios({
-                method: 'get',
-                url: `https://api.tronalddump.io/search/quote?query=${parseArgs}`,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(res => {
-                const payload = res.data;
-                if (payload.count > 0) {
-                    let rand = Math.floor(Math.random() * payload.count);
-                    let quote = payload._embedded.quotes[rand].value;
-                    let author = payload._embedded.quotes[rand]._embedded.author[0].name;
-                    let source = payload._embedded.quotes[rand]._embedded.source[0].url;
+            try {
+                const res = await axios({
+                    method: 'get',
+                    url: `https://api.tronalddump.io/search/quote?query=${parseArgs}`,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (res.data.count > 0) {
+                    let rand = Math.floor(Math.random() * res.data.count);
+                    let quote = res.data._embedded.quotes[rand].value;
+                    let author = res.data._embedded.quotes[rand]._embedded.author[0].name;
+                    let source = res.data._embedded.quotes[rand]._embedded.source[0].url;
 
                     const embed = new Discord.RichEmbed()
                         .setTitle(quote)
                         .setDescription(`- ${author}`)
+                        .setColor('#96031A')
                         .addField('Source', source)
-                        .setFooter('Powered by https://www.tronalddump.io/')
-                        .setColor('#96031A');
+                        .setFooter('Powered by https://www.tronalddump.io/');
 
                     message.channel.send(embed);
                 }
-            }).catch(console.error);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 }
