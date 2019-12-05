@@ -10,7 +10,7 @@ Each command file is an object with `key: value` pairs that get mapped into a [C
     args: true // boolean whether the command needs arguments or not
     usage: 'string', // how the command is used if it uses arguments
     easteregg: true, // boolean whether the command is an Easter egg or not
-    execute(message, args) {
+    execute: async (message, args) {
         // function to execute when the command is called
     }
 }

@@ -4,7 +4,7 @@ const {
     prefix
 } = require('./config.json');
 const bot = new Discord.Client({
-    disableEveryone: true
+    disableEveryone: false
 });
 const fs = require('fs');
 
