@@ -13,13 +13,12 @@ module.exports = {
         const string = message.content.slice(6);
         const regex = /".*?"/g;
         const options = string.match(regex); //! be sure to slice the strings further down the line: String.prototype.slice(1, -1)
-        if (isNaN(args[0])) return message.channel.send('The syntax for polls is `"question" "option 1" "option 2" etc` and you need at least 2 options.');
-        if (!args[1].includes('"')) return message.channel.send('The syntax for polls is `"question" "option 1" "option 2" etc` and you need at least 2 options.');
-        if (!options) return message.channel.send('The syntax for polls is `"question" "option 1" "option 2" etc` and you need at least 2 options.');
+        if (isNaN(args[0])) return message.channel.send('The syntax for polls is `<minutes to wait> "Question" "option 1" "option 2" etc` and you need at least 2 options.');
+        if (!args[1].includes('"')) return message.channel.send('The syntax for polls is `<minutes to wait> "question" "option 1" "option 2" etc` and you need at least 2 options.');
+        if (!options) return message.channel.send('The syntax for polls is `<minutes to wait> "Question" "option 1" "option 2" etc` and you need at least 2 options.');
         const question = options.shift().slice(1, -1);
-
-        if (options.length < 2) return message.channel.send('The syntax for polls is `"question" "option 1" "option 2" etc` and you need at least 2 options.');
-        if (options.length > 9) return message.channel.send('Maximum supported number of options is 5.');
+        if (options.length < 2) return message.channel.send('The syntax for polls is `<minutes to wait> "Question" "option 1" "option 2" etc` and you need at least 2 options.');
+        if (options.length > 9) return message.channel.send('Maximum supported number of options is 9.');
 
         const Embed = new Discord.RichEmbed()
             .setTitle(question)
