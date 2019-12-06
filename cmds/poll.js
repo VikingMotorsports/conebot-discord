@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'poll',
     aliases: ['polls', 'vote', 'voting'],
-    description: 'Start a poll with up to 9 options',
+    description: 'Start a poll with up to 9 options, with results collected after the defined time in minutes',
     args: true,
     usage: '<minutes to wait> "Question" "option 1" "option 2" "option 3" etc.',
     easteregg: false,
