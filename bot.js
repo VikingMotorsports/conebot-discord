@@ -33,7 +33,7 @@ bot.on('ready', async () => {
     // } catch (error) {
     //     console.log(error);
     // }
-    let msg = await bot.guilds.get('644806666659037186').channels.get('644833125779898399').fetchMessage('644833324657016842'); // cache the rules message for reaction roles
+    let msg = await bot.guilds.get('644806666659037186').channels.get('644833125779898399').fetchMessage('652417061666029578'); // cache the rules message for reaction roles //644833324657016842
     msg.react('✅');
 });
 
@@ -41,7 +41,7 @@ bot.on('messageReactionAdd', (reaction, user) => {
     if (!user) return;
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
-    if (reaction.emoji.name === '✅' && reaction.message.id === '644833324657016842') {
+    if (reaction.emoji.name === '✅' && reaction.message.id === '652417061666029578') {
         let role = reaction.message.guild.roles.find(r => r.name === 'Member');
         reaction.message.guild.member(user).addRole(role).catch(console.error);
     }
@@ -51,7 +51,7 @@ bot.on('messageReactionRemove', (reaction, user) => {
     if (!user) return;
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
-    if (reaction.emoji.name === '✅' && reaction.message.id === '644833324657016842') {
+    if (reaction.emoji.name === '✅' && reaction.message.id === '652417061666029578') {
         let role = reaction.message.guild.roles.find(r => r.name === 'Member');
         reaction.message.guild.member(user).removeRole(role).catch(console.error);
     }
