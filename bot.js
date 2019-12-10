@@ -58,6 +58,7 @@ bot.on('messageReactionRemove', (reaction, user) => {
 });
 
 bot.on('message', async (message) => {
+    bot.guilds.get('644806666659037186').channels.get('644833125779898399').fetchMessage('652417061666029578'); // keeps welcome message in cache to ensure reactions keep working
     if (message.author.bot) return; //*  ignores messages made by bots
     if (message.channel.type === ('dm' || 'group')) return; //* ignores messages outside of channels
     if (message.channel.id === '644808361048801290') return; //* ignores messages in announcements
