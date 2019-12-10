@@ -12,7 +12,7 @@ module.exports = {
 
         if (!args.length) {
             const Roles = message.guild.roles.map(r => r.name);
-            const miscRoles = ['Cone Bot', 'Member', 'Bot', 'Overlord'];
+            const miscRoles = ['Cone Bot', 'Member', 'Bot', 'Overlord', '@everyone'];
             const leadershipRoles = ['Admin', 'Leadership', 'Subsystem Lead'];
             const addableRoles = Roles.filter(a => !miscRoles.includes(a) && !leadershipRoles.includes(a));
 
