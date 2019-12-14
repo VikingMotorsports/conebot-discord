@@ -5,7 +5,7 @@ module.exports = {
     aliases: ['roles'],
     description: 'Commands for adding or removing roles',
     easteregg: false,
-    usage: 'add|remove role',
+    usage: 'add|remove <name of role>',
     args: false,
     execute: async (message, args) => {
         const cmd = args.shift();
@@ -19,7 +19,7 @@ module.exports = {
             const rolesEmbed = new Discord.RichEmbed()
                 .setColor('#004426')
                 .setTitle('Server roles')
-                .setDescription('Add roles by typing `!role add role`')
+                .setDescription('Add roles by typing `!role add <name of role>`')
                 .addField('Roles you can add yourself to', addableRoles.join('\n'))
                 .addField('Manually added by Leadership', leadershipRoles.join('\n'));
 

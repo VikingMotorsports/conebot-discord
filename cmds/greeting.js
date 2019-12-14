@@ -4,17 +4,17 @@ module.exports = {
     description: 'Greets the user',
     easteregg: true,
     execute(message, args) {
+        const name = (!message.member.nickname) ? message.author.username : message.member.nickname;
         if (message.content.toLowerCase().includes('good morning')) {
-            return message.channel.send(`Good morning, ${message.member.nickname || message.author.username}!`);
+            return message.channel.send(`Good morning, ${name}!`);
         }
         if (message.content.toLowerCase().includes('good night') || message.content.toLowerCase().includes('gnight')) {
-            let name = message.member.nickname;
             let bye = [`Good night, ${name}.`, `Sweet dreams, ${name}.`, `Have a good night, ${name}`];
             let gn = bye[Math.floor(Math.random() * bye.length)];
             return message.channel.send(gn);
         }
         if (message.content.toLowerCase().includes('good afternoon')) {
-            return message.channel.send(`Good afternoon, ${message.member.nickname || message.author.username}`);
+            return message.channel.send(`Good afternoon, ${name}`);
         }
     }
 }

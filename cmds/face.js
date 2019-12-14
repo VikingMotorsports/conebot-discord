@@ -32,13 +32,7 @@ module.exports = {
                 });
                 if (file.length >= 1) {
                     const retrieveMsg = await message.channel.send('Retrieving...');
-                    let nickname;
-                    if (message.mentions.members.first().nickname) {
-                        nickname = message.mentions.members.first().nickname;
-                    } else {
-                        nickname = message.mentions.users.first().username;
-                    }
-                    // console.log(file);
+                    const nickname = (!message.mentions.members.first().nickname) ? message.mentions.users.first().username : message.mentions.members.first().nickname;
                     message.channel.send(`Picture of ${nickname}`, {
                         files: [{
                             attachment: `./faces/${file[0]}`,
@@ -48,7 +42,6 @@ module.exports = {
 
                     retrieveMsg.delete();
                 } else {
-                    // console.log('not found');
                     message.channel.send(`No picture found.`);
                 }
             });
@@ -87,13 +80,7 @@ module.exports = {
                     });
                     if (file.length >= 1) {
                         const retrieveMsg = await message.channel.send('Retrieving...');
-                        let nickname;
-                        if (message.member.nickname) {
-                            nickname = message.member.nickname;
-                        } else {
-                            nickname = message.author.username;
-                        }
-                        // console.log(file);
+                        const nickname = (!message.member.nickname) ? message.author.username : message.member.nickname;
                         message.channel.send(`Picture of ${nickname}`, {
                             files: [{
                                 attachment: `./faces/${file[0]}`,
@@ -102,7 +89,6 @@ module.exports = {
                         });
                         retrieveMsg.delete();
                     } else {
-                        // console.log('not found');
                         message.channel.send(`No picture found.`);
                     }
                 });

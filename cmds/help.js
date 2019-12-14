@@ -21,9 +21,6 @@ module.exports = {
                     cmdDesc.push(c.description);
                 }
             });
-            // commandsArray.forEach(command => {
-            //     if (command != undefined) cmd.push(`${prefix}${command}`);
-            // });
 
             const allCmds = new Discord.RichEmbed()
                 .setTitle('All available commands')
@@ -33,7 +30,6 @@ module.exports = {
             for (let i = 0; i < cmd.length; i++) {
                 allCmds.addField(cmd[i], cmdDesc[i]);
             }
-            // console.log(allCmds);
             message.channel.send(allCmds);
         } else if (args.length == 1) {
             let name = args[0];
@@ -45,7 +41,6 @@ module.exports = {
             }
 
             const commandHelp = new Discord.RichEmbed()
-                // .setAuthor(`Command: ${command.name}`)
                 .setColor('#004225');
 
             if (command.aliases) commandHelp.addField('Aliases', command.aliases.join(', '));
