@@ -113,11 +113,6 @@ bot.on('message', async (message) => {
         let saydiss = diss[Math.floor(Math.random() * diss.length)];
         message.channel.send(saydiss);
     }
-    if (message.content.toLowerCase().includes('thanks') || message.content.toLowerCase().includes('thank you')) {
-        if (message.content.toLowerCase().includes('bot') || message.content.toLowerCase().includes('cone bot')) {
-            message.channel.send(`You're welcome, ${message.member.nickname || message.author.username}`);
-        }
-    }
     if (message.content.toLowerCase().includes('cone') && (message.content.toLowerCase().includes('avoid') || message.content.toLowerCase().includes('mind') || message.content.toLowerCase().includes('watch out'))) {
         const cone = await findEmoji('cone');
         message.react(cone);
