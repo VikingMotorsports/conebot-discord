@@ -65,3 +65,4 @@ config.json
 .vscode
 faces
 phones.json
+emails.json
