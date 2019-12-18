@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['fuckeverything', 'fuckyouall'],
     description: 'When you wanna curse the whole world',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const fuckalls = ['everyone', 'everything'];
         const endpoint = fuckalls[Math.floor(Math.random() * fuckalls.length)];
         const user = message.member.nickname;

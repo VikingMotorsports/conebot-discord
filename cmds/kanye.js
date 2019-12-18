@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['kanyequote'],
     description: 'Kanye West quotes',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         try {
             const response = await axios.get('https://api.kanye.rest/');
             const quote = response.data.quote;

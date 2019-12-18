@@ -4,7 +4,7 @@ module.exports = {
     name: 'stash',
     description: 'VMS stash directory',
     easteregg: false,
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         const stashEmbed = new Discord.RichEmbed()
             .setColor('#1B998B')
             .setTitle('Connecting to VMS Stash')

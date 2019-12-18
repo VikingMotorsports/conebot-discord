@@ -1,8 +1,5 @@
 const Discord = require('discord.js');
-const {
-    token,
-    prefix
-} = require('./config.json');
+const config = require('./config.json');
 const bot = new Discord.Client({
     disableEveryone: false
 });
@@ -15,10 +12,10 @@ const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'
 for (const file of commandFiles) {
     const command = require(`./cmds/${file}`);
     bot.commands.set(command.name, command);
-    console.log(`${command.name} loaded`);
+    // console.log(`${command.name} loaded`);
 }
 
-bot.login(token);
+bot.login(config.token);
 
 bot.on('ready', async () => {
     console.log(`Bot online as ${bot.user.username} in ${bot.guilds.first()}`);
@@ -33,7 +30,7 @@ bot.on('ready', async () => {
     // } catch (error) {
     //     console.log(error);
     // }
-    let msg = await bot.guilds.get('644806666659037186').channels.get('644833125779898399').fetchMessage('652417061666029578'); // cache the rules message for reaction roles //644833324657016842
+    let msg = await bot.guilds.get(config.guildID).channels.get(config.rulesChannel).fetchMessage(config.reactMsg); // cache the rules message for reaction roles //644833324657016842
     msg.react('✅');
 });
 
@@ -41,7 +38,7 @@ bot.on('messageReactionAdd', (reaction, user) => {
     if (!user) return;
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
-    if (reaction.emoji.name === '✅' && reaction.message.id === '652417061666029578') {
+    if (reaction.emoji.name === '✅' && reaction.message.id === config.reactMsg) {
         let role = reaction.message.guild.roles.find(r => r.name === 'Member');
         reaction.message.guild.member(user).addRole(role).catch(console.error);
     }
@@ -51,18 +48,18 @@ bot.on('messageReactionRemove', (reaction, user) => {
     if (!user) return;
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
-    if (reaction.emoji.name === '✅' && reaction.message.id === '652417061666029578') {
+    if (reaction.emoji.name === '✅' && reaction.message.id === config.reactMsg) {
         let role = reaction.message.guild.roles.find(r => r.name === 'Member');
         reaction.message.guild.member(user).removeRole(role).catch(console.error);
     }
 });
 
 bot.on('message', async (message) => {
-    bot.guilds.get('644806666659037186').channels.get('644833125779898399').fetchMessage('652417061666029578'); // keeps welcome message in cache to ensure reactions keep working
+    bot.guilds.get(config.guildID).channels.get(config.rulesChannel).fetchMessage(config.reactMsg); // keeps welcome message in cache to ensure reactions keep working
     if (message.author.bot) return; //*  ignores messages made by bots
     if (message.channel.type === ('dm' || 'group')) return; //* ignores messages outside of channels
-    if (message.channel.id === '644808361048801290') return; //* ignores messages in announcements
-    if (message.content.toLowerCase().includes('\`')) return; //* ignores messages with code blocks
+    if (message.channel.id === config.announcementsChannel) return; //* ignores messages in announcements
+    if (message.content.includes('\`')) return; //* ignores messages with code blocks
 
     const args = message.content.toLowerCase().split(/ +/);
     const commandName = args.shift();
@@ -178,14 +175,14 @@ bot.on('message', async (message) => {
     if (message.content.toLowerCase().includes('can\'t believe you\'ve done this') || message.content.toLowerCase().includes('cant believe youve done this') || message.content.toLowerCase().includes('can\'t believe it') || message.content.toLowerCase().includes('cant believe it')) {
         message.channel.send('https://youtu.be/O7lRV1VHv1g?t=3');
     }
-    if (commandName.startsWith(prefix)) { //* dynamic command handler
-        const cmds = commandName.slice(prefix.length);
+    if (commandName.startsWith(config.prefix)) { //* dynamic command handler
+        const cmds = commandName.slice(config.prefix.length);
         const command = bot.commands.get(cmds) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmds));
         try {
             if (command.args && !args.length) {
                 message.channel.send('You need to provide arguments for that command.');
             } else {
-                command.execute(message, args);
+                command.execute(bot, message, args);
             }
         } catch (error) {
             console.error(error);

@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
+const {
+    pollsChannel
+} = require('../config.json');
 
 module.exports = {
     name: 'poll',
@@ -6,7 +9,7 @@ module.exports = {
     args: true,
     usage: '<minutes to wait> "Question" "option 1" "option 2" etc.',
     easteregg: false,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
         const filter = (reaction, user) => reactionsPoll.includes(reaction.emoji.name);
 
@@ -31,7 +34,7 @@ module.exports = {
         }
 
         // message.delete();
-        const poll = await message.client.channels.get('651979439487320075').send('@everyone', {
+        const poll = await message.client.channels.get(pollsChannel).send('@everyone', {
             embed: Embed
         });
         for (let i = 0; i < options.length; i++) {
@@ -48,7 +51,7 @@ module.exports = {
                 resultsEmbed.addField(poll.reactions.get(reactionsPoll[i]).emoji.name, poll.reactions.get(reactionsPoll[i]).count - 1);
             }
 
-            message.channel.client.channels.get('651979439487320075').send('@everyone', {
+            message.channel.client.channels.get(pollsChannel).send('@everyone', {
                 embed: resultsEmbed
             });
         }).catch(err => console.log(err));

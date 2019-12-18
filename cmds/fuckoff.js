@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['fuckyou'],
     description: 'When you wanna give someone the finger',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const fuckoffs = ['asshole', 'bag', 'bucket', 'bye', 'cool', 'cup', 'family', 'fascinating', 'flying', 'fyyff', 'give', 'horse', 'immensity', 'looking', 'no', 'ratsares', 'shit', 'single', 'thanks', 'that', 'this', 'too', 'what', 'zero'];
         const endpoint = fuckoffs[Math.floor(Math.random() * fuckoffs.length)];
         const user = message.member.nickname;

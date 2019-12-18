@@ -3,7 +3,7 @@ module.exports = {
     aliases: ['greetings', 'morning', 'night', 'afternoon', 'goodmorning', 'goodnight', 'goodafternoon'],
     description: 'Greets the user',
     easteregg: true,
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         const name = (!message.member.nickname) ? message.author.username : message.member.nickname;
         if (message.content.toLowerCase().includes('good morning')) {
             return message.channel.send(`Good morning, ${name}!`);

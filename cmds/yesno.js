@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['yesorno'],
     description: 'Yes or no?',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         try {
             const res = await axios.get('https://yesno.wtf/api');
             const embed = new Discord.RichEmbed()

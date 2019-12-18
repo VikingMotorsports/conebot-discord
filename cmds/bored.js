@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['activity', 'newactivity'],
     description: 'Find something to do',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         try {
             const res = await axios.get('https://boredapi.com/api/activity/');
             let price, difficulty;

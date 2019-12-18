@@ -7,7 +7,7 @@ module.exports = {
     easteregg: false,
     usage: 'add|remove <name of role>',
     args: false,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const cmd = args.shift();
 
         if (!args.length) {

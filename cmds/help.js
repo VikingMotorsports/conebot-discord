@@ -8,10 +8,7 @@ module.exports = {
     aliases: ['commands'],
     description: 'List of commands the bot can perform or info about a specific command.',
     usage: '[command name]',
-    execute: async (message, args) => {
-        const {
-            commands
-        } = message.client;
+    execute: async (bot, message, args) => {
         if (!args.length) {
             let cmd = [];
             let cmdDesc = [];
@@ -34,7 +31,7 @@ module.exports = {
         } else if (args.length == 1) {
             let name = args[0];
             if (name.startsWith(prefix)) name = name.slice(prefix.length);
-            const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
+            const command = commands.get(name) || bot.commands.find(c => c.aliases && c.aliases.includes(name));
 
             if (!command) {
                 return message.channel.send('Command does not exist.');

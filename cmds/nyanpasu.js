@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['nyanpass'],
     description: 'Nyanpasu~',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const Url = 'http://nyanpass.com/add.php';
         const Header = {
             'Content-Type': 'application/x-www-form-urlencoded'

@@ -4,7 +4,7 @@ module.exports = {
     name: 'tutorials',
     description: 'List of links to tutorials',
     easteregg: false,
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         const tutorialEmbed = new Discord.RichEmbed()
             .setColor('#FFFD82')
             .setTitle('Tutorials')

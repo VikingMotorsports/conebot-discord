@@ -8,7 +8,7 @@ module.exports = {
     easteregg: true,
     usage: 'random or [topic]',
     args: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         if (args[0] === 'random') {
             try {
                 const res = await axios({

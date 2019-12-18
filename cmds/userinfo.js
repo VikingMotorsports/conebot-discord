@@ -6,7 +6,7 @@ module.exports = {
     description: 'VMS stash directory',
     easteregg: true,
     usage: '<@user>',
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         if (!message.mentions.users.size) {
             const name = message.author.username;
             const id = message.author.id;

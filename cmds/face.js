@@ -8,7 +8,7 @@ module.exports = {
     description: 'Upload or show picture of your face for identifying purposes',
     usage: '<@user> or [attachment]',
     easteregg: false,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         const authorID = message.author.id;
         if (args.length && args[0] === 'remove') { //* delete picture logic
             fs.readdir('./faces', (err, files) => {

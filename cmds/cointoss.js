@@ -3,7 +3,7 @@ module.exports = {
     aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
     description: 'Heads or tails',
     easteregg: false,
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         let chance = Math.ceil(Math.random() * 2);
         if (chance == 1) {
             message.channel.send('Heads');

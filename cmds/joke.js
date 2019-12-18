@@ -5,7 +5,7 @@ module.exports = {
     aliases: ['programmerjoke', 'jokes', 'programmerjokes'],
     description: 'Cheesy programmer jokes',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         try {
             const response = await axios.get('https://official-joke-api.appspot.com/jokes/programming/random')
             const joke = response.data[0];

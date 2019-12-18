@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['inspirationalimage', 'inspirational', 'motivation', 'getmotivated', 'inspire'],
     description: 'When you need motivation to get through the day...',
     easteregg: true,
-    execute: async (message, args) => {
+    execute: async (bot, message, args) => {
         try {
             const response = await axios.get('http://inspirobot.me/api?generate=true');
             const embed = new Discord.RichEmbed()

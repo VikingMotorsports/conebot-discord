@@ -5,7 +5,7 @@ module.exports = {
     easteregg: false,
     usage: 'XdY',
     args: true,
-    execute(message, args) {
+    execute: async (bot, message, args) => {
         if (args[0].match(/\dd\d/)) {
             let numDice = parseInt(args[0].split('d')[0]);
             let diceType = parseInt(args[0].split('d')[1]);
