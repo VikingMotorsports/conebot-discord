@@ -12,7 +12,7 @@ module.exports = {
         if (!args.length) {
             let cmd = [];
             let cmdDesc = [];
-            const commandsArray = commands.map(c => {
+            const commandsArray = bot.commands.map(c => {
                 if (!c.easteregg && c.easteregg != undefined) {
                     cmd.push(`${prefix}${c.name}`);
                     cmdDesc.push(c.description);
@@ -31,7 +31,7 @@ module.exports = {
         } else if (args.length == 1) {
             let name = args[0];
             if (name.startsWith(prefix)) name = name.slice(prefix.length);
-            const command = commands.get(name) || bot.commands.find(c => c.aliases && c.aliases.includes(name));
+            const command = bot.commands.get(name) || bot.commands.find(c => c.aliases && c.aliases.includes(name));
 
             if (!command) {
                 return message.channel.send('Command does not exist.');
