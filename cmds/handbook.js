@@ -4,6 +4,6 @@ module.exports = {
     description: 'Link to member handbook',
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://docs.google.com/document/d/1L6yibciGTVjXPTFCDR5A2rbHGHXxjalg5Lqm-m4-wxc/edit?usp=sharing');
+        message.channel.send('https://drive.google.com/open?id=1lr2t_iNfYHNScUbYhJmQQfvbMobGajAN');
     }
 }

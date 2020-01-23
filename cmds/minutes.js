@@ -4,6 +4,6 @@ module.exports = {
     description: 'General meeting minutes',
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/open?id=1Jh2gpNzTYzdzJKZdJORXLCk9T0eomwkm');
+        message.channel.send('https://drive.google.com/open?id=1DtEyOe1PY7Bi66iKGPKAdWP1HNQEU_NG');
     }
 }

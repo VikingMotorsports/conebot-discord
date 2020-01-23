@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
-const {
-    pollsChannel
-} = require('../config.json');
+const { pollsChannel } = require('../config.json');
 
 module.exports = {
     name: 'poll',
