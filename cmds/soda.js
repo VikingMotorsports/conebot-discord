@@ -18,7 +18,7 @@ module.exports = {
                 const sorted = json.slice(0).sort((a, b) => {
                     return b.sodas - a.sodas;
                 });
-                console.log(sorted);
+                // console.log(sorted);
 
                 let leaderboard = '';
                 for (const d of sorted) {
@@ -27,8 +27,8 @@ module.exports = {
 
                 const totalSodas = sorted.map(s => s.sodas).reduce((a, b) => a + b);
                 const totalLiters = totalSodas * 0.355;
-                console.log(totalSodas);
-                console.log(leaderboard.slice(0, -1));
+                // console.log(totalSodas);
+                // console.log(leaderboard.slice(0, -1));
 
                 const leaderboardEmbed = new Discord.RichEmbed()
                     .setTitle('Soda Leaderboard')
