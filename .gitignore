@@ -67,3 +67,5 @@ faces
 phones.json
 emails.json
 soda.json
+credentials.json
+token.json
