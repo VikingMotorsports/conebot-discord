@@ -9,7 +9,7 @@ const { spreadsheetId } = require('../config.json');
 module.exports = {
     name: 'po',
     aliases: ['orderinfo', 'status'],
-    description: 'Check on status of a purchase through a PO lookup',
+    description: 'Check on the status of a purchase through a PO # lookup',
     args: true,
     usage: '<po number>',
     easteregg: false,
@@ -24,7 +24,10 @@ module.exports = {
             const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
             fs.readFile(TOKEN_PATH, (err, token) => {
-                if (err) return getNewToken(oAuth2Client, callback);
+                if (err) {
+                    message.channel.send('Sheets API needs to be authorized. Contact server developers for help.');
+                    return getNewToken(oAuth2Client, callback);
+                }
                 oAuth2Client.setCredentials(JSON.parse(token));
                 callback(oAuth2Client);
             });
@@ -50,7 +53,7 @@ module.exports = {
                         if (err) return console.error(err);
                         console.log('Token stored to ', TOKEN_PATH);
                     });
-                    callback(oAuth2Client)
+                    callback(oAuth2Client);
                 });
             });
         }
@@ -61,14 +64,17 @@ module.exports = {
                 spreadsheetId: spreadsheetId,
                 range: 'Purchases!A1:M'
             }, (err, res) => {
-                if (err) return console.log('API error: ', err);
+                if (err) {
+                    console.log(`API error: ${err}`);
+                    return message.channel.send('API error. Contact server developers for help.');
+                }
                 const rows = res.data.values;
                 if (rows.length) {
-                    if (args.length > 1) return message.channel.send('Use your PO# to look up the order status. You can only look up one order at a time.');
+                    if (args.length > 1) return message.channel.send('Use your PO # to look up the order status. You can only look up one order at a time.');
                     const poNum = rows.map(p => p[0]);
                     const lookup = poNum.indexOf(args[0]);
 
-                    if (lookup == -1) return message.channel.send('No order with that PO# found.');
+                    if (lookup == -1) return message.channel.send('No order with that PO # found.');
 
                     const status = rows[lookup][10];
                     const PO = rows[lookup][0];
@@ -93,12 +99,9 @@ module.exports = {
                         .addField('Total Cost', total)
                         .addField('ETA', eta)
                         .addField('Tracking Number', tracking)
-                        .addField('Item Link', link)
+                        .addField('Item Link', link);
 
                     message.channel.send(embed);
-                    // console.log(po);
-
-                    // console.log(rows);
                 } else {
                     console.log('No data');
                 }
