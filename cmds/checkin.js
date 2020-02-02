@@ -1,7 +1,7 @@
 module.exports = {
     name: 'checkin',
     aliases: [],
-    description: 'Google Drive folder of the current car',
+    description: 'Form to check in to meetings and events',
     easteregg: false,
     args: false,
     execute: async (bot, message, args) => {

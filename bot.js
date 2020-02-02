@@ -6,6 +6,7 @@ const bot = new Discord.Client({
 const fs = require('fs');
 
 bot.commands = new Discord.Collection();
+bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
 
@@ -32,6 +33,22 @@ bot.on('ready', async () => {
     // }
     let msg = await bot.guilds.get(config.guildID).channels.get(config.rulesChannel).fetchMessage(config.reactMsg); // cache the rules message for reaction roles //644833324657016842
     msg.react('✅');
+
+    bot.setInterval(async () => {
+        for (let i in bot.polls) {
+            let message = await bot.channels.get(config.pollsChannel).fetchMessage(i);
+            let time = bot.polls[i].time;
+
+            if (Date.now() > time) {
+                bot.commands.get('poll').result(bot, message, bot.polls[i].options);
+                delete bot.polls[i];
+
+                fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
+                    if (err) return console.error(err);
+                });
+            }
+        }
+    }, 30000);
 });
 
 bot.on('messageReactionAdd', (reaction, user) => {
@@ -84,14 +101,14 @@ bot.on('message', async (message) => {
     }
     if (message.content.toLowerCase().includes('good night') || message.content.toLowerCase().includes('gnight') || message.content.toLowerCase().includes('good morning') || message.content.toLowerCase().includes('good afternoon')) {
         try {
-            bot.commands.get('greeting').execute(message, args);
+            bot.commands.get('greeting').execute(bot, message, args);
         } catch (error) {
             console.error(error);
         }
     }
     if (message.content.toLowerCase().includes('heads or tails')) {
         try {
-            bot.commands.get('cointoss').execute(message, args);
+            bot.commands.get('cointoss').execute(bot, message, args);
         } catch (error) {
             console.error(error);
         }

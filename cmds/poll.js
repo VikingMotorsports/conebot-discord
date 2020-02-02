@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 const { pollsChannel } = require('../config.json');
+const fs = require('fs');
+
+const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
 
 module.exports = {
     name: 'poll',
@@ -8,9 +11,6 @@ module.exports = {
     usage: '<minutes to wait> "Question" "option 1" "option 2" etc.',
     easteregg: false,
     execute: async (bot, message, args) => {
-        const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
-        const filter = (reaction, user) => reactionsPoll.includes(reaction.emoji.name);
-
         const string = message.content.slice(6);
         const regex = /".*?"/g;
         const options = string.match(regex); //! be sure to slice the strings further down the line: String.prototype.slice(1, -1)
@@ -31,7 +31,6 @@ module.exports = {
             Embed.addField(reactionsPoll[i], o.slice(1, -1));
         }
 
-        // message.delete();
         const poll = await message.client.channels.get(pollsChannel).send('@everyone', {
             embed: Embed
         });
@@ -39,19 +38,26 @@ module.exports = {
             await poll.react(reactionsPoll[i]);
         }
 
-        poll.awaitReactions(filter, {
-            time: args[0] * 60000
-        }).then((collected) => {
-            // console.log(`Message has ${poll.reactions.size} reactions`);
+        bot.polls[poll.id] = {
+            time: Date.now() + parseInt(args[0]) * 60000,
+            options: options.length
+        };
 
-            const resultsEmbed = new Discord.RichEmbed().setTitle('Poll results').setDescription(question).setColor('#004426');
-            for (let i = 0; i < poll.reactions.size; i++) {
-                resultsEmbed.addField(poll.reactions.get(reactionsPoll[i]).emoji.name, poll.reactions.get(reactionsPoll[i]).count - 1);
-            }
+        fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
+            if (err) return console.error(err);
+        });
+    },
+    result: async (bot, message, option) => {
+        const question = message.embeds[0].title;
 
-            message.channel.client.channels.get(pollsChannel).send('@everyone', {
-                embed: resultsEmbed
-            });
-        }).catch(err => console.log(err));
+        const resultsEmbed = new Discord.RichEmbed().setTitle('Poll resutls').setDescription(question).setColor('#004426');
+        for (let i = 0; i < option; i++) {
+            resultsEmbed.addField(message.reactions.get(reactionsPoll[i]).emoji.name, message.reactions.get(reactionsPoll[i]).count - 1);
+        }
+        try {
+            bot.channels.get(pollsChannel).send('@everyone', {embed: resultsEmbed});   
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

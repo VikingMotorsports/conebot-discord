@@ -67,7 +67,7 @@ module.exports = {
                     };
 
                     json.push(memberSoda);
-                    fs.writeFile('./soda.json', JSON.stringify(json), err => {
+                    fs.writeFile('./soda.json', JSON.stringify(json, null, '\t'), err => {
                         if (err) return console.error(err);
                         message.channel.send(reply);
                     });
@@ -95,7 +95,7 @@ module.exports = {
                         ...json.slice(objIndex + 1),
                     ];
 
-                    fs.writeFile('./soda.json', JSON.stringify(updatedData), err => {
+                    fs.writeFile('./soda.json', JSON.stringify(updatedData, null, '\t'), err => {
                         if (err) return console.error(err);
                         message.channel.send(reply);
                     });

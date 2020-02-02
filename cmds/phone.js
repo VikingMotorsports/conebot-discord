@@ -40,7 +40,7 @@ module.exports = {
                 if (err) throw err;
                 let json = JSON.parse(data);
                 json[message.author.id] = args[0];
-                fs.writeFile('./phones.json', JSON.stringify(json), err => {
+                fs.writeFile('./phones.json', JSON.stringify(json, null, '\t'), err => {
                     if (err) console.error(err);
                     message.channel.send('Phone number saved.');
                 });
