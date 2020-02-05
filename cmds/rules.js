@@ -3,6 +3,6 @@ module.exports = {
     description: 'Link to FSAE rule book',
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('http://fsaeonline.com/cdsweb/gen/DownloadDocument.aspx?DocumentID=607667ea-bec6-4658-92c4-fff59dbb5c0e');
+        message.channel.send('https://www.fsaeonline.com/cdsweb/gen/DownloadDocument.aspx?DocumentID=1b6bda52-48d0-4286-931d-c9418165fd3e');
     }
 }
