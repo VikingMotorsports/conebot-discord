@@ -1,9 +1,9 @@
 module.exports = {
     name: 'car',
     aliases: ['currentcar'],
-    description: 'Google Drive folder of the current car',
+    description: 'Google Drive folder of collaboration documents for the current car',
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/open?id=1bS3yWJH3jHL06GDuj7j8uVTVIzbOMzHl');
+        message.channel.send('https://drive.google.com/drive/folders/1bS3yWJH3jHL06GDuj7j8uVTVIzbOMzHl?usp=sharing');
     }
 }
