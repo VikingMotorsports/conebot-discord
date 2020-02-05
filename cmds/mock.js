@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'spongebob',
+    name: 'mock',
     aliases: ['spongebobcase', 'retard', 'retardcase', 'sponge'],
     description: 'Converts a string into retarded case',
     args: true,
