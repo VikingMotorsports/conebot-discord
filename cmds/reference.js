@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'reference',
-    aliases: ['lightreading', 'read', 'documents'],
+    name: 'library',
+    aliases: ['lightreading', 'read', 'documents', 'reference'],
     description: 'Reference documents folder',
     easteregg: false,
     execute: async (bot, message, args) => {

@@ -6,7 +6,7 @@ module.exports = {
     easteregg: false,
     execute: async (bot, message, args) => {
         const tutorialEmbed = new Discord.RichEmbed()
-            .setColor('#FFFD82')
+            .setColor('#004426')
             .setTitle('Tutorials')
             .addField('SolidWorks', 'https://www.solidworks.com/sw/resources/solidworks-tutorials.htm')
             .addField('LaTeX', 'https://www.latex-tutorial.com/')
