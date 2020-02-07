@@ -39,68 +39,74 @@ module.exports = {
                 message.channel.send(leaderboardEmbed);
             });
         }
-        if (args.length && args[0] === 'drink') {
-            fs.readFile('./soda.json', (err, data) => {
-                if (err) return console.error(err);
-                const json = JSON.parse(data);
-                const ID = message.author.id;
-                const NAME = (!message.member.nickname) ? message.author.username : message.member.nickname;
-                const objIndex = json.findIndex(obj => obj.id === ID);
-
-                if (objIndex === -1) {
-                    let Sodas;
-                    let reply;
-                    if (args[1] && args[1] < 0) return message.channel.send('You can\'t do that.');
-                    if (!args[1] || args[1] === '1') {
-                        Sodas = +1;
-                        const Liters = Sodas * 0.355;
-                        reply = `${NAME} drank a soda. They have drank a total of ${Liters.toFixed(2)} liters.`;
-                    } else if (!isNaN(args[1]) && args[1] > 1) {
-                        Sodas = +parseInt(args[1]);
-                        const Liters = Sodas * 0.355;
-                        reply = `${NAME} drank ${args[1]} sodas. They have drank a total of ${Liters.toFixed(2)} liters.`;
+        try {
+            if (args.length && args[0] === 'drink') {
+                fs.readFile('./soda.json', (err, data) => {
+                    if (err) return console.error(err);
+                    const json = JSON.parse(data);
+                    const ID = message.author.id;
+                    const NAME = (!message.member.nickname) ? message.author.username : message.member.nickname;
+                    const objIndex = json.findIndex(obj => obj.id === ID);
+    
+                    if (objIndex === -1) {
+                        let Sodas;
+                        let reply;
+                        if (args[1] && parseInt(args[1]) <= 0) return message.channel.send('You can\'t do that.');
+                        if (!args[1] || parseInt(args[1]) === 1) {
+                            Sodas = +1;
+                            const Liters = Sodas * 0.355;
+                            reply = `${NAME} drank a soda. They have drank a total of ${Liters.toFixed(2)} liters.`;
+                        } else if (!isNaN(args[1]) && parseInt(args[1]) > 1) {
+                            Sodas = +parseInt(args[1]);
+                            const Liters = Sodas * 0.355;
+                            reply = `${NAME} drank ${args[1]} sodas. They have drank a total of ${Liters.toFixed(2)} liters.`;
+                        }
+                        const memberSoda = {
+                            "id": ID,
+                            "name": NAME,
+                            "sodas": parseInt(Sodas)
+                        };
+    
+                        json.push(memberSoda);
+                        fs.writeFile('./soda.json', JSON.stringify(json, null, '\t'), err => {
+                            if (err) return console.error(err);
+                            message.channel.send(reply);
+                        });
+                    } else {
+                        let Sodas = json[objIndex].sodas;
+                        let reply;
+                        if (args[1] && parseInt(args[1]) <= 0) return message.channel.send('You can\'t do that.');
+                        if (!args[1] || parseInt(args[1]) === 1) {
+                            Sodas = Sodas + 1;
+                            const Liters = Sodas * 0.355;
+                            reply = `${NAME} drank a soda. They have drank a total of ${Liters.toFixed(2)} liters.`;
+                        } else if (!isNaN(args[1]) && parseInt(args[1]) > 1) {
+                            Sodas = Sodas + parseInt(args[1]);
+                            const Liters = Sodas * 0.355;
+                            reply = `${NAME} drank ${args[1]} sodas. They have drank a total of ${Liters.toFixed(2)} liters.`;
+                        }
+                        const memberSoda = {
+                            "id": ID,
+                            "name": NAME,
+                            "sodas": parseInt(Sodas)
+                        };
+                        const updatedData = [
+                            ...json.slice(0, objIndex),
+                            memberSoda,
+                            ...json.slice(objIndex + 1),
+                        ];
+    
+                        fs.writeFile('./soda.json', JSON.stringify(updatedData, null, '\t'), err => {
+                            if (err) return console.error(err);
+                            message.channel.send(reply);
+                        });
                     }
-                    const memberSoda = {
-                        "id": ID,
-                        "name": NAME,
-                        "sodas": parseInt(Sodas)
-                    };
-
-                    json.push(memberSoda);
-                    fs.writeFile('./soda.json', JSON.stringify(json, null, '\t'), err => {
-                        if (err) return console.error(err);
-                        message.channel.send(reply);
-                    });
-                } else {
-                    let Sodas = json[objIndex].sodas;
-                    let reply;
-                    if (args[1] && args[1] < 0) return message.channel.send('You can\'t do that.');
-                    if (!args[1] || args[1] === '1') {
-                        Sodas = Sodas + 1;
-                        const Liters = Sodas * 0.355;
-                        reply = `${NAME} drank a soda. They have drank a total of ${Liters.toFixed(2)} liters.`;
-                    } else if (!isNaN(args[1]) && args[1] > 1) {
-                        Sodas = Sodas + parseInt(args[1]);
-                        const Liters = Sodas * 0.355;
-                        reply = `${NAME} drank ${args[1]} sodas. They have drank a total of ${Liters.toFixed(2)} liters.`;
-                    }
-                    const memberSoda = {
-                        "id": ID,
-                        "name": NAME,
-                        "sodas": parseInt(Sodas)
-                    };
-                    const updatedData = [
-                        ...json.slice(0, objIndex),
-                        memberSoda,
-                        ...json.slice(objIndex + 1),
-                    ];
-
-                    fs.writeFile('./soda.json', JSON.stringify(updatedData, null, '\t'), err => {
-                        if (err) return console.error(err);
-                        message.channel.send(reply);
-                    });
-                }
-            });
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            bot.guilds.get('644806666659037186').members.get('197530293597372416').send(`soda error\n\n${error}`);
         }
+        
     }
 }

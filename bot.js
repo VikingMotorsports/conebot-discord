@@ -204,6 +204,7 @@ bot.on('message', async (message) => {
         } catch (error) {
             console.error(error);
             message.channel.send('There was an error executing that command.');
+            bot.guilds.get('644806666659037186').members.get('197530293597372416').send(error);
         }
     }
 });
