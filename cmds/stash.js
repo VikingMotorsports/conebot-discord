@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'stash',
     description: 'VMS stash directory',
+    category: 'Team',
+    showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
         const stashEmbed = new Discord.RichEmbed()

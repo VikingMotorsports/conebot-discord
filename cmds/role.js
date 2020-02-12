@@ -4,6 +4,8 @@ module.exports = {
     name: 'role',
     aliases: ['roles'],
     description: 'Commands for adding or removing roles',
+    category: 'Server Moderation',
+    showInHelp: true,
     easteregg: false,
     usage: 'add|remove <name of role>',
     args: false,
@@ -34,7 +36,8 @@ module.exports = {
                 let member = message.member;
                 let role = message.guild.roles.find(r => r.name.toLowerCase() === roleQuery);
                 if (!role) return message.channel.send('That role does not exist.');
-                if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot') return message.channel.send(`That's illegal!`);
+                // if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot') return message.channel.send(`That's illegal!`);
+                if (leadershipRoles.some(r => role.name === r)) return message.channel.send(`That's illegal!`);
                 if (member.roles.has(role.id)) return message.channel.send(`You're already part of ${role.name}.`);
                 member.addRole(role);
                 message.channel.send(`You've been added to ${role.name}.`);
@@ -43,7 +46,8 @@ module.exports = {
                 let member = message.member;
                 let role = message.guild.roles.find(r => r.name.toLowerCase() === roleQuery);
                 if (!role) return message.channel.send('That role does not exist.');
-                if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot' || role.name === 'Member') return message.channel.send('You can only be manually removed from that role by a leadership member.');
+                // if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot' || role.name === 'Member') return message.channel.send('You can only be manually removed from that role by a leadership member.');
+                if (leadershipRoles.some(r => role.name === r)) return message.channel.send('You can only be manually removed from that role by a leadership member.');
                 if (!member.roles.has(role.id)) return message.channel.send(`You are not part of ${role.name}.`);
                 member.addRole(role);
                 message.channel.send(`You've been removed from ${role.name}.`);

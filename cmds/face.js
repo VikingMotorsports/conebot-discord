@@ -6,6 +6,8 @@ module.exports = {
     name: 'face',
     aliases: ['faces', 'pp', 'dp', 'profilepicture', 'displaypicture', 'avatar'],
     description: 'Upload or show picture of your face for identifying purposes',
+    category: 'Team',
+    showInHelp: true,
     usage: '<@user> or [attachment]',
     easteregg: false,
     execute: async (bot, message, args) => {

@@ -4,6 +4,7 @@ module.exports = {
     name: 'joke',
     aliases: ['programmerjoke', 'jokes', 'programmerjokes'],
     description: 'Cheesy programmer jokes',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         try {

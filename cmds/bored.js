@@ -5,6 +5,7 @@ module.exports = {
     name: 'bored',
     aliases: ['activity', 'newactivity'],
     description: 'Find something to do',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         try {
@@ -49,6 +50,6 @@ module.exports = {
     }
 }
 
-String.prototype.capitalize = function () {
+String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }

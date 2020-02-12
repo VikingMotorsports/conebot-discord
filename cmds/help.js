@@ -5,26 +5,29 @@ module.exports = {
     name: 'help',
     aliases: ['commands'],
     description: 'List of commands the bot can perform or info about a specific command.',
-    usage: '[command name]',
+    usage: '<command name>',
     execute: async (bot, message, args) => {
         if (!args.length) {
-            let cmd = [];
-            let cmdDesc = [];
-            const commandsArray = bot.commands.map(c => {
-                if (!c.easteregg && c.easteregg != undefined) {
-                    cmd.push(`${prefix}${c.name}`);
-                    cmdDesc.push(c.description);
+            let categorizedCmds = {};
+
+            bot.commands.map(c => {
+                if (c.showInHelp) {
+                    if (!categorizedCmds[c.category]) {
+                        categorizedCmds[c.category] = [];
+                    }
+                    categorizedCmds[c.category].push(`${prefix}${c.name}`);
                 }
             });
 
             const allCmds = new Discord.RichEmbed()
                 .setTitle('All available commands')
-                .setDescription(`Type ${prefix}help [command name] to get info on a specific command.\n`)
+                .setDescription(`Type ${prefix}help <command name> to get info on a specific command.\n`)
                 .setColor('#004426');
 
-            for (let i = 0; i < cmd.length; i++) {
-                allCmds.addField(cmd[i], cmdDesc[i]);
+            for (const [cat, cmd] of Object.entries(categorizedCmds)) {
+                allCmds.addField(cat, cmd.join('\n'));
             }
+
             message.channel.send(allCmds);
         } else if (args.length == 1) {
             let name = args[0];

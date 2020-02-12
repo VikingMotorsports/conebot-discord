@@ -5,6 +5,8 @@ module.exports = {
     name: 'phone',
     aliases: ['number', 'phonenumber', 'contact'],
     description: `Stores your phone number and display it upon calling \`${prefix}phone\` by itself`,
+    category: 'Team',
+    showInHelp: true,
     args: false,
     usage: '123-456-7890 or @username',
     easteregg: false,

@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'tutorials',
     description: 'List of links to tutorials',
+    category: 'Miscellaneous',
+    showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
         const tutorialEmbed = new Discord.RichEmbed()

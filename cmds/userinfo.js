@@ -4,6 +4,7 @@ module.exports = {
     name: 'userinfo',
     aliases: ['user', 'avatar', 'username'],
     description: 'VMS stash directory',
+    showInHelp: false,
     easteregg: true,
     usage: '<@user>',
     execute: async (bot, message, args) => {

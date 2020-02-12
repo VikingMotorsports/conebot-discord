@@ -2,6 +2,8 @@ module.exports = {
     name: 'roll',
     aliases: ['rolldice', 'diceroll', 'dice'],
     description: 'Roll XdY dice\nX = number of dice\nY = number of sides',
+    category: 'Miscellaneous',
+    showInHelp: true,
     easteregg: false,
     usage: 'XdY',
     args: true,

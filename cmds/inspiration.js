@@ -5,6 +5,7 @@ module.exports = {
     name: 'inspiration',
     aliases: ['inspirationalimage', 'inspirational', 'motivation', 'getmotivated', 'inspire'],
     description: 'When you need motivation to get through the day...',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         try {

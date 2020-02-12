@@ -1,6 +1,7 @@
 module.exports = {
     name: 'vaporwave',
     description: 'Converts text to vaporwave',
+    showInHelp: false,
     easteregg: true,
     usage: '<string>',
     args: true,

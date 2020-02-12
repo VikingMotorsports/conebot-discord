@@ -5,6 +5,7 @@ module.exports = {
     name: 'fuckall',
     aliases: ['fuckeverything', 'fuckyouall'],
     description: 'When you wanna curse the whole world',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         const fuckalls = ['everyone', 'everything'];

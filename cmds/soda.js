@@ -3,10 +3,12 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'soda',
-    aliases: ['beer', 'sodatracker', 'drink'],
+    aliases: ['sodatracker', 'drink'],
     description: 'Keep track of soda intake and leaderboard',
+    category: 'Miscellaneous',
+    showInHelp: true,
     args: false,
-    usage: 'drink [integer]',
+    usage: 'drink <integer(optional)>',
     easteregg: true,
     execute: async (bot, message, args) => {
         if (!args.length) {
@@ -47,7 +49,7 @@ module.exports = {
                     const ID = message.author.id;
                     const NAME = (!message.member.nickname) ? message.author.username : message.member.nickname;
                     const objIndex = json.findIndex(obj => obj.id === ID);
-    
+
                     if (objIndex === -1) {
                         let Sodas;
                         let reply;
@@ -66,7 +68,7 @@ module.exports = {
                             "name": NAME,
                             "sodas": parseInt(Sodas)
                         };
-    
+
                         json.push(memberSoda);
                         fs.writeFile('./soda.json', JSON.stringify(json, null, '\t'), err => {
                             if (err) return console.error(err);
@@ -95,7 +97,7 @@ module.exports = {
                             memberSoda,
                             ...json.slice(objIndex + 1),
                         ];
-    
+
                         fs.writeFile('./soda.json', JSON.stringify(updatedData, null, '\t'), err => {
                             if (err) return console.error(err);
                             message.channel.send(reply);
@@ -107,6 +109,6 @@ module.exports = {
             console.error(error);
             bot.guilds.get('644806666659037186').members.get('197530293597372416').send(`soda error\n\n${error}`);
         }
-        
+
     }
 }

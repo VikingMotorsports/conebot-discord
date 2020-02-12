@@ -5,6 +5,8 @@ module.exports = {
     name: 'email',
     aliases: ['emails', 'mail'],
     description: `Stores your email and display it upon calling \`${prefix}email\` by itself`,
+    category: 'Team',
+    showInHelp: true,
     args: false,
     usage: '<email address> or @username',
     easteregg: false,

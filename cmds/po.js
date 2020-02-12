@@ -10,6 +10,8 @@ module.exports = {
     name: 'po',
     aliases: ['orderinfo', 'status'],
     description: 'Check on the status of a purchase through a PO # lookup',
+    category: 'Purchases',
+    showInHelp: true,
     args: true,
     usage: '<po number>',
     easteregg: false,

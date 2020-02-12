@@ -5,6 +5,7 @@ module.exports = {
     name: 'nyanpasu',
     aliases: ['nyanpass'],
     description: 'Nyanpasu~',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         const Url = 'http://nyanpass.com/add.php';

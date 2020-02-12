@@ -5,6 +5,7 @@ module.exports = {
     name: 'kanye',
     aliases: ['kanyequote'],
     description: 'Kanye West quotes',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         try {

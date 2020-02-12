@@ -5,6 +5,7 @@ module.exports = {
     name: 'eastereggs',
     aliases: ['easteregg', 'random'],
     description: 'List of easter eggs',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         let EE = [];

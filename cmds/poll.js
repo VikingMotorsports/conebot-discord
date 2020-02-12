@@ -7,6 +7,8 @@ const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6
 module.exports = {
     name: 'poll',
     description: 'Start a poll with up to 9 options, with results collected after the defined time in minutes',
+    category: 'Server Moderation',
+    showInHelp: true,
     args: true,
     usage: '<minutes to wait> "Question" "option 1" "option 2" etc.',
     easteregg: false,
@@ -23,12 +25,12 @@ module.exports = {
 
         const Embed = new Discord.RichEmbed()
             .setTitle(question)
-            .setDescription(`Results will be collected ${args[0]} minute(s) after this poll is created.`)
+            .setDescription(`Results will be collected ${args[0]} minute(s) after this poll is created.\n­`)
             .setColor('#004426')
             .setFooter('Each option will already have at least 1 vote. That is just the bot adding the reaction in.');
 
         for (const [i, o] of options.entries()) {
-            Embed.addField(reactionsPoll[i], o.slice(1, -1));
+            Embed.addField(`${reactionsPoll[i]} - ${o.slice(1, -1)}`, '­');
         }
 
         const poll = await message.client.channels.get(pollsChannel).send('@everyone', {
@@ -40,7 +42,7 @@ module.exports = {
 
         bot.polls[poll.id] = {
             time: Date.now() + parseInt(args[0]) * 60000,
-            options: options.length
+            options: options
         };
 
         fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
@@ -51,11 +53,11 @@ module.exports = {
         const question = message.embeds[0].title;
 
         const resultsEmbed = new Discord.RichEmbed().setTitle('Poll resutls').setDescription(question).setColor('#004426');
-        for (let i = 0; i < option; i++) {
-            resultsEmbed.addField(message.reactions.get(reactionsPoll[i]).emoji.name, message.reactions.get(reactionsPoll[i]).count - 1);
+        for (let i = 0; i < option.length; i++) {
+            resultsEmbed.addField(`${message.reactions.get(reactionsPoll[i]).emoji.name} - ${option[i].slice(1, -1)}`, message.reactions.get(reactionsPoll[i]).count - 1);
         }
         try {
-            bot.channels.get(pollsChannel).send('@everyone', {embed: resultsEmbed});   
+            bot.channels.get(pollsChannel).send('@everyone', { embed: resultsEmbed });
         } catch (error) {
             console.error(error);
         }

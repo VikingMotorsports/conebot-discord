@@ -2,6 +2,7 @@ module.exports = {
     name: 'mock',
     aliases: ['spongebobcase', 'retard', 'retardcase', 'sponge'],
     description: 'Converts a string into retarded case',
+    showInHelp: false,
     args: true,
     usage: 'string',
     easteregg: true,
@@ -19,7 +20,7 @@ module.exports = {
         }
 
         newText += `" <@${message.author.id}>`;
-        
+
         message.channel.send(newText);
     }
 }

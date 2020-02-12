@@ -5,6 +5,7 @@ module.exports = {
     name: 'fuckoff',
     aliases: ['fuckyou'],
     description: 'When you wanna give someone the finger',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         const fuckoffs = ['asshole', 'bag', 'bucket', 'bye', 'cool', 'cup', 'family', 'fascinating', 'flying', 'fyyff', 'give', 'horse', 'immensity', 'looking', 'no', 'ratsares', 'shit', 'single', 'thanks', 'that', 'this', 'too', 'what', 'zero'];

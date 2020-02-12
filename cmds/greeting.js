@@ -2,6 +2,7 @@ module.exports = {
     name: 'greeting',
     aliases: ['greetings', 'morning', 'night', 'afternoon', 'goodmorning', 'goodnight', 'goodafternoon'],
     description: 'Greets the user',
+    showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
         const name = (!message.member.nickname) ? message.author.username : message.member.nickname;

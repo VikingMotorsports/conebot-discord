@@ -2,6 +2,8 @@ module.exports = {
     name: 'cointoss',
     aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
     description: 'Heads or tails',
+    category: 'Miscellaneous',
+    showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
         let chance = Math.ceil(Math.random() * 2);
