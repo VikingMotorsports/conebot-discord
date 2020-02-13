@@ -19,13 +19,17 @@ module.exports = {
                 }
             });
 
+            //* moves the Miscellaneous category to the end
+            let categoryKeys = Object.keys(categorizedCmds);
+            categoryKeys.push(categoryKeys.splice(categoryKeys.indexOf('Miscellaneous'), 1)[0]);
+
             const allCmds = new Discord.RichEmbed()
                 .setTitle('All available commands')
                 .setDescription(`Type ${prefix}help <command name> to get info on a specific command.\n`)
                 .setColor('#004426');
 
-            for (const [cat, cmd] of Object.entries(categorizedCmds)) {
-                allCmds.addField(cat, cmd.join('\n'));
+            for (const c of categoryKeys) {
+                allCmds.addField(c, categorizedCmds[c].join('\n'));
             }
 
             message.channel.send(allCmds);
