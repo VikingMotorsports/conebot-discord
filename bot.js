@@ -36,11 +36,12 @@ bot.on('ready', async () => {
 
     bot.setInterval(async () => {
         for (let i in bot.polls) {
-            let message = await bot.channels.get(config.pollsChannel).fetchMessage(i);
-            let time = bot.polls[i].time;
+            const time = bot.polls[i].time;
 
             if (Date.now() > time) {
-                bot.commands.get('poll').result(bot, message, bot.polls[i].options);
+                const question = bot.polls[i].question;
+                const message = await bot.channels.get(config.pollsChannel).fetchMessage(i);
+                bot.commands.get('poll').result(bot, message, question, bot.polls[i].options);
                 delete bot.polls[i];
 
                 fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
@@ -204,7 +205,7 @@ bot.on('message', async (message) => {
         } catch (error) {
             console.error(error);
             message.channel.send('There was an error executing that command.');
-            bot.guilds.get('644806666659037186').members.get('197530293597372416').send(error);
+            bot.guilds.first().members.get('197530293597372416').send(`General error:\n\n${error}`);
         }
     }
 });

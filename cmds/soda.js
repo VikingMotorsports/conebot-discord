@@ -107,7 +107,7 @@ module.exports = {
             }
         } catch (error) {
             console.error(error);
-            bot.guilds.get('644806666659037186').members.get('197530293597372416').send(`soda error\n\n${error}`);
+            bot.guilds.first().members.get('197530293597372416').send(`soda error\n\n${error}`);
         }
 
     }

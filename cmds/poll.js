@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 const { pollsChannel } = require('../config.json');
 const fs = require('fs');
 
-const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
+const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 
 module.exports = {
     name: 'poll',
-    description: 'Start a poll with up to 9 options, with results collected after the defined time in minutes',
+    description: 'Start a poll with up to 10 options, with results collected after the defined time in minutes',
     category: 'Server Moderation',
     showInHelp: true,
     args: true,
@@ -21,7 +21,7 @@ module.exports = {
         if (!options) return message.channel.send('The syntax for polls is `<minutes to wait> "Question" "option 1" "option 2" etc` and you need at least 2 options.');
         const question = options.shift().slice(1, -1);
         if (options.length < 2) return message.channel.send('The syntax for polls is `<minutes to wait> "Question" "option 1" "option 2" etc` and you need at least 2 options.');
-        if (options.length > 9) return message.channel.send('Maximum supported number of options is 9.');
+        if (options.length > 10) return message.channel.send('Maximum supported number of options is 10.');
         const optionsSliced = [];
         for (const i of options) optionsSliced.push(i.slice(1, -1));
 
@@ -45,14 +45,15 @@ module.exports = {
         //* writes deadline of poll to file
         bot.polls[poll.id] = {
             time: Date.now() + parseInt(args[0]) * 60000,
+            question: question,
             options: optionsSliced
         };
         fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
             if (err) return console.error(err);
         });
     },
-    result: async (bot, message, option) => {
-        const question = message.embeds[0].title;
+    result: async (bot, message, question, option) => {
+        // const question = message.embeds[0].title;
 
         const resultsEmbed = new Discord.RichEmbed().setTitle('Poll resutls').setDescription(question).setColor('#004426');
         for (let i = 0; i < option.length; i++) {
