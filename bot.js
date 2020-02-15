@@ -36,6 +36,7 @@ bot.on('ready', async () => {
 
     bot.setInterval(async () => {
         for (let i in bot.polls) {
+            if (!bot.polls.hasOwnProperty(i)) continue; // filters out built in key-value pairs
             const time = bot.polls[i].time;
 
             if (Date.now() > time) {
