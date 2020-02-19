@@ -44,7 +44,7 @@ module.exports = {
 
         //* writes deadline of poll to file
         bot.polls[poll.id] = {
-            time: Date.now() + parseInt(args[0]) * 1000,
+            time: Date.now() + parseInt(args[0]) * 60000,
             question: question,
             options: optionsSliced
         };
