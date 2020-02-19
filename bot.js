@@ -42,7 +42,8 @@ bot.on('ready', async () => {
             if (Date.now() > time) {
                 const question = bot.polls[i].question;
                 const message = await bot.channels.get(config.pollsChannel).fetchMessage(i);
-                bot.commands.get('poll').result(bot, message, question, bot.polls[i].options);
+                const options = bot.polls[i].options;
+                bot.commands.get('poll').result(bot, message, question, options);
                 delete bot.polls[i];
 
                 fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
