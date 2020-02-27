@@ -5,6 +5,11 @@ const bot = new Discord.Client({
 });
 const fs = require('fs');
 
+//TODO for Google API token refresh
+// const axios = require('axios');
+// const CREDENTIALS_PATH = require('./credentials.json');
+// const TOKEN_PATH = require('./token.json');
+
 bot.commands = new Discord.Collection();
 bot.polls = require('./polls.json');
 
@@ -52,6 +57,47 @@ bot.on('ready', async () => {
             }
         }
     }, 30000);
+
+    // bot.setInterval(async () => { //TODO logic for Google Sheets API token refresh
+    //     try {
+    //         let client_id, client_secret, refresh_token;
+    //         //* read credentials and token to gather refresh token
+    //         fs.readFile(CREDENTIALS_PATH, (err, content) => {
+    //             if (err) return console.error(err);
+    //             const credentials = JSON.parse(content);
+    //             client_id = credentials.installed.client_id;
+    //             client_secret = credentials.installed.client_secret;
+    //         });
+    //         fs.readFile(TOKEN_PATH, (err, content) => {
+    //             if (err) return console.error(err);
+    //             const token = JSON.parse(content);
+    //             refresh_token = token.refresh_token;
+    //         });
+    //         let response = await axios({
+    //             method: 'post',
+    //             url: 'https://oauth2.googleapis.com/token',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             data: {
+    //                 'client_id': client_id,
+    //                 'client_secret': client_secret,
+    //                 'refresh_token': refresh_token,
+    //                 'grant_type': 'refresh_token'
+    //             }
+    //         });
+    //         //* read and write updated tokens
+    //         fs.readFile(TOKEN_PATH, (err, content) => {
+    //             if (err) return console.error(err);
+    //             let token = JSON.parse(content);
+    //             let currentExpiry = token.expiry_date;
+    //             token[access_token] = response.access_token;
+    //             token[expiry_date] = currentExpiry + response.expires_in;
+    //         });
+    //     } catch (error) {
+    //         console.log(error.response.data);
+    //     }
+    // }, 604800000);
 });
 
 bot.on('messageReactionAdd', (reaction, user) => {
