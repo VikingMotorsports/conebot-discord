@@ -60,50 +60,48 @@ bot.on('ready', async () => {
 
     bot.setInterval(async () => { //TODO logic for Google Sheets API token refresh
         let client_id, client_secret, refresh_token, currentExpiration;
-        try {
-            //* read credentials and token to gather refresh token
-            fs.readFile(TOKEN_PATH, (err, content) => {
-                if (err) return console.error(err);
-                const token = JSON.parse(content);
-                refresh_token = token.refresh_token;
-                currentExpiration = token.expiry_date;
-            });
-            if (currentExpiration > Date.now()) return;
-            fs.readFile(CREDENTIALS_PATH, (err, content) => {
-                if (err) return console.error(err);
-                const credentials = JSON.parse(content);
-                client_id = credentials.installed.client_id;
-                client_secret = credentials.installed.client_secret;
-            });
-            
-            let response = await axios({
-                method: 'post',
-                url: 'https://oauth2.googleapis.com/token',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'client_id': client_id,
-                    'client_secret': client_secret,
-                    'refresh_token': refresh_token,
-                    'grant_type': 'refresh_token'
-                }
-            });
-            //* read and write updated tokens
-            fs.readFile(TOKEN_PATH, (err, content) => {
-                if (err) return console.error(err);
-                let token = JSON.parse(content);
-                token[access_token] = response.access_token;
-                token[expiry_date] = Date.now() + (response.expires_in * 1000);
+        fs.readFile(TOKEN_PATH, async (err, content) => {
+            if (err) return console.error(err);
+            let token = JSON.parse(content);
+            refresh_token = token.refresh_token;
+            currentExpiration = token.expiry_date;
 
-                fs.writeFile(TOKEN_PATH, JSON.stringify(token, null, '\t'), err => {
+            if (currentExpiration < Date.now()) {
+                fs.readFile(CREDENTIALS_PATH, async (err, content) => {
                     if (err) return console.error(err);
-                    console.log('Google API token refreshed');
+                    const credentials = JSON.parse(content);
+                    client_id = credentials.installed.client_id;
+                    client_secret = credentials.installed.client_secret;
+
+                    try {
+                        let response = await axios({
+                            method: 'post',
+                            url: 'https://oauth2.googleapis.com/token',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            data: {
+                                'client_id': client_id,
+                                'client_secret': client_secret,
+                                'refresh_token': refresh_token,
+                                'grant_type': 'refresh_token'
+                            }
+                        });
+                        
+                        token['access_token'] = response.data.access_token;
+                        token['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
+    
+                        fs.writeFile(TOKEN_PATH, JSON.stringify(token, null, '\t'), err => {
+                            if (err) console.error(err);
+                            console.log('Google API token refreshed');
+                        });
+                    } catch (error) {
+                        console.error(error);
+                    }
+                    
                 });
-            });
-        } catch (error) {
-            console.error(error);
-        }
+            }
+        });
     }, 8.64e+7);
 });
 

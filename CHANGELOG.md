@@ -1,3 +1,8 @@
+# 2020-02-27-17:28 - geaysw
+
+## Fixes
+- Google Sheets API token refresh now works
+
 # 2020-02-27-16:47 - gearysw
 
 ## Features
