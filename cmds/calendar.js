@@ -7,6 +7,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://calendar.google.com/calendar?cid=YnZvNnF1N203aGlwbmpoMmw0b2JjNTM2OThAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ');
+        message.channel.send('https://sites.google.com/pdx.edu/viking-motorsports/calendar?authuser=0');
     }
 }
