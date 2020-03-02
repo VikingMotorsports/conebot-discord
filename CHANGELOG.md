@@ -1,3 +1,8 @@
+# 2020-03-02-00:18 - gearysw
+
+# Fixes
+- Spelling mistake on poll results
+
 # 2020-02-27-17:28 - geaysw
 
 ## Features
