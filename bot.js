@@ -87,10 +87,10 @@ bot.on('ready', async () => {
                                 'grant_type': 'refresh_token'
                             }
                         });
-                        
+
                         token['access_token'] = response.data.access_token;
                         token['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
-    
+
                         fs.writeFile(TOKEN_PATH, JSON.stringify(token, null, '\t'), err => {
                             if (err) console.error(err);
                             console.log('Google API token refreshed');
@@ -98,11 +98,11 @@ bot.on('ready', async () => {
                     } catch (error) {
                         console.error(error);
                     }
-                    
+
                 });
             }
         });
-    }, 8.64e+7);
+    }, 6.048e+8);
 });
 
 bot.on('messageReactionAdd', (reaction, user) => {
