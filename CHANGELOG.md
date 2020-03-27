@@ -1,6 +1,11 @@
+# 2020-03-27-00:46 - gearysw
+
+## Features
+- Added `!designlog` command to pull up design log document
+
 # 2020-03-02-00:18 - gearysw
 
-# Fixes
+## Fixes
 - Spelling mistake on poll results
 
 # 2020-02-27-17:28 - geaysw
