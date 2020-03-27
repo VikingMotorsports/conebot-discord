@@ -2,7 +2,7 @@ module.exports = {
     name: 'designlog',
     aliases: ['log'],
     description: 'Working document for design logs of the car',
-    category: 'Team',
+    category: 'Car',
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
