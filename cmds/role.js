@@ -31,7 +31,7 @@ module.exports = {
         if (args.length >= 1) {
             const roleQuery = args.join(' ');
 
-            if (cmd != 'add' && cmd != 'remove') return message.channel.send('Invalid syntax. Use `add` or `remove`.');
+            if (cmd != 'add' && cmd != 'remove' && cmd != 'assign') return message.channel.send('Invalid syntax. Use `add` or `remove`.');
             if (cmd === 'add') {
                 let member = message.member;
                 let role = message.guild.roles.find(r => r.name.toLowerCase() === roleQuery);
@@ -49,8 +49,21 @@ module.exports = {
                 // if (role.name === 'Admin' || role.name === 'Leadership' || role.name === 'Subsystem Lead' || role.name === 'Bot' || role.name === 'Cone Bot' || role.name === 'Member') return message.channel.send('You can only be manually removed from that role by a leadership member.');
                 if (leadershipRoles.some(r => role.name === r)) return message.channel.send('You can only be manually removed from that role by a leadership member.');
                 if (!member.roles.has(role.id)) return message.channel.send(`You are not part of ${role.name}.`);
-                member.addRole(role);
+                member.removeRole(role);
                 message.channel.send(`You've been removed from ${role.name}.`);
+            }
+            if (cmd === 'assign') {
+                const role = message.guild.roles.find(r => r.name === 'Leadership');
+                if (!message.member.roles.has(role.id)) return message.channel.send('You are not allowed to do that.');
+
+                let memberAssign = message.mentions.members.first(); // gets the member to have a role assigned
+                const roleAssign = message.guild.roles.find(r => r.name.toLowerCase() === args[1]); // gets the role to be assigned to the member
+                const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
+
+                if (memberAssign.roles.has(roleAssign.id)) return message.channel.send(`${name} is already part of ${roleAssign.name}.`);
+
+                memberAssign.addRole(roleAssign);
+                message.channel.send(`${name} is now part of ${roleAssign.name}.`);
             }
         }
     }

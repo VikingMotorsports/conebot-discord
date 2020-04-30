@@ -25,9 +25,19 @@ module.exports = {
         const optionsSliced = [];
         for (const i of options) optionsSliced.push(i.slice(1, -1));
 
+
+        // const date = Date.now + parseInt(args[0]) * 60000;
+        const date = new Date(Date.now() + parseInt(args[0]) * 60000);
+        // const year = date.getFullYear();
+        // const month = date.getMonth();
+        // const day = date.getDate();
+        // const hour = date.getHour();
+        // const minute = date.getMinutes();
+
         const Embed = new Discord.RichEmbed()
             .setTitle(question)
-            .setDescription(`Results will be collected ${args[0]} minute(s) after this poll is created.\n­`)
+            // .setDescription(`Results will be collected on ${year}/${month}/${day} ${hour}:${minute}.\n­`)
+            .setDescription(`Results will be collected on ${date.toLocaleString('en-US')}`)
             .setColor('#004426')
             .setFooter('Each option will already have at least 1 vote. That is just the bot adding the reaction in.');
 

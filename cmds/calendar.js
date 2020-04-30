@@ -7,6 +7,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://sites.google.com/pdx.edu/viking-motorsports/calendar?authuser=0');
+        message.channel.send('https://calendar.google.com/calendar/b/1?cid=cGR4LmVkdV9oYjV0b3RpczR0cTNlZTNxbjQ4YjE4cXE1b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t');
     }
 }
