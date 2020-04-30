@@ -1,3 +1,12 @@
+# 2020-04-29-17:36 - gearysw
+
+## Features
+- Added `!role assign` for Leadership
+- Polls now show date of collection instead of how long the poll lasts.
+
+## Fixes
+- `!role remove` did not actually remove a role. It does now.
+
 # 2020-03-27-00:46 - gearysw
 
 ## Features
