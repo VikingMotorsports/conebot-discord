@@ -1,3 +1,11 @@
+# 2020-05-12-22:39 - gearysw
+
+## Features
+- Added `!msds` command to pull up MSDS folder
+
+## Changes
+- Changed how commands that provide links are done. Instead of having the links in the command files themselves, all links are stored in an environment file, `links.json`, which is not public.
+
 # 2020-04-29-17:36 - gearysw
 
 ## Features

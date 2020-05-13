@@ -1,3 +1,5 @@
+const { minutes } = require('../links.json');
+
 module.exports = {
     name: 'minutes',
     aliases: ['minute', 'meetingminutes'],
@@ -6,6 +8,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/drive/folders/1DtEyOe1PY7Bi66iKGPKAdWP1HNQEU_NG?usp=sharing');
+        message.channel.send(minutes);
     }
 }

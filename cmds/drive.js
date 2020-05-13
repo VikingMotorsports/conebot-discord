@@ -1,3 +1,5 @@
+const { drive } = require('../links.json');
+
 module.exports = {
     name: 'drive',
     aliases: ['googledrive'],
@@ -6,6 +8,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/drive/folders/1y8vqZuBGnaYx3g-Vm1QyRO2sKkFkBYcl?usp=sharing');
+        message.channel.send(drive);
     }
 }

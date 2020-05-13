@@ -1,3 +1,5 @@
+const { car } = require('../links.json');
+
 module.exports = {
     name: 'car',
     aliases: ['currentcar'],
@@ -6,6 +8,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/drive/folders/1bS3yWJH3jHL06GDuj7j8uVTVIzbOMzHl?usp=sharing');
+        message.channel.send(car);
     }
 }
