@@ -1,3 +1,5 @@
+const { gantt } = require('../links.json');
+
 module.exports = {
     name: 'gantt',
     aliases: ['ganttchart', 'timeline'],
@@ -6,6 +8,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://drive.google.com/open?id=1C6hcbUhzNp_-X7UI8um5hBjRnKeIVMf4zPIrZCQaRok');
+        message.channel.send(gantt);
     }
 }

@@ -1,3 +1,5 @@
+const { website } = require('../links.json');
+
 module.exports = {
     name: 'website',
     aliases: ['site'],
@@ -7,6 +9,6 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://go.pdx.edu/vms');
+        message.channel.send(website);
     }
 }

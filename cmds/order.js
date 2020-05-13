@@ -1,3 +1,5 @@
+const { order } = require('../links.json');
+
 module.exports = {
     name: 'order',
     aliases: ['buy', 'orderform'],
@@ -7,6 +9,6 @@ module.exports = {
     easteregg: false,
     args: false,
     execute: async (bot, message, args) => {
-        message.channel.send('https://forms.gle/atboeS6sYeMnd5Wu8');
+        message.channel.send(order);
     }
 }
