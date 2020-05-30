@@ -23,7 +23,8 @@ module.exports = {
                 .setTitle('Server roles')
                 .setDescription('Add roles by typing `!role add <name of role>`')
                 .addField('Roles you can add yourself to', addableRoles.join('\n'))
-                .addField('Manually added by Leadership', leadershipRoles.join('\n'));
+                .addField('Manually added by Leadership', leadershipRoles.join('\n'))
+                .addField('Leadership can assign the Leadership role to other members with the following command', '!role assign @member <name of role>');
 
             message.channel.send(rolesEmbed);
         }
@@ -54,9 +55,9 @@ module.exports = {
             }
             if (cmd === 'assign') {
                 const role = message.guild.roles.find(r => r.name === 'Leadership');
-                if (!message.member.roles.has(role.id)) return message.channel.send('You are not allowed to do that.');
+                if (!message.member.roles.has(role.id)) return message.channel.send('You are not allowed to do that!');
 
-                let memberAssign = message.mentions.members.first(); // gets the member to have a role assigned
+                let memberAssign = message.mentions.members.first(); // gets the member object tagged in the message to be assigned a role
                 const roleAssign = message.guild.roles.find(r => r.name.toLowerCase() === args[1]); // gets the role to be assigned to the member
                 const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
 
