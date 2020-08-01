@@ -29,7 +29,7 @@ module.exports = {
                 .setColor('#004426');
 
             for (const c of categoryKeys) {
-                allCmds.addField(c, categorizedCmds[c].join('\n'));
+                allCmds.addField(c, categorizedCmds[c].join('\n'), true);
             }
 
             message.channel.send(allCmds);

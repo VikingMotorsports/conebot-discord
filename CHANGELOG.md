@@ -1,3 +1,8 @@
+# 2020-07-29 - pdxsam2
+
+## Features
+- Added `!license` command to post a link to the SW license request form
+
 # 2020-05-12-22:39 - gearysw
 
 ## Features
