@@ -36,7 +36,7 @@ module.exports = {
                 difficulty = '⭐⭐⭐⭐⭐';
             }
 
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor('#96031A')
                 .setTitle(res.data.activity)
                 .addField('Type', res.data.type.capitalize())

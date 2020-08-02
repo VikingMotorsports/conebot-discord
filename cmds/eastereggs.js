@@ -15,7 +15,7 @@ module.exports = {
             }
         });
 
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setTitle('Easter eggs')
             .setColor('#96031A')
             .setDescription(EE.join('\n'));

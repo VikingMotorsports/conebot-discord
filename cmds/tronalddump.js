@@ -19,7 +19,7 @@ module.exports = {
                         'Accept': 'application/json'
                     }
                 });
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                     .setTitle(res.data.value)
                     .setDescription(`- ${res.data._embedded.author[0].name}`)
                     .setColor('#96031A')
@@ -53,7 +53,7 @@ module.exports = {
                     let author = res.data._embedded.quotes[rand]._embedded.author[0].name;
                     let source = res.data._embedded.quotes[rand]._embedded.source[0].url;
 
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                         .setTitle(quote)
                         .setDescription(`- ${author}`)
                         .setColor('#96031A')

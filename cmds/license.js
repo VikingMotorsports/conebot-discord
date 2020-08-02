@@ -4,7 +4,7 @@ module.exports = {
     name: 'license',
     aliases: ['licenseRequest', 'licenserequest', 'request'],
     description: 'Form to submit a request for a SolidWorks License Key',
-    category: 'team',
+    category: 'Team',
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {

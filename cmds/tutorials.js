@@ -2,12 +2,13 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'tutorials',
+    aliases: ['tutorial'],
     description: 'List of links to tutorials',
     category: 'Miscellaneous',
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        const tutorialEmbed = new Discord.RichEmbed()
+        const tutorialEmbed = new Discord.MessageEmbed()
             .setColor('#004426')
             .setTitle('Tutorials')
             .addField('SolidWorks', 'https://www.solidworks.com/sw/resources/solidworks-tutorials.htm')
