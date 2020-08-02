@@ -94,7 +94,7 @@ module.exports = {
                     const tracking = rows[lookup][12] || 'N/A';
                     const link = rows[lookup][3];
 
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                         .setTitle('Ordering Updates')
                         .setColor('#004426')
                         .addField('Status', status)

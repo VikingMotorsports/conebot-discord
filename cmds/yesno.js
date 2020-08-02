@@ -10,7 +10,7 @@ module.exports = {
     execute: async (bot, message, args) => {
         try {
             const res = await axios.get('https://yesno.wtf/api');
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setTitle(res.data.answer.capitalize())
                 .setImage(res.data.image);
 

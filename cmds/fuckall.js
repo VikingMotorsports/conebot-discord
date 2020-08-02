@@ -23,7 +23,7 @@ module.exports = {
             });
 
             const payload = response.data;
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor('#96031A')
                 .setDescription(payload.message)
                 .setFooter(payload.subtitle);

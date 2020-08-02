@@ -1,3 +1,8 @@
+# 2020-08-02-00:42 - gearysw
+
+## Changes
+- Updated discord.js library to v12
+
 # 2020-07-29 - pdxsam2
 
 ## Features

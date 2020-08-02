@@ -34,7 +34,7 @@ module.exports = {
         // const hour = date.getHour();
         // const minute = date.getMinutes();
 
-        const Embed = new Discord.RichEmbed()
+        const Embed = new Discord.MessageEmbed()
             .setTitle(question)
             // .setDescription(`Results will be collected on ${year}/${month}/${day} ${hour}:${minute}.\n­`)
             .setDescription(`Results will be collected on ${date.toLocaleString('en-US')}`)
@@ -45,7 +45,7 @@ module.exports = {
             Embed.addField(`${reactionsPoll[i]} - ${o}`, '­');
         }
 
-        const poll = await message.client.channels.get(pollsChannel).send('@everyone', {
+        const poll = await message.client.channels.cache.get(pollsChannel).send('@everyone', {
             embed: Embed
         });
         for (let i = 0; i < options.length; i++) {
@@ -65,12 +65,12 @@ module.exports = {
     result: async (bot, message, question, option) => {
         // const question = message.embeds[0].title;
 
-        const resultsEmbed = new Discord.RichEmbed().setTitle('Poll results').setDescription(question).setColor('#004426');
+        const resultsEmbed = new Discord.MessageEmbed().setTitle('Poll results').setDescription(question).setColor('#004426');
         for (let i = 0; i < option.length; i++) {
-            resultsEmbed.addField(`${message.reactions.get(reactionsPoll[i]).emoji.name} - ${option[i]}`, message.reactions.get(reactionsPoll[i]).count - 1);
+            resultsEmbed.addField(`${message.reactions.cache.get(reactionsPoll[i]).emoji.name} - ${option[i]}`, message.reactions.cache.get(reactionsPoll[i]).count - 1);
         }
         try {
-            bot.channels.get(pollsChannel).send('@everyone', { embed: resultsEmbed });
+            bot.channels.cache.get(pollsChannel).send('@everyone', { embed: resultsEmbed });
         } catch (error) {
             console.error(error);
         }

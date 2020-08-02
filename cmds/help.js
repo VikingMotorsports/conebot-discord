@@ -23,13 +23,13 @@ module.exports = {
             let categoryKeys = Object.keys(categorizedCmds);
             categoryKeys.push(categoryKeys.splice(categoryKeys.indexOf('Miscellaneous'), 1)[0]);
 
-            const allCmds = new Discord.RichEmbed()
+            const allCmds = new Discord.MessageEmbed()
                 .setTitle('All available commands')
                 .setDescription(`Type ${prefix}help <command name> to get info on a specific command.\n`)
                 .setColor('#004426');
 
             for (const c of categoryKeys) {
-                allCmds.addField(c, categorizedCmds[c].join('\n'), true);
+                allCmds.addField(c, categorizedCmds[c].join('\n'));
             }
 
             message.channel.send(allCmds);
@@ -42,7 +42,7 @@ module.exports = {
                 return message.channel.send('Command does not exist.');
             }
 
-            const commandHelp = new Discord.RichEmbed()
+            const commandHelp = new Discord.MessageEmbed()
                 .setColor('#004225');
 
             if (command.aliases) commandHelp.addField('Aliases', command.aliases.join(', '));

@@ -20,7 +20,6 @@ module.exports = {
                 const sorted = json.slice(0).sort((a, b) => {
                     return b.sodas - a.sodas;
                 });
-                // console.log(sorted);
 
                 let leaderboard = '';
                 for (const d of sorted) {
@@ -29,10 +28,8 @@ module.exports = {
 
                 const totalSodas = sorted.map(s => s.sodas).reduce((a, b) => a + b);
                 const totalLiters = totalSodas * 0.355;
-                // console.log(totalSodas);
-                // console.log(leaderboard.slice(0, -1));
 
-                const leaderboardEmbed = new Discord.RichEmbed()
+                const leaderboardEmbed = new Discord.MessageEmbed()
                     .setTitle('Soda Leaderboard')
                     .setColor('#96031A')
                     .setDescription(leaderboard.slice(0, -1))
@@ -107,8 +104,6 @@ module.exports = {
             }
         } catch (error) {
             console.error(error);
-            bot.guilds.first().members.get('197530293597372416').send(`soda error\n\n${error}`);
         }
-
     }
 }

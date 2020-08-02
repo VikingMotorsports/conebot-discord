@@ -12,7 +12,7 @@ module.exports = {
             const joke = response.data[0];
             message.channel.send(`${joke.setup}\n\n${joke.punchline}`);
         } catch (error) {
-
+            console.error(error);
         }
     }
 }

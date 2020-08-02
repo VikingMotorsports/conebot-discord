@@ -11,23 +11,23 @@ module.exports = {
         if (!message.mentions.users.size) {
             const name = message.author.username;
             const id = message.author.id;
-            const avatar = message.author.avatarURL;
+            const avatar = message.author.avatarURL({ dynamic: true });
             const discriminator = message.author.discriminator;
-            const userEmbed = new Discord.RichEmbed()
+            const userEmbed = new Discord.MessageEmbed()
                 .setColor('#00635D')
                 .setTitle('User Info')
                 .setThumbnail(avatar)
                 .addField('Username', name)
                 .addField('Discriminator', discriminator)
                 .addField('ID', id);
-
+            console.log(avatar);
             return message.channel.send(userEmbed);
         }
         const userList = message.mentions.users.map(user => {
-            const userEmbed = new Discord.RichEmbed()
+            const userEmbed = new Discord.MessageEmbed()
                 .setColor('#00635D')
                 .setTitle('User Info')
-                .setThumbnail(user.avatarURL)
+                .setThumbnail(user.avatarURL({ dynamic: true }))
                 .addField('Username', user.username)
                 .addField('Discriminator', user.discriminator)
                 .addField('ID', user.id);

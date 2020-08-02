@@ -11,7 +11,7 @@ module.exports = {
         try {
             const response = await axios.get('https://api.kanye.rest/');
             const quote = response.data.quote;
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor('#96031A')
                 .setDescription(`"${quote}"\n*- Kanye West*`)
                 .setThumbnail('https://i.imgur.com/IHr3gbj.jpg')

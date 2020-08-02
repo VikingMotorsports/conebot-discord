@@ -7,7 +7,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
-        const stashEmbed = new Discord.RichEmbed()
+        const stashEmbed = new Discord.MessageEmbed()
             .setColor('#1B998B')
             .setTitle('Connecting to VMS Stash')
             .addField('on Windows', 'https://cat.pdx.edu/platforms/windows/remote-access/windows-to-stash/')

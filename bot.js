@@ -24,7 +24,7 @@ for (const file of commandFiles) {
 bot.login(config.token);
 
 bot.on('ready', async () => {
-    console.log(`Bot online as ${bot.user.username} in ${bot.guilds.first()}`);
+    console.log(`Bot online as ${bot.user.username} in ${bot.guilds.cache.first()}`);
     bot.user.setActivity('your every move', {
         type: 'WATCHING'
     }); //* sets what the bot is playing
@@ -36,8 +36,8 @@ bot.on('ready', async () => {
     // } catch (error) {
     //     console.log(error);
     // }
-    let msg = await bot.guilds.get(config.guildID).channels.get(config.rulesChannel).fetchMessage(config.reactMsg); // cache the rules message for reaction roles //644833324657016842
-    msg.react('✅');
+    const reactMessage = await bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // caches reaction message
+    reactMessage.react('✅');
 
     bot.setInterval(async () => {
         for (let i in bot.polls) {
@@ -45,63 +45,63 @@ bot.on('ready', async () => {
             const time = bot.polls[i].time;
 
             if (Date.now() > time) {
-                const question = bot.polls[i].question;
-                const message = await bot.channels.get(config.pollsChannel).fetchMessage(i);
-                const options = bot.polls[i].options;
-                bot.commands.get('poll').result(bot, message, question, options);
-                delete bot.polls[i];
+                try {
+                    const question = bot.polls[i].question;
+                    const message = await bot.channels.cache.get(config.pollsChannel).messages.fetch(i);
+                    const options = bot.polls[i].options;
+                    bot.commands.get('poll').result(bot, message, question, options);
+                    delete bot.polls[i];
 
-                fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
-                    if (err) return console.error(err);
-                });
+                    fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
+                        if (err) return console.error(err);
+                    });
+                } catch (error) {
+                    console.error(error)
+                }
+
             }
         }
     }, 30000);
 
-    bot.setInterval(async () => { //TODO logic for Google Sheets API token refresh
-        let client_id, client_secret, refresh_token, currentExpiration;
-        fs.readFile(TOKEN_PATH, async (err, content) => {
-            if (err) return console.error(err);
-            let token = JSON.parse(content);
-            refresh_token = token.refresh_token;
-            currentExpiration = token.expiry_date;
+    bot.setInterval(async () => { //* script for refreshing Google Sheets API token
+        // let clientID, clientSecret, refreshToken, currentExpiration;
+        const tokenBuffer = await fs.promises.readFile(TOKEN_PATH);
+        const tokenContent = JSON.parse(tokenBuffer);
+        const refreshToken = tokenContent.refresh_token;
+        const currentExpiration = token.expiry_date;
 
-            if (currentExpiration < Date.now()) {
-                fs.readFile(CREDENTIALS_PATH, async (err, content) => {
-                    if (err) return console.error(err);
-                    const credentials = JSON.parse(content);
-                    client_id = credentials.installed.client_id;
-                    client_secret = credentials.installed.client_secret;
+        if (currentExpiration < Date.now()) {
+            const credentialsBuffer = await fs.promises.readFile(CREDENTIALS_PATH);
+            const credentials = JSON.parse(credentialsBuffer);
+            const clientID = credentials.installed.client_id;
+            const clientSecret = credentials.installed.client_secret;
 
-                    try {
-                        let response = await axios({
-                            method: 'post',
-                            url: 'https://oauth2.googleapis.com/token',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            data: {
-                                'client_id': client_id,
-                                'client_secret': client_secret,
-                                'refresh_token': refresh_token,
-                                'grant_type': 'refresh_token'
-                            }
-                        });
-
-                        token['access_token'] = response.data.access_token;
-                        token['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
-
-                        fs.writeFile(TOKEN_PATH, JSON.stringify(token, null, '\t'), err => {
-                            if (err) console.error(err);
-                            console.log('Google API token refreshed');
-                        });
-                    } catch (error) {
-                        console.error(error);
+            try {
+                const response = await axios({
+                    method: 'post',
+                    url: 'https://oauth2.googleapis.com/token',
+                    headers: {
+                        'Content-Type': 'application-json'
+                    },
+                    data: {
+                        'client_id': clientID,
+                        'client_secret': clientSecret,
+                        'refresh_token': refreshToken,
+                        'grant-type': 'refresh_token'
                     }
-
                 });
+
+                tokenContent['access_token'] = response.data.access_token;
+                token['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
+
+                fs.writeFile(TOKEN_PATH, JSON.stringify(tokenContent, null, '\t'), err => {
+                    if (err) console.error(err);
+                    console.log('Google API token refreshed');
+                });
+            } catch (error) {
+                console.error(error);
             }
-        });
+        }
     }, 6.048e+8);
 });
 
@@ -110,8 +110,12 @@ bot.on('messageReactionAdd', (reaction, user) => {
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
     if (reaction.emoji.name === '✅' && reaction.message.id === config.reactMsg) {
-        let role = reaction.message.guild.roles.find(r => r.name === 'Member');
-        reaction.message.guild.member(user).addRole(role).catch(console.error);
+        const role = reaction.message.guild.roles.cache.find(r => r.name === 'Member');
+        try {
+            reaction.message.guild.member(user).roles.add(role);
+        } catch (error) {
+            console.error(error);
+        }
     }
 });
 
@@ -120,13 +124,17 @@ bot.on('messageReactionRemove', (reaction, user) => {
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
     if (reaction.emoji.name === '✅' && reaction.message.id === config.reactMsg) {
-        let role = reaction.message.guild.roles.find(r => r.name === 'Member');
-        reaction.message.guild.member(user).removeRole(role).catch(console.error);
+        const role = reaction.message.guild.roles.cache.find(r => r.name === 'Member');
+        try {
+            reaction.message.guild.member(user).roles.remove(role);
+        } catch (error) {
+            console.error(error);
+        }
     }
 });
 
 bot.on('message', async (message) => {
-    bot.guilds.get(config.guildID).channels.get(config.rulesChannel).fetchMessage(config.reactMsg); // keeps welcome message in cache to ensure reactions keep working
+    bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // keeps welcome message in cache to ensure reactions keep working
     if (message.author.bot) return; //*  ignores messages made by bots
     if (message.channel.type === ('dm' || 'group')) return; //* ignores messages outside of channels
     if (message.channel.id === config.announcementsChannel) return; //* ignores messages in announcements
@@ -224,12 +232,10 @@ bot.on('message', async (message) => {
         message.channel.send('https://streamable.com/6t08o');
     }
     if (message.content.toLowerCase().includes('they had us') || message.content.toLowerCase().includes('first half')) {
-        let reactions = ['https://i.imgur.com/QpnBp7G.jpg', 'https://youtu.be/u35MwQ_zrBI?t=24'];
-        let firstHalf = reactions[Math.floor(Math.random() * reactions.length)];
-        message.channel.send(firstHalf);
+        message.channel.send('https://i.imgur.com/QpnBp7G.jpg');
     }
     if (message.content.toLowerCase().includes('shitshow') || message.content.toLowerCase().includes('shit show')) {
-        message.channel.send('https://youtu.be/FJzW_gFoXR0?t=44');
+        message.channel.send('https://streamable.com/dvvsd5');
     }
     if (message.content.toLowerCase().includes('fucking idiot')) {
         message.channel.send('https://www.youtube.com/watch?v=stb0sqtwAZA');
@@ -258,12 +264,12 @@ bot.on('message', async (message) => {
         } catch (error) {
             console.error(error);
             message.channel.send('There was an error executing that command.');
-            bot.guilds.first().members.get('197530293597372416').send(`General error:\n\n${error}`);
+            bot.guilds.cache.first().members.cache.get('197530293597372416').send(`General error:\n\n${error}`);
         }
     }
 });
 
 async function findEmoji(emojiName) {
-    const emoji = await bot.emojis.find(emote => emote.name === emojiName);
+    const emoji = await bot.emojis.cache.find(emote => emote.name === emojiName);
     return emoji;
 }
