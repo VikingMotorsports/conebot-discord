@@ -22,13 +22,21 @@ module.exports = {
         }
 
         if (message.mentions.users.size > 0) {
-            message.mentions.members.map(user => {
-                const name = (!user.nickname) ? user.user.username : user.nickname;
-                const email = emails[user.id];
-                if (!email) return message.channel.send(`No email found for ${name}.`);
-                message.channel.send(`${name}'s email address: ${email}`);
+            const userIDs = [];
+            const userNames = [];
+            message.mentions.members.map(u => {
+                const name = (!u.nickname) ? u.user.username : u.nickname;
+                const id = u.id;
+                userIDs.push(id);
+                userNames.push(name);
             });
-            return;
+
+            let reply = '';
+            for (const [i, v] of userIDs.entries()) {
+                reply += `${userNames[i]}'s email address: ${emails[v]}\n`;
+            }
+
+            return message.channel.send(reply);
         }
 
         if (args.length && args[0].match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/)) {

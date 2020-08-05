@@ -92,7 +92,7 @@ bot.on('ready', async () => {
                 });
 
                 tokenContent['access_token'] = response.data.access_token;
-                token['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
+                tokenContent['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
 
                 fs.writeFile(TOKEN_PATH, JSON.stringify(tokenContent, null, '\t'), err => {
                     if (err) console.error(err);
