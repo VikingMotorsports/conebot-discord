@@ -22,13 +22,21 @@ module.exports = {
         }
 
         if (message.mentions.users.size > 0) {
-            message.mentions.members.map(user => {
-                const name = (!user.nickname) ? user.user.username : user.nickname;
-                const number = numbers[user.id];
-                if (!number) return message.channel.send(`No phone number found for ${name}.`);
-                message.channel.send(`${name}'s phone number: ${number}`);
+            const userIDs = [];
+            const userNames = [];
+            message.mentions.members.map(u => {
+                const name = (!u.nickname) ? u.user.username : u.nickname;
+                const id = u.id;
+                userIDs.push(id);
+                userNames.push(name);
             });
-            return;
+
+            let reply = '';
+            for (const [i, v] of userIDs.entries()) {
+                reply += `${userNames[i]}'s phone number: ${numbers[v]}\n`
+            }
+
+            return message.channel.send(reply);
         }
 
         if (args.length && args[0].match(/^[2-9]\d{2}-\d{3}-\d{4}$/)) {
