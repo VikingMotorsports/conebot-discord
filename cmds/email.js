@@ -33,6 +33,10 @@ module.exports = {
 
             let reply = '';
             for (const [i, v] of userIDs.entries()) {
+                if (!emails[v]) {
+                    reply += `No email found for ${userNames[i]}.\n`;
+                    continue;
+                }
                 reply += `${userNames[i]}'s email address: ${emails[v]}\n`;
             }
 
