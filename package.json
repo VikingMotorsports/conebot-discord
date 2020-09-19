@@ -1,25 +1,25 @@
 {
-  "name": "conebot-discord",
-  "version": "1.0.0",
-  "description": "Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone), adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.",
-  "main": "bot.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gearysw/conebot-discord.git"
-  },
-  "author": "Geary Wariwisaya",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gearysw/conebot-discord/issues"
-  },
-  "homepage": "https://github.com/gearysw/conebot-discord#readme",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "discord.js": "^12.2.0",
-    "eslint": "^6.8.0",
-    "googleapis": "^39.2.0"
-  }
+    "name": "conebot-discord",
+    "version": "1.0.0",
+    "description": "Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone), adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.",
+    "main": "bot.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gearysw/conebot-discord.git"
+    },
+    "author": "Geary Wariwisaya",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/gearysw/conebot-discord/issues"
+    },
+    "homepage": "https://github.com/gearysw/conebot-discord#readme",
+    "dependencies": {
+        "axios": "^0.19.2",
+        "discord.js": "^12.3.1",
+        "eslint": "^6.8.0",
+        "googleapis": "^59.0.0"
+    }
 }
