@@ -1,3 +1,12 @@
+# 2020-09-29-01:03 - gearysw
+
+## Features
+- Added `!role unassign` for Leadership
+- Added `!invite` to return Discord invite link
+
+## Fixes
+- `!msds` was categorized as "Team Info", changed to "Team" to be consistent with the rest
+
 # 2020-08-02-00:42 - gearysw
 
 ## Changes
@@ -35,7 +44,7 @@
 ## Fixes
 - Spelling mistake on poll results
 
-# 2020-02-27-17:28 - geaysw
+# 2020-02-27-17:28 - gearysw
 
 ## Features
 - Added `!website` command to pull up VMS website URL

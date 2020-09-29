@@ -30,6 +30,8 @@ module.exports = {
         }
 
         if (args.length >= 1) {
+            if (cmd != 'add' && cmd != 'remove' && cmd != 'assign' && cmd != 'unassign') return message.channel.send('Invalid syntax. Use `add` or `remove`.');
+
             if (cmd === 'assign') {
                 const leadershipRole = message.guild.roles.cache.find(r => r.name === 'Leadership');
                 if (!message.member.roles.cache.has(leadershipRole.id)) return message.channel.send('You are not allowed to do that!');
@@ -38,17 +40,31 @@ module.exports = {
                 const roleAssign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' ')); // gets the role to be assigned to the member
                 const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
 
+                if (!roleAssign) return message.channel.send('That role does not exist.');
                 if (memberAssign.roles.cache.has(roleAssign.id)) return message.channel.send(`${name} is already part of ${roleAssign.name}.`);
 
                 memberAssign.roles.add(roleAssign);
                 return message.channel.send(`${name} is now part of ${roleAssign.name}.`);
             }
 
-            const roleQuery = args.join(' ');
-            const role = message.guild.roles.cache.find(r => r.name.toLowerCase() === roleQuery);
+            if (cmd === 'unassign') {
+                const leadershipRole = message.guild.roles.cache.find(r => r.name === 'Leadership');
+                if (!message.member.roles.cache.has(leadershipRole.id)) return message.channel.send('You are not allowed to do that!');
+
+                const memberAssign = message.mentions.members.first();
+                const roleUnassign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' '));
+                const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
+
+                if (!roleUnassign) return message.channel.send('That role does not exist.');
+                if (!memberAssign.roles.cache.has(roleUnassign.id)) return message.channel.send(`${name} is not part of ${roleUnassign.name}.`);
+
+                memberAssign.roles.remove(roleUnassign.id);
+                return message.channel.send(`${name} has been unassigned from ${roleUnassign.name}.`);
+            }
+
+            const role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.join(' '));
             if (!role) return message.channel.send('That role does not exist.');
 
-            if (cmd != 'add' && cmd != 'remove' && cmd != 'assign') return message.channel.send('Invalid syntax. Use `add` or `remove`.');
             if (cmd === 'add') {
                 const member = message.member;
                 if (leadershipRoles.some(r => role.name === r)) return message.channel.send(`That's illegal!`);

@@ -4,7 +4,7 @@ module.exports = {
     name: 'msds',
     aliases: ['safety', 'safetysheets'],
     description: 'Folder containing all relevant material safety data sheets (MSDS)',
-    category: 'Team Info',
+    category: 'Team',
     args: false,
     showInHelp: true,
     easteregg: false,
