@@ -147,13 +147,6 @@ bot.on('message', async (message) => {
         const blobwave = await findEmoji("blobwave");
         message.channel.send(`Hi! ${blobwave}`);
     }
-    if (message.mentions.everyone) {
-        const pingsock = await findEmoji('pingsock');
-        const pingthink = await findEmoji('pingthink');
-        let emojis = [pingsock, pingthink];
-
-        message.react(emojis[Math.floor(Math.random() * emojis.length)]);
-    }
     if (message.content.toLowerCase().includes('sticky liquid' || 'sticky juice')) {
         message.react('💦');
     }
