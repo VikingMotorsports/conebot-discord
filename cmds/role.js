@@ -21,7 +21,7 @@ module.exports = {
             const rolesEmbed = new Discord.MessageEmbed()
                 .setColor('#004426')
                 .setTitle('Server roles')
-                .setDescription('Add roles by typing `!role add <name of role>`')
+                .setDescription('Add roles by typing `!role add <name of role>`\nRemove roles by typing `!role remove <name of role>`')
                 .addField('Roles you can add yourself to', addableRoles.join('\n'))
                 .addField('Manually added by Leadership', leadershipRoles.join('\n'))
                 .addField('Leadership can assign the Leadership role to other members with the following command', '!role assign @member <name of role>');
@@ -33,33 +33,39 @@ module.exports = {
             if (cmd != 'add' && cmd != 'remove' && cmd != 'assign' && cmd != 'unassign') return message.channel.send('Invalid syntax. Use `add` or `remove`.');
 
             if (cmd === 'assign') {
-                const leadershipRole = message.guild.roles.cache.find(r => r.name === 'Leadership');
-                if (!message.member.roles.cache.has(leadershipRole.id)) return message.channel.send('You are not allowed to do that!');
+                if (!await leadershipCheck(message)) return message.channel.send('You are not allowed to do that.');
 
-                const memberAssign = message.mentions.members.first(); // gets the member object tagged in the message to be assigned a role
-                const roleAssign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' ')); // gets the role to be assigned to the member
-                const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
+                try {
+                    const memberAssign = message.mentions.members.first(); // gets the member object tagged in the message to be assigned a role
+                    const roleAssign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' ')); // gets the role to be assigned to the member
+                    const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
 
-                if (!roleAssign) return message.channel.send('That role does not exist.');
-                if (memberAssign.roles.cache.has(roleAssign.id)) return message.channel.send(`${name} is already part of ${roleAssign.name}.`);
+                    if (!roleAssign) return message.channel.send('That role does not exist.');
+                    if (memberAssign.roles.cache.has(roleAssign.id)) return message.channel.send(`${name} is already part of ${roleAssign.name}.`);
 
-                memberAssign.roles.add(roleAssign);
-                return message.channel.send(`${name} is now part of ${roleAssign.name}.`);
+                    memberAssign.roles.add(roleAssign);
+                    return message.channel.send(`${name} is now part of ${roleAssign.name}.`);
+                } catch (error) {
+                    console.error(error);
+                }
             }
 
             if (cmd === 'unassign') {
-                const leadershipRole = message.guild.roles.cache.find(r => r.name === 'Leadership');
-                if (!message.member.roles.cache.has(leadershipRole.id)) return message.channel.send('You are not allowed to do that!');
+                if (!await leadershipCheck(message)) return message.channel.send('You are not allowed to do that.');
 
-                const memberAssign = message.mentions.members.first();
-                const roleUnassign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' '));
-                const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
+                try {
+                    const memberAssign = message.mentions.members.first();
+                    const roleUnassign = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' '));
+                    const name = (!memberAssign.nickname) ? memberAssign.user.username : memberAssign.nickname;
 
-                if (!roleUnassign) return message.channel.send('That role does not exist.');
-                if (!memberAssign.roles.cache.has(roleUnassign.id)) return message.channel.send(`${name} is not part of ${roleUnassign.name}.`);
+                    if (!roleUnassign) return message.channel.send('That role does not exist.');
+                    if (!memberAssign.roles.cache.has(roleUnassign.id)) return message.channel.send(`${name} is not part of ${roleUnassign.name}.`);
 
-                memberAssign.roles.remove(roleUnassign.id);
-                return message.channel.send(`${name} has been unassigned from ${roleUnassign.name}.`);
+                    memberAssign.roles.remove(roleUnassign.id);
+                    return message.channel.send(`${name} has been unassigned from ${roleUnassign.name}.`);
+                } catch (error) {
+                    console.error(error);
+                }
             }
 
             const role = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.join(' '));
@@ -81,4 +87,10 @@ module.exports = {
             }
         }
     }
+}
+
+async function leadershipCheck(message) {
+    const leadershipRole = message.guild.roles.cache.find(r => r.name === 'Leadership');
+    if (!message.member.roles.cache.has(leadershipRole.id)) return false;
+    return true;
 }
