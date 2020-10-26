@@ -1,3 +1,13 @@
+# 2020-10-26-12:32 - gearysw
+
+## Features
+- Added `!inventory` to list out links related to inventory management
+
+# 2020-10-19-18:37 - gearysw
+
+## Features
+- Added `!media` to list VMS social media links
+
 # 2020-09-29-01:03 - gearysw
 
 ## Features
