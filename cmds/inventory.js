@@ -1,5 +1,5 @@
-const {inventoryDocumentation, inventoryList, inventoryForm} = require('../links.json');
-const {MessageEmbed} = require('discord.js');
+const { inventoryDocumentation, inventoryList, inventoryForm, wiresInventory } = require('../links.json');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'inventory',
@@ -13,6 +13,7 @@ module.exports = {
             .setDescription('Please read the documentation before using the check in/out form.')
             .addField('Documentation', inventoryDocumentation)
             .addField('List', inventoryList)
+            .addField('Cable Inventory', wiresInventory)
             .addField('Check in/out', inventoryForm);
 
         message.channel.send(embed);
