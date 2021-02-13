@@ -246,6 +246,7 @@ bot.on('message', async (message) => {
         message.channel.send('https://youtu.be/O7lRV1VHv1g?t=3');
     }
     if (commandName.startsWith(config.prefix)) { //* dynamic command handler
+        if (commandName[1] === config.prefix || !commandName[1]) return;
         const cmds = commandName.slice(config.prefix.length);
         const command = bot.commands.get(cmds) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmds));
         try {
