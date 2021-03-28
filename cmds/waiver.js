@@ -11,6 +11,7 @@ module.exports = {
     easteregg: false,
     execute: async (bot, message, args) => {
         const embed = new MessageEmbed().setTitle('VMS Waivers').setColor('#004426')
+            .setDescription('When completed, submit these forms to the Vice President.')
             .addField('Liability Waiver', liability)
             .addField('Photo Release', photoRelease);
 
