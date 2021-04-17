@@ -35,3 +35,4 @@ Other files to create before using the bot:
     - `rules`: link to the latest FSAE rulebook
     - `website`: link to the team's website
 
+test
