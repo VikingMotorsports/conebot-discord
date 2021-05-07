@@ -1,3 +1,8 @@
+# 2021-05-06-18:15 - gearysw
+## Features
+- Added competition countdown in days
+- Added `!update` for updating valid parameters such as competition dates
+
 # 2020-10-26-12:32 - gearysw
 
 ## Features
