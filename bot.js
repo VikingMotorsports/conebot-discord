@@ -4,6 +4,7 @@ const bot = new Discord.Client({
     disableEveryone: false
 });
 const fs = require('fs');
+const cron = require('node-cron');
 
 //TODO for Google API token refresh
 const axios = require('axios');
@@ -22,6 +23,24 @@ for (const file of commandFiles) {
 }
 
 bot.login(config.token);
+
+cron.schedule('0 9 * * *', async () => {
+    const data = await fs.promises.readFile('./config.json');
+    const competition = new Date(JSON.parse(data).competition);
+
+    if (Date.now() > competition) return;
+
+    const days = Math.ceil((competition.getTime() - Date.now()) / 8.64e+7);
+    if (days > 60) return;
+
+    console.log(days);
+
+    try {
+        bot.channels.cache.get(config.announcementsChannel).send(`${days} days until competition.`);
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 bot.on('ready', async () => {
     console.log(`Bot online as ${bot.user.username} in ${bot.guilds.cache.first()}`);
