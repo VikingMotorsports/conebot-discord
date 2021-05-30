@@ -5,6 +5,7 @@ const bot = new Discord.Client({
 });
 const fs = require('fs');
 const cron = require('node-cron');
+const requiredFiles = ['config.json', 'credentials.json', 'emails.json', 'links.json', 'phones.json', 'polls.json', 'soda.json', 'token.json', 'bonk.json'];
 
 //TODO for Google API token refresh
 const axios = require('axios');
@@ -15,6 +16,8 @@ bot.commands = new Discord.Collection();
 bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
+
+checkRequiredFiles();
 
 for (const file of commandFiles) {
     const command = require(`./cmds/${file}`);
@@ -285,4 +288,19 @@ bot.on('message', async (message) => {
 async function findEmoji(emojiName) {
     const emoji = await bot.emojis.cache.find(emote => emote.name === emojiName);
     return emoji;
+}
+
+async function checkRequiredFiles() {
+    for (f of requiredFiles) {
+        try {
+            await fs.promises.access(`./${f}`, fs.constants.F_OK)
+            console.log(`${f} exists`);
+        } catch (error) {
+            fs.writeFile(`./${f}`, JSON.stringify({}), err => {
+                if (err) console.error(err)
+            });
+            console.log(`${f} created`);
+            continue;
+        }
+    }
 }
