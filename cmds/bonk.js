@@ -17,7 +17,24 @@ module.exports = {
         if (args[0] === 'leaderboard') {
             if (!json.length) return message.channel.send('No bonks yet. Surprising.');
 
+            const sorted = json.slice(0).sort((a, b) => {
+                return b.bonk - a.bonk;
+            });
+            // console.log(sorted);
 
+            let leaderboard = [];
+
+            for (b of sorted) {
+                leaderboard.push(`${b.name} - ${b.bonk}`);
+            }
+
+            const total = sorted.map(s => s.bonk).reduce((a, b) => a + b);
+
+            const embed = new Discord.MessageEmbed().setTitle(`Bonk'd Hall of Shame`).setColor('#96031A')
+                .setDescription(leaderboard.join('\n'))
+                .setFooter(`Total bonks: ${total}`);
+
+            message.channel.send(embed);
         }
         if (message.mentions.users.size > 0) {
             const userIDs = [];
@@ -28,13 +45,10 @@ module.exports = {
                 userIDs.push(id);
                 userNames.push(name);
             });
-            // console.log(userIDs);
-            // const users = message.mentions.members.map(u => u.id);
-            // console.log(users);
             for ([i, id] of userIDs.entries()) { //! figure out how to write multiple bonks to same file
-                // console.log(i, id);
-                const objIndex = json.findIndex(o => o.id === id);
-                // console.log(objIndex);
+                const bonkData = await fs.promises.readFile('./bonk.json');
+                let bonkJson = JSON.parse(bonkData);
+                const objIndex = bonkJson.findIndex(o => o.id === id);
                 let bonkMember;
                 if (objIndex === -1) {
                     bonkMember = {
@@ -43,14 +57,10 @@ module.exports = {
                         "bonk": 1
                     }
 
-                    json.push(bonkMember);
-                    // fs.writeFile('./bonk.json', JSON.stringify(json, null, '\t'), err => {
-                    //     if (err) return console.error(err);
-                    // });
-                    await fs.promises.writeFile('./bonk.json', JSON.stringify(json, null, '\t'), 'utf8')
+                    bonkJson.push(bonkMember);
+                    await fs.promises.writeFile('./bonk.json', JSON.stringify(bonkJson, null, '\t'), 'utf8')
                 } else {
-                    let bonks = json[i].bonk + 1;
-                    console.log(bonks);
+                    let bonks = bonkJson[objIndex].bonk + 1;
                     bonkMember = {
                         "id": id,
                         "name": userNames[i],
@@ -58,13 +68,10 @@ module.exports = {
                     }
 
                     const update = [
-                        ...json.slice(0, objIndex),
+                        ...bonkJson.slice(0, objIndex),
                         bonkMember,
-                        ...json.slice(objIndex + 1),
+                        ...bonkJson.slice(objIndex + 1),
                     ];
-                    // fs.writeFile('./bonk.json', JSON.stringify(update, null, '\t'), err => {
-                    //     if (err) return console.error(err);
-                    // })
                     await fs.promises.writeFile('./bonk.json', JSON.stringify(update, null, '\t'), 'utf8')
                 }
             }
@@ -73,5 +80,3 @@ module.exports = {
         }
     }
 }
-
-async function writeBonk(i, id)
