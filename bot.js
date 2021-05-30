@@ -17,7 +17,7 @@ bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
 
-checkRequiredFiles();
+// checkRequiredFiles();
 
 for (const file of commandFiles) {
     const command = require(`./cmds/${file}`);
