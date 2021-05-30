@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const bonks = ['https://media.tenor.co/videos/8c041ab902e52fddfda687d6e7e5ef64/mp4', 'https://tenor.com/view/guillotine-bonk-revolution-gif-20305805', 'https://tenor.com/view/bonk-gif-21125069', 'https://tenor.com/view/bonk-boink-scout-baseball-bat-gif-18381898', 'https://tenor.com/view/bonk-gif-18805247', 'https://cdn.discordapp.com/attachments/646510074986233867/848454757529288704/artworks-mE1IUzaGR3Ynjko5-CFEYxw-t500x500.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454839008886784/FB_IMG_1618329849229.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454906389069894/FB_IMG_1618329857597.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454944910868480/FB_IMG_1618329853530.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454985699950612/FB_IMG_1618329661644.png'];
+const bonks = ['https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284', 'https://tenor.com/view/guillotine-bonk-revolution-gif-20305805', 'https://tenor.com/view/bonk-gif-21125069', 'https://tenor.com/view/bonk-boink-scout-baseball-bat-gif-18381898', 'https://tenor.com/view/bonk-gif-18805247', 'https://cdn.discordapp.com/attachments/646510074986233867/848454757529288704/artworks-mE1IUzaGR3Ynjko5-CFEYxw-t500x500.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454839008886784/FB_IMG_1618329849229.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454906389069894/FB_IMG_1618329857597.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454944910868480/FB_IMG_1618329853530.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454985699950612/FB_IMG_1618329661644.png'];
 
 module.exports = {
     name: 'bonk',
@@ -28,28 +28,50 @@ module.exports = {
                 userIDs.push(id);
                 userNames.push(name);
             });
-            let reply = '';
+            // console.log(userIDs);
+            // const users = message.mentions.members.map(u => u.id);
+            // console.log(users);
+            for ([i, id] of userIDs.entries()) { //! figure out how to write multiple bonks to same file
+                // console.log(i, id);
+                const objIndex = json.findIndex(o => o.id === id);
+                // console.log(objIndex);
+                let bonkMember;
+                if (objIndex === -1) {
+                    bonkMember = {
+                        "id": id,
+                        "name": userNames[i],
+                        "bonk": 1
+                    }
 
-            for (i of userIDs) {
-                if (!(i in json)) {
-                    json[i] = 1;
+                    json.push(bonkMember);
+                    // fs.writeFile('./bonk.json', JSON.stringify(json, null, '\t'), err => {
+                    //     if (err) return console.error(err);
+                    // });
+                    await fs.promises.writeFile('./bonk.json', JSON.stringify(json, null, '\t'), 'utf8')
                 } else {
-                    json[i] += 1;
-                }
-                reply += `<@${i}> `;
+                    let bonks = json[i].bonk + 1;
+                    console.log(bonks);
+                    bonkMember = {
+                        "id": id,
+                        "name": userNames[i],
+                        "bonk": bonks
+                    }
 
-                fs.writeFile('./bonk.json', JSON.stringify(json, null, '\t'), err => {
-                    if (err) return console.error(err);
-                });
+                    const update = [
+                        ...json.slice(0, objIndex),
+                        bonkMember,
+                        ...json.slice(objIndex + 1),
+                    ];
+                    // fs.writeFile('./bonk.json', JSON.stringify(update, null, '\t'), err => {
+                    //     if (err) return console.error(err);
+                    // })
+                    await fs.promises.writeFile('./bonk.json', JSON.stringify(update, null, '\t'), 'utf8')
+                }
             }
 
-            message.channel.send(reply, {
-                embed: {
-                    image: {
-                        url: bonks[Math.floor(Math.random() * bonks.length)]
-                    }
-                }
-            });
+            message.channel.send(bonks[Math.floor(Math.random() * bonks.length)]);
         }
     }
 }
+
+async function writeBonk(i, id)
