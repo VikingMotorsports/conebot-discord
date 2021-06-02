@@ -13,6 +13,7 @@ module.exports = {
     execute: async (bot, message, args) => {
         const data = await fs.promises.readFile('./bonk.json')
         const json = JSON.parse(data);
+        let response = '';
 
         if (args[0] === 'leaderboard') {
             if (!json.length) return message.channel.send('No bonks yet. Surprising.');
@@ -20,7 +21,6 @@ module.exports = {
             const sorted = json.slice(0).sort((a, b) => {
                 return b.bonk - a.bonk;
             });
-            // console.log(sorted);
 
             let leaderboard = [];
 
@@ -45,7 +45,7 @@ module.exports = {
                 userIDs.push(id);
                 userNames.push(name);
             });
-            for ([i, id] of userIDs.entries()) { //! figure out how to write multiple bonks to same file
+            for ([i, id] of userIDs.entries()) { 
                 const bonkData = await fs.promises.readFile('./bonk.json');
                 let bonkJson = JSON.parse(bonkData);
                 const objIndex = bonkJson.findIndex(o => o.id === id);
@@ -60,11 +60,31 @@ module.exports = {
                     bonkJson.push(bonkMember);
                     await fs.promises.writeFile('./bonk.json', JSON.stringify(bonkJson, null, '\t'), 'utf8')
                 } else {
-                    let bonks = bonkJson[objIndex].bonk + 1;
-                    bonkMember = {
-                        "id": id,
-                        "name": userNames[i],
-                        "bonk": bonks
+                    let newBonk = bonkJson[objIndex].bonk;
+                    const roll = Math.floor(Math.random() * 10);
+                    let unbonk = false;
+                    if (roll === 0) unbonk = true;
+
+                    switch(unbonk) {
+                        case true:
+                            console.log('unbonk');
+                            bonkMember = {
+                                "id": id,
+                                "name": userNames[i],
+                                "bonk": newBonk - 1
+                            }
+                            response = 'https://cdn.discordapp.com/attachments/646510074986233867/849383431073955850/FB_IMG_1615148902348.jpg';
+                            break;
+
+                        default:
+                            console.log('bonk');
+                            bonkMember = {
+                                "id": id,
+                                "name": userNames[i],
+                                "bonk": newBonk + 1
+                            }
+                            response = bonks[Math.floor(Math.random() * bonks.length)];
+                            break;
                     }
 
                     const update = [
@@ -76,7 +96,7 @@ module.exports = {
                 }
             }
 
-            message.channel.send(bonks[Math.floor(Math.random() * bonks.length)]);
+            message.channel.send(response);
         }
     }
 }
