@@ -45,7 +45,7 @@ module.exports = {
                 userIDs.push(id);
                 userNames.push(name);
             });
-            for ([i, id] of userIDs.entries()) { 
+            for ([i, id] of userIDs.entries()) {
                 const bonkData = await fs.promises.readFile('./bonk.json');
                 let bonkJson = JSON.parse(bonkData);
                 const objIndex = bonkJson.findIndex(o => o.id === id);
@@ -62,13 +62,16 @@ module.exports = {
                     response = bonks[Math.floor(Math.random() * bonks.length)];
                 } else {
                     let newBonk = bonkJson[objIndex].bonk;
-                    const roll = Math.floor(Math.random() * 10);
-                    let unbonk = false;
-                    if (roll === 0) unbonk = true;
+                    const superbonkRoll = Math.floor(Math.random() * 15);
+                    const unbonkRoll = Math.floor(Math.random() * 10);
 
-                    switch(unbonk) {
-                        case true:
-                            console.log('unbonk');
+                    let bonkCase = '';
+                    if (unbonkRoll === 0) bonkCase = 'unbonk';
+                    if (superbonkRoll === 0) bonkCase = 'superbonk';
+
+                    switch (bonkCase) {
+                        case 'unbonk':
+                            // console.log('unbonk');
                             bonkMember = {
                                 "id": id,
                                 "name": userNames[i],
@@ -77,8 +80,17 @@ module.exports = {
                             response = 'https://cdn.discordapp.com/attachments/646510074986233867/849383431073955850/FB_IMG_1615148902348.jpg';
                             break;
 
+                        case 'superbonk':
+                            bonkMember = {
+                                "id": id,
+                                "name": userNames[i],
+                                "bonk": newBonk + 5
+                            }
+                            response = 'https://cdn.discordapp.com/attachments/646510074986233867/850102936981078026/OD_h5HvqkZBd2DV2.mp4';
+                            break;
+
                         default:
-                            console.log('bonk');
+                            // console.log('bonk');
                             bonkMember = {
                                 "id": id,
                                 "name": userNames[i],
