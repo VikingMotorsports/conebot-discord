@@ -59,6 +59,7 @@ module.exports = {
 
                     bonkJson.push(bonkMember);
                     await fs.promises.writeFile('./bonk.json', JSON.stringify(bonkJson, null, '\t'), 'utf8')
+                    response = bonks[Math.floor(Math.random() * bonks.length)];
                 } else {
                     let newBonk = bonkJson[objIndex].bonk;
                     const roll = Math.floor(Math.random() * 10);
