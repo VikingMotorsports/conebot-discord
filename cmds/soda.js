@@ -102,6 +102,12 @@ module.exports = {
                     }
                 });
             }
+            if (args.length && args[0] === 'reset') {
+                const sodas = [];
+                await fs.promises.writeFile('./soda.json', JSON.stringify(sodas));
+
+                message.channel.send('Soda tracker has been reset. Start drinking!');
+            }
         } catch (error) {
             console.error(error);
         }
