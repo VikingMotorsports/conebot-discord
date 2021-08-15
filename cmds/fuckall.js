@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'fuckall',
+    data: {
+        name: 'fuckall',
+        description: 'When you wanna curse the whole world'
+    },
     aliases: ['fuckeverything', 'fuckyouall'],
-    description: 'When you wanna curse the whole world',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

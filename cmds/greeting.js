@@ -1,7 +1,9 @@
 module.exports = {
-    name: 'greeting',
+    data: {
+        name: 'greeting',
+        description: 'Greets the user'
+    },
     aliases: ['greetings', 'morning', 'night', 'afternoon', 'goodmorning', 'goodnight', 'goodafternoon'],
-    description: 'Greets the user',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

@@ -1,8 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    name: 'pdm',
-    description: 'How to get up and running with PDM',
+    data: {
+        name: 'pdm',
+        description: 'How to get up and running with PDM'
+    },
     category: 'Team',
     args: false,
     showInHelp: true,

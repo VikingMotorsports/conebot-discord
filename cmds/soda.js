@@ -2,9 +2,11 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'soda',
+    data: {
+        name: 'soda',
+        description: 'Keep track of soda intake and leaderboard'
+    },
     aliases: ['sodatracker', 'drink'],
-    description: 'Keep track of soda intake and leaderboard',
     category: 'Miscellaneous',
     showInHelp: true,
     args: false,

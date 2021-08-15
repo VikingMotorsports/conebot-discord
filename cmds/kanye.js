@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'kanye',
+    data: {
+        name: 'kanye',
+        description: 'Kanye West quotes'
+    },
     aliases: ['kanyequote'],
-    description: 'Kanye West quotes',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

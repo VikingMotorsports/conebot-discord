@@ -2,9 +2,11 @@ const { website, youtube, instagram, facebook } = require('../links.json');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    name: 'socialmedia',
+    data: {
+        name: 'socialmedia',
+        description: 'Shows VMS social media links'
+    },
     aliases: ['media', 'youtube', 'instagram', 'facebook', 'website', 'site', 'insta', 'yt', 'fb'],
-    description: 'Shows VMS social media links',
     category: 'Team',
     args: false,
     showInHelp: true,

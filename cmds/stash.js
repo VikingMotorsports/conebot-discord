@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'stash',
-    description: 'VMS stash directory',
+    data: {
+        name: 'stash',
+        description: 'VMS stash directory'
+    },
     category: 'Team',
     showInHelp: true,
     easteregg: false,

@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'userinfo',
+    data: {
+        name: 'userinfo',
+        description: 'VMS stash directory'
+    },
     aliases: ['user', 'avatar', 'username'],
-    description: 'VMS stash directory',
     showInHelp: false,
     easteregg: true,
     usage: '<@user>',

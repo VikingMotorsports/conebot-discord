@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'tutorials',
+    data: {
+        name: 'tutorials',
+        description: 'List of links to tutorials'
+    },
     aliases: ['tutorial'],
-    description: 'List of links to tutorials',
     category: 'Miscellaneous',
     showInHelp: true,
     easteregg: false,

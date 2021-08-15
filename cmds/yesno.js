@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'yesno',
+    data: {
+        name: 'yesno',
+        description: 'Yes or no?'
+    },
     aliases: ['yesorno'],
-    description: 'Yes or no?',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

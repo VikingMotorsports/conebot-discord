@@ -3,8 +3,10 @@ const Discord = require('discord.js');
 const bonks = ['https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284', 'https://tenor.com/view/guillotine-bonk-revolution-gif-20305805', 'https://tenor.com/view/bonk-gif-21125069', 'https://tenor.com/view/bonk-boink-scout-baseball-bat-gif-18381898', 'https://tenor.com/view/bonk-gif-18805247', 'https://cdn.discordapp.com/attachments/646510074986233867/848454757529288704/artworks-mE1IUzaGR3Ynjko5-CFEYxw-t500x500.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454839008886784/FB_IMG_1618329849229.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454906389069894/FB_IMG_1618329857597.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454944910868480/FB_IMG_1618329853530.png', 'https://cdn.discordapp.com/attachments/646510074986233867/848454985699950612/FB_IMG_1618329661644.png'];
 
 module.exports = {
-    name: 'bonk',
-    description: 'Bonk someone',
+    data: {
+        name: 'bonk',
+        description: 'Bonk someone'
+    },
     category: 'Miscellaneous',
     usage: '@user or count <@user>',
     args: true,

@@ -1,6 +1,8 @@
 module.exports = {
-    name: 'vaporwave',
-    description: 'Converts text to vaporwave',
+    data: {
+        name: 'vaporwave',
+        description: 'Converts text to vaporwave'
+    },
     showInHelp: false,
     easteregg: true,
     usage: '<string>',

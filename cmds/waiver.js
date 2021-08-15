@@ -2,9 +2,11 @@ const { MessageEmbed } = require('discord.js');
 const { liability, photoRelease } = require('../links.json');
 
 module.exports = {
-    name: 'waiver',
+    data: {
+        name: 'waiver',
+        description: 'Links to VMS liability waivers'
+    },
     aliases: ['liability', 'release', 'waivers'],
-    description: 'Links to VMS liability waivers',
     category: 'Team',
     args: false,
     showInHelp: true,

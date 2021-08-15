@@ -7,9 +7,11 @@ const Discord = require('discord.js');
 const { spreadsheetId } = require('../config.json');
 
 module.exports = {
-    name: 'po',
+    data: {
+        name: 'po',
+        description: 'Check on the status of a purchase through a PO # lookup'
+    },
     aliases: ['orderinfo', 'status'],
-    description: 'Check on the status of a purchase through a PO # lookup',
     category: 'Purchases',
     showInHelp: true,
     args: true,

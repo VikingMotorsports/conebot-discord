@@ -1,9 +1,11 @@
 const { gantt } = require('../links.json');
 
 module.exports = {
-    name: 'gantt',
+    data: {
+        name: 'gantt',
+        description: 'Overall timeline of vehicle projects'
+    },
     aliases: ['ganttchart', 'timeline'],
-    description: 'Overall timeline of vehicle projects',
     category: 'Car',
     showInHelp: true,
     easteregg: false,

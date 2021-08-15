@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'inspiration',
+    data: {
+        name: 'inspiration',
+        description: 'When you need motivation to get through the day...'
+    },
     aliases: ['inspirationalimage', 'inspirational', 'motivation', 'getmotivated', 'inspire'],
-    description: 'When you need motivation to get through the day...',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'tronaldump',
+    data: {
+        name: 'tronaldump',
+        description: 'Inspirational quotes from Our Great President'
+    },
     aliases: ['tronald', 'dump', 'trump', 'donald', 'donaltrump'],
-    description: 'Inspirational quotes from Our Great President',
     showInHelp: false,
     easteregg: true,
     usage: 'random or [topic]',

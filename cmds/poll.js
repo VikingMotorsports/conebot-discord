@@ -5,8 +5,10 @@ const fs = require('fs');
 const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 
 module.exports = {
-    name: 'poll',
-    description: 'Start a poll with up to 10 options, with results collected after the defined time in minutes',
+    data: {
+        name: 'poll',
+        description: 'Start a poll with up to 10 options, with results collected after the defined time in minutes'
+    },
     category: 'Server Moderation',
     showInHelp: true,
     args: true,

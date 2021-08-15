@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'role',
+    data: {
+        name: 'role',
+        description: 'Commands for adding or removing roles'
+    },
     aliases: ['roles'],
-    description: 'Commands for adding or removing roles',
     category: 'Server Moderation',
     showInHelp: true,
     easteregg: false,

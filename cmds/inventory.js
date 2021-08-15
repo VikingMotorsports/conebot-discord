@@ -2,8 +2,10 @@ const { inventoryDocumentation, inventoryList, inventoryForm, wiresInventory } =
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    name: 'inventory',
-    description: 'Show inventory list, check in/out, and documentation',
+    data: {
+        name: 'inventory',
+        description: 'Show inventory list, check in/out, and documentation'
+    },
     category: 'Team',
     args: false,
     showInHelp: true,

@@ -1,7 +1,9 @@
 module.exports = {
-    name: 'cointoss',
+    data: {
+        name: 'cointoss',
+        description: 'Heads or tails'
+    },
     aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
-    description: 'Heads or tails',
     category: 'Miscellaneous',
     showInHelp: true,
     easteregg: false,

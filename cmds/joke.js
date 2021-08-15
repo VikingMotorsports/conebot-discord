@@ -1,9 +1,11 @@
 const axios = require('axios');
 
 module.exports = {
-    name: 'joke',
+    data: {
+        name: 'joke',
+        description: 'Cheesy programmer jokes'
+    },
     aliases: ['programmerjoke', 'jokes', 'programmerjokes'],
-    description: 'Cheesy programmer jokes',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {

@@ -1,8 +1,11 @@
 const fs = require('fs').promises;
 
 module.exports = {
-    name: 'update',
-    description: 'Update bot parameters',
+    data: {
+        name: 'update',
+        description: 'Update bot parameters',
+        default_permission: false
+    },
     category: 'Server Moderation',
     usage: '<parameter> <new value>',
     args: true,

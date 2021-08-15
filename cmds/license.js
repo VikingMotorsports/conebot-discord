@@ -1,9 +1,11 @@
 const { license } = require('../links.json');
 
 module.exports = {
-    name: 'license',
+    data: {
+        name: 'license',
+        description: 'Form to submit a request for a SolidWorks License Key'
+    },
     aliases: ['licenseRequest', 'licenserequest', 'request', 'solidworks'],
-    description: 'Form to submit a request for a SolidWorks License Key',
     category: 'Team',
     showInHelp: true,
     easteregg: false,

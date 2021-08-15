@@ -1,7 +1,8 @@
-const Discord = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const config = require('./config.json');
-const bot = new Discord.Client({
-    disableEveryone: false
+const bot = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+    allowedMentions: { parse: ['roles', 'everyone', 'users'], repliedUser: true }
 });
 const fs = require('fs');
 const cron = require('node-cron');
@@ -12,7 +13,7 @@ const axios = require('axios');
 const CREDENTIALS_PATH = './credentials.json';
 const TOKEN_PATH = './token.json';
 
-bot.commands = new Discord.Collection();
+bot.commands = new Collection();
 bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
@@ -21,7 +22,7 @@ const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'
 
 for (const file of commandFiles) {
     const command = require(`./cmds/${file}`);
-    bot.commands.set(command.name, command);
+    bot.commands.set(command.data.name, command);
     // console.log(`${command.name} loaded`);
 }
 
@@ -51,6 +52,8 @@ bot.on('ready', async () => {
         type: 'WATCHING'
     }); //* sets what the bot is playing
 
+    bot.channels.cache.get(config.rulesChannel)
+
     //* script for creating an invite link for the bot, uncomment to add bot to another server
     // try {
     //     const invite = await bot.generateInvite(['ADD_REACTIONS', 'SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'CONNECT', 'SPEAK', 'CHANGE_NICKNAME', 'MANAGE_ROLES', 'MANAGE_EMOJIS']);
@@ -61,7 +64,7 @@ bot.on('ready', async () => {
     const reactMessage = await bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // caches reaction message
     reactMessage.react('✅');
 
-    bot.setInterval(async () => {
+    setInterval(async () => {
         for (let i in bot.polls) {
             if (!bot.polls.hasOwnProperty(i)) continue; // filters out built in key-value pairs
             const time = bot.polls[i].time;
@@ -84,8 +87,9 @@ bot.on('ready', async () => {
             }
         }
     }, 30000);
+    // setInterval()
 
-    bot.setInterval(async () => { //* script for refreshing Google Sheets API token
+    setInterval(async () => { //* script for refreshing Google Sheets API token
         // let clientID, clientSecret, refreshToken, currentExpiration;
         const tokenBuffer = await fs.promises.readFile(TOKEN_PATH);
         const tokenContent = JSON.parse(tokenBuffer);
@@ -155,7 +159,7 @@ bot.on('messageReactionRemove', (reaction, user) => {
     }
 });
 
-bot.on('message', async (message) => {
+bot.on('messageCreate', async (message) => {
     bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // keeps welcome message in cache to ensure reactions keep working
     if (message.author.bot) return; //*  ignores messages made by bots
     if (message.channel.type === ('dm' || 'group')) return; //* ignores messages outside of channels
@@ -275,15 +279,21 @@ bot.on('message', async (message) => {
             if (command.args && !args.length) {
                 message.channel.send('You need to provide arguments for that command.');
             } else {
-                command.execute(bot, message, args);
+                const reply = command.execute(bot, message, args);
+                message.channel.send(reply);
             }
         } catch (error) {
             console.error(error);
             message.channel.send('There was an error executing that command.');
-            bot.guilds.cache.first().members.cache.get('197530293597372416').send(`General error:\n\n${error}`);
+            bot.guilds.cache.first().members.cache.get(config.botOwner).send(`General error:\n\n${error}`);
         }
     }
 });
+
+bot.on('interactionCreate', interaction => {
+    if (!bot.commands.has(interaction.commandName)) return;
+    if (interaction.isCommand()) interactionHandler(interaction);
+})
 
 async function findEmoji(emojiName) {
     const emoji = await bot.emojis.cache.find(emote => emote.name === emojiName);
@@ -302,5 +312,14 @@ async function checkRequiredFiles() {
             console.log(`${f} created`);
             continue;
         }
+    }
+}
+
+async function interactionHandler(interaction) {
+    try {
+        await bot.commands.get(interaction.commandName).interact(interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'Error executing command', ephemeral: true });
     }
 }

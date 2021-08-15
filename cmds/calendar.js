@@ -1,9 +1,11 @@
 const { calendar } = require('../links.json');
 
 module.exports = {
-    name: 'calendar',
+    data: {
+        name: 'calendar',
+        description: 'The team\'s Google calendar'
+    },
     aliases: [],
-    description: 'The team\'s Google calendar',
     category: 'Team',
     args: false,
     showInHelp: true,

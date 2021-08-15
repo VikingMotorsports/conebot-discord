@@ -2,9 +2,11 @@ const { prefix } = require('../config.json');
 const fs = require('fs');
 
 module.exports = {
-    name: 'phone',
+    data: {
+        name: 'phone',
+        description: `Stores your phone number and display it upon calling \`${prefix}phone\` by itself`
+    },
     aliases: ['number', 'phonenumber', 'contact'],
-    description: `Stores your phone number and display it upon calling \`${prefix}phone\` by itself`,
     category: 'Team',
     showInHelp: true,
     args: false,

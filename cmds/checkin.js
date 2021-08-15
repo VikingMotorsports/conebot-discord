@@ -1,8 +1,10 @@
 const { checkin } = require('../links.json');
 
 module.exports = {
-    name: 'checkin',
-    description: 'Form to check in to meetings and events',
+    data: {
+        name: 'checkin',
+        description: 'Form to check in to meetings and events',
+    },
     category: 'Meetings/Events',
     showInHelp: true,
     easteregg: false,

@@ -2,9 +2,11 @@ const { prefix } = require('../config.json');
 const fs = require('fs');
 
 module.exports = {
-    name: 'email',
+    data: {
+        name: 'email',
+        description: `Stores your email and display it upon calling \`${prefix}email\` by itself`
+    },
     aliases: ['emails', 'mail'],
-    description: `Stores your email and display it upon calling \`${prefix}email\` by itself`,
     category: 'Team',
     showInHelp: true,
     args: false,

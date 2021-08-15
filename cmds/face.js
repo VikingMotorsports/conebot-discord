@@ -3,9 +3,11 @@ const axios = require('axios');
 const path = require('path');
 
 module.exports = {
-    name: 'face',
+    data: {
+        name: 'face',
+        description: 'Upload or show picture of your face for identifying purposes'
+    },
     aliases: ['faces', 'pp', 'dp', 'profilepicture', 'displaypicture', 'avatar'],
-    description: 'Upload or show picture of your face for identifying purposes',
     category: 'Team',
     showInHelp: true,
     usage: '<@user> or [attachment]',

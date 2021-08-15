@@ -2,9 +2,11 @@ const { prefix } = require('../config.json');
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'help',
+    data: {
+        name: 'help',
+        description: 'List of commands the bot can perform or info about a specific command.'
+    },
     aliases: ['commands'],
-    description: 'List of commands the bot can perform or info about a specific command.',
     usage: '<command name>',
     execute: async (bot, message, args) => {
         if (!args.length) {

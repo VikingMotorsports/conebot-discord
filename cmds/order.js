@@ -1,9 +1,11 @@
 const { order } = require('../links.json');
 
 module.exports = {
-    name: 'order',
+    data: {
+        name: 'order',
+        description: 'Ordering form'
+    },
     aliases: ['buy', 'orderform'],
-    description: 'Ordering form',
     category: 'Purchases',
     showInHelp: true,
     easteregg: false,

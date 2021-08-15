@@ -1,9 +1,11 @@
 const { rulesChannel } = require('../config.json');
 
 module.exports = {
-    name: 'invite',
+    data: {
+        name: 'invite',
+        description: 'Invite link to the VMS Discord server'
+    },
     aliases: ['invitelink'],
-    description: 'Invite link to the VMS Discord server',
     category: 'Server Moderation',
     showInHelp: true,
     execute: async (bot, message, args) => {
