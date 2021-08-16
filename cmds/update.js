@@ -1,11 +1,10 @@
 const fs = require('fs').promises;
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'update',
-        description: 'Update bot parameters',
-        default_permission: false
-    },
+    data: new SlashCommandBuilder()
+        .setName('update')
+        .setDescription('Update bot parameters'),
     category: 'Server Moderation',
     usage: '<parameter> <new value>',
     args: true,

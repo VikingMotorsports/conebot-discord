@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
 const { pollsChannel } = require('../config.json');
 const fs = require('fs');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const reactionsPoll = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 
 module.exports = {
-    data: {
-        name: 'poll',
-        description: 'Start a poll with up to 10 options, with results collected after the defined time in minutes'
-    },
+    data: new SlashCommandBuilder()
+        .setName('poll')
+        .setDescription('Start a poll with up to 10 option, with results collected after the defined time in minutes'),
     category: 'Server Moderation',
     showInHelp: true,
     args: true,

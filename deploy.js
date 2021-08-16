@@ -12,7 +12,13 @@ const commandsPayload = [];
 
 for (const f of slashCommands) {
     const command = require(`./cmds/${f}.js`);
-    commandsPayload.push(command.data);
+    if (f === 'update') {
+        const data = command.data.toJSON();
+        data['default_permission'] = false;
+        commandsPayload.push(data);
+        continue;
+    }
+    commandsPayload.push(command.data.toJSON());
 }
 const linksCommand = require('./cmds/links.js');
 commandsPayload.push(linksCommand.data.toJSON());

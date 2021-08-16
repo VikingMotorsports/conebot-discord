@@ -1,11 +1,11 @@
 const { inventoryDocumentation, inventoryList, inventoryForm, wiresInventory } = require('../links.json');
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'inventory',
-        description: 'Show inventory list, check in/out, and documentation'
-    },
+    data: new SlashCommandBuilder()
+        .setName('inventory')
+        .setDescription('Show inventory list, check in/out, and documentation'),
     category: 'Team',
     args: false,
     showInHelp: true,

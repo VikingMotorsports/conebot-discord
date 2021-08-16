@@ -1,11 +1,11 @@
 const { website, youtube, instagram, facebook } = require('../links.json');
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'socialmedia',
-        description: 'Shows VMS social media links'
-    },
+    data: new SlashCommandBuilder()
+        .setName('socialmedia')
+        .setDescription('Shows VMS social media links'),
     aliases: ['media', 'youtube', 'instagram', 'facebook', 'website', 'site', 'insta', 'yt', 'fb'],
     category: 'Team',
     args: false,

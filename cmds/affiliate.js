@@ -1,17 +1,14 @@
 const { affiliate } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'affiliate',
-        description: 'Tutorial on how to affiliate yourself with the team on sae.org',
-    },
+    data: new SlashCommandBuilder()
+        .setName('affiliate')
+        .setDescription('Tutorial on how to affiliate yourself with the team on sae.org'),
     category: 'Team',
     showInHelp: true,
     easteregg: false,
     execute: async (bot, message, args) => {
         return affiliate;
-    },
-    interact: async interaction => {
-        interaction.reply(affiliate);
     }
 }

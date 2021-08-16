@@ -1,11 +1,11 @@
 const { prefix } = require('../config.json');
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'help',
-        description: 'List of commands the bot can perform or info about a specific command.'
-    },
+    data: new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('List of commands the bot can perform or info about a specific command'),
     aliases: ['commands'],
     usage: '<command name>',
     execute: async (bot, message, args) => {

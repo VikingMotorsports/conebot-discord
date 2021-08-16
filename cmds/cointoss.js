@@ -1,8 +1,9 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
 module.exports = {
-    data: {
-        name: 'cointoss',
-        description: 'Heads or tails'
-    },
+    data: new SlashCommandBuilder()
+        .setName('cointoss')
+        .setDescription('Heads or tails'),
     aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
     category: 'Miscellaneous',
     showInHelp: true,

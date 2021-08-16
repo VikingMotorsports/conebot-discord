@@ -1,11 +1,11 @@
 const { prefix } = require('../config.json');
 const fs = require('fs');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'email',
-        description: `Stores your email and display it upon calling \`${prefix}email\` by itself`
-    },
+    data: new SlashCommandBuilder()
+        .setName('email')
+        .setDescription('Stores your email and display it upon calling the command by itself'),
     aliases: ['emails', 'mail'],
     category: 'Team',
     showInHelp: true,

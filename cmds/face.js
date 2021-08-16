@@ -1,12 +1,12 @@
 const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'face',
-        description: 'Upload or show picture of your face for identifying purposes'
-    },
+    data: new SlashCommandBuilder()
+        .setName('face')
+        .setDescription('Upload or show picture of your face for identifying purposes'),
     aliases: ['faces', 'pp', 'dp', 'profilepicture', 'displaypicture', 'avatar'],
     category: 'Team',
     showInHelp: true,

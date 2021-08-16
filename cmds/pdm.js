@@ -1,10 +1,10 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'pdm',
-        description: 'How to get up and running with PDM'
-    },
+    data: new SlashCommandBuilder()
+        .setName('pdm')
+        .setDescription('How to get up and running with PDM'),
     category: 'Team',
     args: false,
     showInHelp: true,

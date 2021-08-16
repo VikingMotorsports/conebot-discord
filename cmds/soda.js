@@ -1,11 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'soda',
-        description: 'Keep track of soda intake and leaderboard'
-    },
+    data: new SlashCommandBuilder()
+        .setName('soda')
+        .setDescription('Keep track of soda intake and leaderboard'),
     aliases: ['sodatracker', 'drink'],
     category: 'Miscellaneous',
     showInHelp: true,

@@ -1,11 +1,11 @@
 const { prefix } = require('../config.json');
 const fs = require('fs');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'phone',
-        description: `Stores your phone number and display it upon calling \`${prefix}phone\` by itself`
-    },
+    data: new SlashCommandBuilder()
+        .setName('phone')
+        .setDescription('Stores your phone number and display it upon calling the command by itself'),
     aliases: ['number', 'phonenumber', 'contact'],
     category: 'Team',
     showInHelp: true,

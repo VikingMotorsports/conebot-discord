@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'tutorials',
-        description: 'List of links to tutorials'
-    },
+    data: new SlashCommandBuilder()
+        .setName('tutorials')
+        .setDescription('List of links to tutorials'),
     aliases: ['tutorial'],
     category: 'Miscellaneous',
     showInHelp: true,

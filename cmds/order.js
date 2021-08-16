@@ -1,10 +1,10 @@
 const { order } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'order',
-        description: 'Ordering form'
-    },
+    data: new SlashCommandBuilder()
+        .setName('order')
+        .setDescription('Ordering form'),
     aliases: ['buy', 'orderform'],
     category: 'Purchases',
     showInHelp: true,

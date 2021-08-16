@@ -5,12 +5,12 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = './token.json';
 const Discord = require('discord.js');
 const { spreadsheetId } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'po',
-        description: 'Check on the status of a purchase through a PO # lookup'
-    },
+    data: new SlashCommandBuilder()
+        .setName('po')
+        .setDescription('Check on the status of a purchase through a PO # lookup'),
     aliases: ['orderinfo', 'status'],
     category: 'Purchases',
     showInHelp: true,

@@ -1,11 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 const { liability, photoRelease } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'waiver',
-        description: 'Links to VMS liability waivers'
-    },
+    data: new SlashCommandBuilder()
+        .setName('waiver')
+        .setDescription('Links to VMS liability waivers'),
     aliases: ['liability', 'release', 'waivers'],
     category: 'Team',
     args: false,

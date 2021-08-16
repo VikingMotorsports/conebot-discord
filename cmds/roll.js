@@ -1,8 +1,9 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
 module.exports = {
-    data: {
-        name: 'roll',
-        description: 'Roll XdY dice, where X is number of dice and Y is type of dice'
-    },
+    data: new SlashCommandBuilder()
+        .setName('roll')
+        .setDescription('Roll XdY dice where X is number of dice and Y is type of dice'),
     aliases: ['rolldice', 'diceroll', 'dice'],
     category: 'Miscellaneous',
     showInHelp: true,

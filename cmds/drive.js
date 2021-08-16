@@ -1,10 +1,11 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
 const { drive } = require('../links.json');
 
 module.exports = {
-    data: {
-        name: 'drive',
-        description: 'Main Google Drive folder'
-    },
+    data: new SlashCommandBuilder()
+        .setName('drive')
+        .setDescription('Main Google Drive folder'),
     aliases: ['googledrive'],
     category: 'Team',
     showInHelp: true,

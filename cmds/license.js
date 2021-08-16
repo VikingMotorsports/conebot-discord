@@ -1,10 +1,10 @@
 const { license } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'license',
-        description: 'Form to submit a request for a SolidWorks License Key'
-    },
+    data: new SlashCommandBuilder()
+        .setName('license')
+        .setDescription('Form to submit a request for a Solidworks license key'),
     aliases: ['licenseRequest', 'licenserequest', 'request', 'solidworks'],
     category: 'Team',
     showInHelp: true,

@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'stash',
-        description: 'VMS stash directory'
-    },
+    data: new SlashCommandBuilder()
+        .setName('stash')
+        .setDescription('VMS stash directory'),
     category: 'Team',
     showInHelp: true,
     easteregg: false,

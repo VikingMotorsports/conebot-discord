@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'role',
-        description: 'Commands for adding or removing roles'
-    },
+    data: new SlashCommandBuilder()
+        .setName('role')
+        .setDescription('Add or remove your roles on the server'),
     aliases: ['roles'],
     category: 'Server Moderation',
     showInHelp: true,

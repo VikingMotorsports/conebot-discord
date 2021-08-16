@@ -1,10 +1,10 @@
 const { checkin } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    data: {
-        name: 'checkin',
-        description: 'Form to check in to meetings and events',
-    },
+    data: new SlashCommandBuilder()
+        .setName('checking')
+        .setDescription('Form to check in to meetings and events'),
     category: 'Meetings/Events',
     showInHelp: true,
     easteregg: false,
