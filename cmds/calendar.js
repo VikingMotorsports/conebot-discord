@@ -1,14 +1,17 @@
 const { calendar } = require('../links.json');
 
 module.exports = {
-    name: 'calendar',
+    data: {
+        name: 'calendar',
+        description: 'The team\'s Google calendar'
+    },
     aliases: [],
-    description: 'The team\'s Google calendar',
     category: 'Team',
     args: false,
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(calendar);
+        return calendar;
     }
 }

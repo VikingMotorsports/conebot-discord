@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'bored',
+    data: {
+        name: 'bored',
+        description: 'Find something to do'
+    },
     aliases: ['activity', 'newactivity'],
-    description: 'Find something to do',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
@@ -43,7 +45,7 @@ module.exports = {
                 .addField('Difficulty', difficulty)
                 .addField('Price', price);
 
-            message.channel.send(embed);
+            return { embeds: [embed] }
         } catch (error) {
             console.error(error);
         }

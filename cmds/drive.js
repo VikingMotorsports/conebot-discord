@@ -1,13 +1,19 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { drive } = require('../links.json');
 
 module.exports = {
-    name: 'drive',
+    data: new SlashCommandBuilder()
+        .setName('drive')
+        .setDescription('Main Google Drive folder'),
     aliases: ['googledrive'],
-    description: 'Main Google Drive folder',
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(drive);
+        return drive;
+    },
+    interact: async (interaction) => {
+        interaction.reply(drive);
     }
 }

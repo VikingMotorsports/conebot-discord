@@ -1,14 +1,20 @@
 const { order } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'order',
+    data: new SlashCommandBuilder()
+        .setName('order')
+        .setDescription('Ordering form'),
     aliases: ['buy', 'orderform'],
-    description: 'Ordering form',
     category: 'Purchases',
     showInHelp: true,
     easteregg: false,
     args: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(order);
+        return order;
+    },
+    interact: async (interaction) => {
+        interaction.reply(order);
     }
 }

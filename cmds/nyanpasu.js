@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'nyanpasu',
+    data: {
+        name: 'nyanpasu',
+        description: 'Nyanpasu~'
+    },
     aliases: ['nyanpass'],
-    description: 'Nyanpasu~',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
@@ -29,7 +31,8 @@ module.exports = {
                 .setDescription(response.data.cnt)
                 .setFooter('http://nyanpass.com');
 
-            message.channel.send(embed);
+            // message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }

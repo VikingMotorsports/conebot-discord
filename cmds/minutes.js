@@ -1,13 +1,16 @@
 const { minutes } = require('../links.json');
 
 module.exports = {
-    name: 'minutes',
+    data: {
+        name: 'minutes',
+        description: 'General meeting minutes'
+    },
     aliases: ['minute', 'meetingminutes'],
-    description: 'General meeting minutes',
     category: 'Meetings/Events',
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(minutes);
+        return minutes;
     }
 }

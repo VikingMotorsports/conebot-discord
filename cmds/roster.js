@@ -1,14 +1,17 @@
 const { roster } = require('../links.json');
 
 module.exports = {
-    name: 'roster',
+    data: {
+        name: 'roster',
+        description: 'Team roster spreadsheet'
+    },
     aliases: ['members'],
-    description: 'Team roster spreadsheet',
     category: 'Team',
     showInHelp: true,
     easteregg: false,
     args: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(roster);
+        return roster;
     }
 }

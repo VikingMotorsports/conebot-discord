@@ -1,13 +1,16 @@
 const { library } = require('../links.json');
 
 module.exports = {
-    name: 'library',
+    data: {
+        name: 'library',
+        description: 'Reference documents folder'
+    },
     aliases: ['lightreading', 'read', 'documents', 'reference'],
-    description: 'Reference documents folder',
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(library);
+        return library;
     }
 }

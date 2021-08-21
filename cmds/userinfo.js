@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'userinfo',
+    data: {
+        name: 'userinfo',
+        description: 'VMS stash directory'
+    },
     aliases: ['user', 'avatar', 'username'],
-    description: 'VMS stash directory',
     showInHelp: false,
     easteregg: true,
     usage: '<@user>',
@@ -21,7 +23,7 @@ module.exports = {
                 .addField('Discriminator', discriminator)
                 .addField('ID', id);
             console.log(avatar);
-            return message.channel.send(userEmbed);
+            return { embeds: [userEmbed] }
         }
         const userList = message.mentions.users.map(user => {
             const userEmbed = new Discord.MessageEmbed()
@@ -32,7 +34,7 @@ module.exports = {
                 .addField('Discriminator', user.discriminator)
                 .addField('ID', user.id);
 
-            return message.channel.send(userEmbed);
+            return { embeds: [userEmbed] }
         });
     }
 }

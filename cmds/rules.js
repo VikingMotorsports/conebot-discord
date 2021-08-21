@@ -1,12 +1,15 @@
 const { rules } = require('../links.json');
 
 module.exports = {
-    name: 'rules',
-    description: 'Link to FSAE rule book',
+    data: {
+        name: 'rules',
+        description: 'Link to FSAE rule book'
+    },
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(rules);
+        return rules;
     }
 }

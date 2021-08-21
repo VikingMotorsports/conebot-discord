@@ -1,13 +1,19 @@
 const { license } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'license',
+    data: new SlashCommandBuilder()
+        .setName('license')
+        .setDescription('Form to submit a request for a Solidworks license key'),
     aliases: ['licenseRequest', 'licenserequest', 'request', 'solidworks'],
-    description: 'Form to submit a request for a SolidWorks License Key',
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(license);
+        return license
+    },
+    interact: async (interaction) => {
+        interaction.reply(license);
     }
 }

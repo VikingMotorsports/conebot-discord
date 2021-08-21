@@ -1,6 +1,8 @@
 module.exports = {
-    name: 'vaporwave',
-    description: 'Converts text to vaporwave',
+    data: {
+        name: 'vaporwave',
+        description: 'Converts text to vaporwave'
+    },
     showInHelp: false,
     easteregg: true,
     usage: '<string>',
@@ -98,6 +100,6 @@ module.exports = {
                 '~': '～'
             } [m];
         });
-        message.channel.send(vaporWave);
+        return vaporWave
     }
 }

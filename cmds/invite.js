@@ -1,14 +1,24 @@
 const { rulesChannel } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'invite',
+    data: new SlashCommandBuilder()
+        .setName('invite')
+        .setDescription('Return invite link to the VMS Discord server'),
     aliases: ['invitelink'],
-    description: 'Invite link to the VMS Discord server',
     category: 'Server Moderation',
     showInHelp: true,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        const invites = await bot.channels.cache.get(rulesChannel).fetchInvites();
-        const inviteURL = invites.first().url;
-        message.channel.send(`Invite members to this server using this link:\n${inviteURL}`);
+        return await getInviteLink(bot);
+    },
+    interact: async (interaction) => {
+        interaction.reply(await getInviteLink(interaction.client));
     }
+}
+
+async function getInviteLink(client) {
+    const invites = await client.channels.cache.get(rulesChannel).fetchInvites();
+    const inviteUrl = invites.first().url;
+    return `Invite members to this server using this link:\n${inviteUrl}`;
 }

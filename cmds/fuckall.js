@@ -2,9 +2,11 @@ const Discord = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-    name: 'fuckall',
+    data: {
+        name: 'fuckall',
+        description: 'When you wanna curse the whole world'
+    },
     aliases: ['fuckeverything', 'fuckyouall'],
-    description: 'When you wanna curse the whole world',
     showInHelp: false,
     easteregg: true,
     execute: async (bot, message, args) => {
@@ -28,7 +30,8 @@ module.exports = {
                 .setDescription(payload.message)
                 .setFooter(payload.subtitle);
 
-            message.channel.send(embed);
+            // message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }
