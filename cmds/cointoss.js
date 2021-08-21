@@ -8,12 +8,17 @@ module.exports = {
     category: 'Miscellaneous',
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        let chance = Math.ceil(Math.random() * 2);
-        if (chance == 1) {
-            message.channel.send('Heads');
-        } else if (chance == 2) {
-            message.channel.send('Tails');
-        }
+        return await headsOrTails();
+    },
+    interact: async (interaction) => {
+        interaction.reply(await headsOrTails());
     }
+}
+
+async function headsOrTails() {
+    const chance = Math.floor(Math.random() * 2);
+    if (chance === 0) return 'Heads';
+    if (chance === 1) return 'Tails';
 }

@@ -1,59 +1,77 @@
-const { prefix } = require('../config.json');
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('email')
-        .setDescription('Stores your email and display it upon calling the command by itself'),
+        .setDescription('Stores your email and display it upon calling the command by itself')
+        .addUserOption(option =>
+            option.setName('user')
+            .setDescription('Get email of user')
+            .setRequired(false))
+        .addStringOption(option =>
+            option.setName('store')
+            .setDescription('Input your email to store to the database')
+            .setRequired(false)),
     aliases: ['emails', 'mail'],
     category: 'Team',
     showInHelp: true,
     args: false,
     usage: '<email address> or @username',
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
         let json = await fs.promises.readFile('./emails.json');
         let emails = JSON.parse(json);
         if (!args.length) {
-            const name = (!message.member.nickname) ? message.author.username : message.member.nickname;
-            const email = emails[message.author.id];
-            if (!email) return message.channel.send(`No email found for ${name}.`);
-            message.channel.send(`${name}'s email address: ${email}`);
-            return
+            return await findEmail(message.member);
         }
 
         if (message.mentions.users.size > 0) {
-            const userIDs = [];
-            const userNames = [];
-            message.mentions.members.map(u => {
-                const name = (!u.nickname) ? u.user.username : u.nickname;
-                const id = u.id;
-                userIDs.push(id);
-                userNames.push(name);
-            });
-
-            let reply = '';
-            for (const [i, v] of userIDs.entries()) {
-                if (!emails[v]) {
-                    reply += `No email found for ${userNames[i]}.\n`;
-                    continue;
-                }
-                reply += `${userNames[i]}'s email address: ${emails[v]}\n`;
-            }
-
-            return message.channel.send(reply);
+            const user = message.mentions.members.first();
+            return await findEmail(user);
         }
 
         if (args.length && args[0].match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/)) {
-            emails[message.author.id] = args[0];
-            fs.writeFile('./emails.json', JSON.stringify(emails, null, '\t'), err => {
-                if (err) console.error(err);
-                message.channel.send('Email saved.');
-            });
-            return;
-        } else {
-            return message.channel.send('Please input a valid email address.');
+            return await (storeEmail(message.author, args[0]))
         }
+    },
+    interact: async (interaction) => {
+        const mentionedUser = interaction.options.getMember('user');
+        const email = interaction.options.getString('store');
+
+        if (!mentionedUser && !email) interaction.reply(await findEmail(interaction.member))
+        if (mentionedUser !== null) interaction.reply(await findEmail(mentionedUser));
+        if (email !== null) interaction.reply(await storeEmail(interaction.user, email));
     }
+}
+
+/**
+ * 
+ * @param {Object} user user collection from discord
+ * @returns reply object
+ */
+async function findEmail(user) {
+    const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
+    const name = (!user.nickname) ? user.user.username : user.nickname;
+    const email = emails[user.id];
+
+    if (!email) return `No email found for ${name}.`;
+    return `${name}'s email address: ${email}`;
+}
+
+/**
+ * 
+ * @param {Object} user user collection from discord
+ * @param {string} email email string to store
+ * @returns reply object
+ */
+async function storeEmail(user, email) {
+    const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
+    if (!email.match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/)) return { content: 'Please input a valid email address.', ephemeral: true };
+
+    emails[user.id] = email;
+    fs.writeFile('./emails.json', JSON.stringify(emails, null, '\t'), err => { if (err) console.error(err) });
+
+    return { content: 'Email saved.', ephemeral: true };
 }

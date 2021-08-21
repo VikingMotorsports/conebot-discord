@@ -10,7 +10,11 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     args: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(order);
+        return order;
+    },
+    interact: async (interaction) => {
+        interaction.reply(order);
     }
 }

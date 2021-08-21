@@ -10,7 +10,8 @@ module.exports = {
     args: false,
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(calendar);
+        return calendar;
     }
 }

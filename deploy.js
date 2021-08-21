@@ -1,27 +1,45 @@
 const { token, clientID, guildID } = require('./config.json');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { writeFile } = require('fs');
+const { writeFile, readdirSync } = require('fs');
 // const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const slashCommands = ['help', 'bonk', 'checkin', 'cointoss', 'drive', 'email', 'face', 'inventory', 'invite', 'license', 'order', 'pdm', 'phone', 'po', 'poll', 'role', 'roll', 'socialmedia', 'soda', 'stash', 'tutorials', 'update', 'waiver'];
-// const linkCommands = ['affiliate', 'calendar', 'car', 'designlog', 'gannt', 'handbook', 'inventory', 'library', 'minutes', 'msds', 'purchases', 'roster', 'rules'];
-// const linkCommand = 
-
+// const slashCommands = ['help', 'bonk', 'checkin', 'cointoss', 'drive', 'email', 'inventory', 'invite', 'license', 'order', 'pdm', 'phone', 'poll', 'role', 'roll', 'socialmedia', 'soda', 'stash', 'tutorials', 'update', 'waiver'];
 const commandsPayload = [];
+const commandFiles = readdirSync('./cmds').filter(file => file.endsWith('.js'));
 
-for (const f of slashCommands) {
-    const command = require(`./cmds/${f}.js`);
-    if (f === 'update') {
+// for (const f of slashCommands) {
+//     const command = require(`./cmds/${f}.js`);
+//     if (f === 'update') {
+//         const data = command.data.toJSON();
+//         data['default_permission'] = false;
+//         commandsPayload.push(data);
+//         continue;
+//     }
+//     commandsPayload.push(command.data.toJSON());
+// }
+// const linksCommand = require('./cmds/links.js');
+
+for (const f of commandFiles) {
+    const command = require(`./cmds/${f}`);
+    if (command.data.name === 'update') {
         const data = command.data.toJSON();
         data['default_permission'] = false;
         commandsPayload.push(data);
-        continue;
+        continue
     }
-    commandsPayload.push(command.data.toJSON());
+    if (command.isSlashCommand) commandsPayload.push(command.data.toJSON());
 }
-const linksCommand = require('./cmds/links.js');
-commandsPayload.push(linksCommand.data.toJSON());
+// commandsPayload.push(linksCommand.data.toJSON());
+const emailContextMenu = {
+    "name": "Get Email Address",
+    "type": 2
+}
+const phoneContextMenu = {
+    "name": "Get Phone Number",
+    "type": 2
+}
+commandsPayload.push(emailContextMenu, phoneContextMenu);
 
 const rest = new REST({ version: '9' }).setToken(token);
 
@@ -37,5 +55,3 @@ const rest = new REST({ version: '9' }).setToken(token);
         console.error(error);
     }
 })();
-
-// const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });

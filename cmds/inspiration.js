@@ -17,7 +17,8 @@ module.exports = {
                 .setImage(response.data)
                 .setFooter('Generated from InspiroBot');
 
-            message.channel.send(embed);
+            // message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }

@@ -45,7 +45,7 @@ module.exports = {
                 .addField('Difficulty', difficulty)
                 .addField('Price', price);
 
-            message.channel.send(embed);
+            return { embeds: [embed] }
         } catch (error) {
             console.error(error);
         }

@@ -18,7 +18,7 @@ module.exports = {
     usage: '<po number>',
     easteregg: false,
     execute: async (bot, message, args) => {
-        const searchingMsg = await message.channel.send('Searching...');
+        // const searchingMsg = await message.channel.send('Searching...');
         fs.readFile('./credentials.json', (err, content) => {
             if (err) return console.log('Error loading secret: ', err);
             authorize(JSON.parse(content), readSheet);
@@ -71,18 +71,19 @@ module.exports = {
             }, (err, res) => {
                 if (err) {
                     console.log(`API error: ${err}`);
-                    return message.channel.send('API error. Contact server developers for help.');
+                    // return message.channel.send('API error. Contact server developers for help.');
+                    return 'API error. Contact leadership or IT manager for help.';
                 }
                 const rows = res.data.values;
                 if (rows.length) {
-                    if (args.length > 1) return message.channel.send('Use your PO # to look up the order status. You can only look up one order at a time.');
+                    if (args.length > 1) return 'Use your PO # to look up the order status. You can only look up one order at a time.';
                     const poNum = rows.map(p => p[0]);
                     const lookup = poNum.indexOf(args[0]);
 
                     if (lookup == -1) {
-                        message.channel.send('No order with that PO # found.');
-                        searchingMsg.delete();
-                        return;
+                        return 'No order with that PO # found.';
+                        // searchingMsg.delete();
+                        // return;
                     }
 
                     const status = rows[lookup][10];
@@ -110,12 +111,17 @@ module.exports = {
                         .addField('Tracking Number', tracking)
                         .addField('Item Link', link);
 
-                    message.channel.send(embed);
-                    searchingMsg.delete();
+                    // message.channel.send(embed);
+                    return { embeds: [embed] };
+                    // searchingMsg.delete();
                 } else {
                     console.log('No data');
                 }
             });
         }
     }
+}
+
+function lookUp() {
+
 }

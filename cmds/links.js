@@ -24,6 +24,9 @@ module.exports = {
                 ['Current Rule Book', 'rules']
             ])
         ),
+    showInHelp: true,
+    category: 'Team',
+    isSlashCommand: true,
     interact: async (interaction) => {
         const requestedLink = interaction.options.getString('item');
         const linkString = links[requestedLink];

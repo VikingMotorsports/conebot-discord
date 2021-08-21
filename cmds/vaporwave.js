@@ -100,6 +100,6 @@ module.exports = {
                 '~': '～'
             } [m];
         });
-        message.channel.send(vaporWave);
+        return vaporWave
     }
 }

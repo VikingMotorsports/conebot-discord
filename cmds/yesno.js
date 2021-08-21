@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
@@ -12,11 +12,11 @@ module.exports = {
     execute: async (bot, message, args) => {
         try {
             const res = await axios.get('https://yesno.wtf/api');
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setTitle(res.data.answer.capitalize())
                 .setImage(res.data.image);
 
-            message.channel.send(embed);
+            return { embeds: [embed] }
         } catch (error) {
             console.error(error);
         }

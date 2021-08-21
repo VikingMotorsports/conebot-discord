@@ -28,7 +28,7 @@ module.exports = {
                     .addField('Source', res.data._embedded.source[0].url)
                     .setFooter('Powered by https://tronalddump.io/')
 
-                message.channel.send(embed);
+                return { embeds: [embed] }
             } catch (error) {
                 console.error(error);
             }
@@ -62,7 +62,7 @@ module.exports = {
                         .addField('Source', source)
                         .setFooter('Powered by https://www.tronalddump.io/');
 
-                    message.channel.send(embed);
+                    return { embeds: [embed] }
                 }
             } catch (error) {
                 console.error(error);

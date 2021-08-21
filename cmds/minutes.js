@@ -9,7 +9,8 @@ module.exports = {
     category: 'Meetings/Events',
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(minutes);
+        return minutes;
     }
 }

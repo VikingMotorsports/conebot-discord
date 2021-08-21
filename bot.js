@@ -1,4 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
+const { codeBlock } = require('@discordjs/builders')
 const config = require('./config.json');
 const bot = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
@@ -14,16 +15,16 @@ const CREDENTIALS_PATH = './credentials.json';
 const TOKEN_PATH = './token.json';
 
 bot.commands = new Collection();
-bot.polls = require('./polls.json');
+// bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
+const commandCache = require('./slashCommands.json')
 
 // checkRequiredFiles();
 
 for (const file of commandFiles) {
     const command = require(`./cmds/${file}`);
     bot.commands.set(command.data.name, command);
-    // console.log(`${command.name} loaded`);
 }
 
 bot.login(config.token);
@@ -63,31 +64,30 @@ bot.on('ready', async () => {
     // }
     const reactMessage = await bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // caches reaction message
     reactMessage.react('✅');
+    await setCommandPermissions()
 
     setInterval(async () => {
-        for (let i in bot.polls) {
-            if (!bot.polls.hasOwnProperty(i)) continue; // filters out built in key-value pairs
-            const time = bot.polls[i].time;
+        const pollData = JSON.parse(fs.readFileSync('./polls.json', 'utf-8'));
+        for (let i in pollData) {
+            if (!pollData.hasOwnProperty(i)) continue; // filters out built in key-value pairs
+            const time = pollData[i].time;
 
             if (Date.now() > time) {
                 try {
-                    const question = bot.polls[i].question;
-                    const message = await bot.channels.cache.get(config.pollsChannel).messages.fetch(i);
-                    const options = bot.polls[i].options;
-                    bot.commands.get('poll').result(bot, message, question, options);
-                    delete bot.polls[i];
+                    const question = pollData[i].question;
+                    const votes = pollData[i].votes;
+                    bot.commands.get('poll').result(bot, question, votes);
+                    delete pollData[i];
 
-                    fs.writeFile('./polls.json', JSON.stringify(bot.polls, null, '\t'), err => {
+                    fs.writeFile('./polls.json', JSON.stringify(pollData, null, '\t'), err => {
                         if (err) return console.error(err);
                     });
                 } catch (error) {
                     console.error(error)
                 }
-
             }
         }
     }, 30000);
-    // setInterval()
 
     setInterval(async () => { //* script for refreshing Google Sheets API token
         // let clientID, clientSecret, refreshToken, currentExpiration;
@@ -182,14 +182,16 @@ bot.on('messageCreate', async (message) => {
     }
     if (message.content.toLowerCase().includes('good night') || message.content.toLowerCase().includes('gnight') || message.content.toLowerCase().includes('good morning') || message.content.toLowerCase().includes('good afternoon')) {
         try {
-            bot.commands.get('greeting').execute(bot, message, args);
+            const reply = await bot.commands.get('greeting').execute(bot, message, args);
+            message.channel.send(reply);
         } catch (error) {
             console.error(error);
         }
     }
     if (message.content.toLowerCase().includes('heads or tails')) {
         try {
-            bot.commands.get('cointoss').execute(bot, message, args);
+            const reply = await bot.commands.get('cointoss').execute(bot, message, args);
+            message.channel.send(reply);
         } catch (error) {
             console.error(error);
         }
@@ -279,7 +281,7 @@ bot.on('messageCreate', async (message) => {
             if (command.args && !args.length) {
                 message.channel.send('You need to provide arguments for that command.');
             } else {
-                const reply = command.execute(bot, message, args);
+                const reply = await command.execute(bot, message, args);
                 message.channel.send(reply);
             }
         } catch (error) {
@@ -291,9 +293,20 @@ bot.on('messageCreate', async (message) => {
 });
 
 bot.on('interactionCreate', interaction => {
-    if (!bot.commands.has(interaction.commandName)) return;
-    if (interaction.isCommand()) interactionHandler(interaction);
-})
+    if (interaction.isCommand() && bot.commands.has(interaction.commandName)) commandInteractionHandler(interaction);
+    if (interaction.isSelectMenu() && interaction.customId === 'poll-options') pollSelectMenuHandler(interaction);
+    if (interaction.isButton() && interaction.customId === 'join') joinButtonHandler(interaction);
+    if (interaction.isContextMenu()) {
+        if (interaction.commandName === 'Get Email Address') {
+            try {
+                bot.commands.get('email').interact(interaction);
+            } catch (error) {
+                console.error(error)
+                if (!interaction.replied) interaction.reply({ content: `Error executing command:\n${codeBlock(error)}`, ephemeral: true })
+            }
+        } else interaction.reply({ content: 'Error executing command', ephemeral: true })
+    }
+});
 
 async function findEmoji(emojiName) {
     const emoji = await bot.emojis.cache.find(emote => emote.name === emojiName);
@@ -315,11 +328,50 @@ async function checkRequiredFiles() {
     }
 }
 
-async function interactionHandler(interaction) {
+async function commandInteractionHandler(interaction) {
     try {
         await bot.commands.get(interaction.commandName).interact(interaction);
     } catch (error) {
         console.error(error);
-        await interaction.reply({ content: 'Error executing command', ephemeral: true });
+        if (!interaction.replied) await interaction.reply({ content: 'Error executing command', ephemeral: true });
     }
+}
+
+async function pollSelectMenuHandler(interaction) {
+    const option = interaction.values;
+    const messageId = interaction.message.id;
+    const user = interaction.user.id;
+    try {
+        const reply = await bot.commands.get('poll').cast(messageId, option, user);
+        interaction.reply(reply);
+    } catch (error) {
+        console.error(error);
+        if (!interaction.replied) await interaction.reply({ content: `Error executing command:\n${codeBlock('js', error)}`, ephemeral: true })
+    }
+}
+
+async function joinButtonHandler(interaction) {
+    try {
+        const isMember = interaction.member.roles.cache.find(r => r.name === 'Member');
+        if (isMember) return interaction.reply({ content: 'You are already a member.', ephemeral: true })
+        const role = interaction.guild.roles.cache.find(r => r.name === 'Member');
+        interaction.member.roles.add(role);
+        interaction.reply({ content: 'You are now a Viking Motorsports member. Welcome!', ephemeral: true });
+    } catch (error) {
+        console.error(error)
+        if (!interaction.replied) await interaction.reply({ content: `Error executing command:\n${codeBlock('js', error)}`, ephemeral: true })
+    }
+}
+
+async function setCommandPermissions() {
+    bot.application.fetch()
+    const index = commandCache.map(c => c.name).indexOf('update')
+    if (index === -1) return;
+    const updateCommand = await bot.guilds.cache.get(config.guildID).commands.fetch(commandCache[index].id)
+    const permissions = [{
+        id: config.leadershipRoleId,
+        type: 'ROLE',
+        permission: true
+    }]
+    await updateCommand.permissions.add({ permissions })
 }

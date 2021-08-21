@@ -10,7 +10,8 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     args: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(roster);
+        return roster;
     }
 }

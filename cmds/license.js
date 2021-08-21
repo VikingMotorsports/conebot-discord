@@ -9,7 +9,11 @@ module.exports = {
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(license);
+        return license
+    },
+    interact: async (interaction) => {
+        interaction.reply(license);
     }
 }

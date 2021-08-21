@@ -9,7 +9,8 @@ module.exports = {
     category: 'Car',
     showInHelp: true,
     easteregg: false,
+    throughLinksCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(designlog);
+        return designlog;
     }
 }

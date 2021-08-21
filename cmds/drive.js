@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-
 const { drive } = require('../links.json');
 
 module.exports = {
@@ -10,7 +9,11 @@ module.exports = {
     category: 'Team',
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        message.channel.send(drive);
+        return drive;
+    },
+    interact: async (interaction) => {
+        interaction.reply(drive);
     }
 }

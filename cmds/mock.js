@@ -23,6 +23,6 @@ module.exports = {
 
         newText += `" <@${message.author.id}>`;
 
-        message.channel.send(newText);
+        return newText;
     }
 }

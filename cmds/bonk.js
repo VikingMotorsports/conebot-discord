@@ -19,6 +19,7 @@ module.exports = {
     args: true,
     showInHelp: false,
     easteregg: true,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
         const data = await fs.promises.readFile('./bonk.json')
         const json = JSON.parse(data);
@@ -26,25 +27,6 @@ module.exports = {
 
         if (args[0] === 'leaderboard') {
             return await showLeaderboard();
-            // if (!json.length) return message.channel.send('No bonks yet. Surprising.');
-
-            // const sorted = json.slice(0).sort((a, b) => {
-            //     return b.bonk - a.bonk;
-            // });
-
-            // let leaderboard = [];
-
-            // for (b of sorted) {
-            //     leaderboard.push(`${b.name} - ${b.bonk}`);
-            // }
-
-            // const total = sorted.map(s => s.bonk).reduce((a, b) => a + b);
-
-            // const embed = new Discord.MessageEmbed().setTitle(`Bonk'd Hall of Shame`).setColor('#96031A')
-            //     .setDescription(leaderboard.join('\n'))
-            //     .setFooter(`Total bonks: ${total}`);
-
-            // message.channel.send(embed);
         }
         if (message.mentions.users.size > 0) {
             const userIDs = [];

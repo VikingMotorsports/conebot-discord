@@ -23,7 +23,7 @@ module.exports = {
                 .addField('Discriminator', discriminator)
                 .addField('ID', id);
             console.log(avatar);
-            return message.channel.send(userEmbed);
+            return { embeds: [userEmbed] }
         }
         const userList = message.mentions.users.map(user => {
             const userEmbed = new Discord.MessageEmbed()
@@ -34,7 +34,7 @@ module.exports = {
                 .addField('Discriminator', user.discriminator)
                 .addField('ID', user.id);
 
-            return message.channel.send(userEmbed);
+            return { embeds: [userEmbed] }
         });
     }
 }

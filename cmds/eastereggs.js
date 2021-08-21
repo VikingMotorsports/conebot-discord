@@ -22,6 +22,6 @@ module.exports = {
             .setColor('#96031A')
             .setDescription(EE.join('\n'));
 
-        message.channel.send(embed);
+        return { embeds: [embed] };
     }
 }

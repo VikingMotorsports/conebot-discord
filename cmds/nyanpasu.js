@@ -31,7 +31,8 @@ module.exports = {
                 .setDescription(response.data.cnt)
                 .setFooter('http://nyanpass.com');
 
-            message.channel.send(embed);
+            // message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }

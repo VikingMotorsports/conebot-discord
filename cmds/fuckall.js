@@ -30,7 +30,8 @@ module.exports = {
                 .setDescription(payload.message)
                 .setFooter(payload.subtitle);
 
-            message.channel.send(embed);
+            // message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }

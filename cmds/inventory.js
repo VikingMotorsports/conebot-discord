@@ -10,14 +10,22 @@ module.exports = {
     args: false,
     showInHelp: true,
     easteregg: false,
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
-        const embed = new MessageEmbed().setTitle('VMS Inventory').setColor('#004426')
-            .setDescription('Please read the documentation before using the check in/out form.')
-            .addField('Documentation', inventoryDocumentation)
-            .addField('List', inventoryList)
-            .addField('Cable Inventory', wiresInventory)
-            .addField('Check in/out', inventoryForm);
-
-        message.channel.send(embed);
+        return await embedBuilder();
+    },
+    interact: async (interaction) => {
+        interaction.reply(await embedBuilder());
     }
+}
+
+async function embedBuilder() {
+    const embed = new MessageEmbed().setTitle('VMS Inventory').setColor('#004426')
+        .setDescription('Please read the documentation before using the check in/out form.')
+        .addField('Documentation', inventoryDocumentation)
+        .addField('List', inventoryList)
+        .addField('Cable Inventory', wiresInventory)
+        .addField('Check in/out', inventoryForm)
+
+    return { embeds: [embed] };
 }

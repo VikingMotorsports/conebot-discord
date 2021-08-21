@@ -19,7 +19,7 @@ module.exports = {
                 .setThumbnail('https://i.imgur.com/IHr3gbj.jpg')
                 .setFooter('https://kanye.rest/');
 
-            message.channel.send(embed);
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }
