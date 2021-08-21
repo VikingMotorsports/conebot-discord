@@ -15,7 +15,7 @@ client.once('ready', async () => {
         .setCustomId('join').setLabel('I agree').setStyle('PRIMARY'));
 
     const message = { content: 'Click the button below if you agree to the rules above and are ready to participate. If nothing happens within a minute and you don\'t see the other channels, please message one of the Leadership members.', components: [row] };
-    channel.send(message);
+    await channel.send(message);
 
     // client.destroy();
 });
