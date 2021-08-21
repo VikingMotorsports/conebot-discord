@@ -160,7 +160,6 @@ bot.on('messageReactionRemove', (reaction, user) => {
 });
 
 bot.on('messageCreate', async (message) => {
-    bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // keeps welcome message in cache to ensure reactions keep working
     if (message.author.bot) return; //*  ignores messages made by bots
     if (message.channel.type === ('dm' || 'group')) return; //* ignores messages outside of channels
     if (message.channel.id === config.announcementsChannel) return; //* ignores messages in announcements
