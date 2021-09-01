@@ -1,7 +1,7 @@
 // const fs = require('fs').promises;
 const fs = require('fs');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
-const updatableParameters = ['competition', 'prefix']
+const updatableParameters = ['competition', 'prefix', 'currentPurchaseSheet']
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,8 +9,9 @@ module.exports = {
         .setDescription('Update bot parameters')
         .addStringOption(option => option.setName('parameter').setDescription('Select parameter to update').setRequired(true)
             .addChoices([
-                ['competition', 'competition'],
-                ['prefix', 'prefix']
+                ['Competition Date', 'competition'],
+                ['Bot Prefix', 'prefix'],
+                ['Current Purchases Sheet', 'currentPurchaseSheet']
             ]))
         .addStringOption(option => option.setName('value').setDescription('Value to update the parameter to').setRequired(true)),
     category: 'Server Moderation',
