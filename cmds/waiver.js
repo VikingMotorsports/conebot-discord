@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { liability, photoRelease } = require('../links.json');
+const { liability, photoRelease, waiverSubmission } = require('../links.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
 
 async function embedBuilder() {
     const embed = new MessageEmbed().setTitle('VMS Waivers').setColor('#004426')
-        .setDescription('When completed, submit these waivers through this form https://forms.gle/EdmLFKwKcqSereph8')
+        .setDescription(`When completed, submit these waivers through this form ${waiverSubmission}`)
         .addField('Liability Waiver', liability)
         .addField('Photo Release', photoRelease);
 
