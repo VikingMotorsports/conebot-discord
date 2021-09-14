@@ -1,7 +1,7 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Collection } = require('discord.js');
 const { pollsChannel } = require('../config.json');
 const fs = require('fs');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, time } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -109,7 +109,7 @@ async function createPoll(client, channel, creator, minutes, question, options) 
         });
     }
     selectMenu.addOptions(addOptions);
-    const embed = new MessageEmbed().setTitle(`${creator} created a new poll`).setColor('#004426').setDescription(question).setFooter(`Results will be collected on ${date.toLocaleString('en-US')}`);
+    const embed = new MessageEmbed().setTitle(`${creator} created a new poll`).setColor('#004426').setDescription(`${question}\n\nResults will be collected on ${time(date)}`);
     const row = new MessageActionRow().addComponents(selectMenu);
     const poll = await channel.send({ content: '@everyone', embeds: [embed], components: [row] });
 
