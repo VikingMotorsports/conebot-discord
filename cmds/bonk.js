@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { bonks } = require('../links.json')
+const { bonks, superbonks, unbonk } = require('../links.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -69,7 +69,7 @@ module.exports = {
                                 "name": userNames[i],
                                 "bonk": newBonk - 1
                             }
-                            response = 'https://cdn.discordapp.com/attachments/646510074986233867/849383431073955850/FB_IMG_1615148902348.jpg';
+                            response = unbonk[Math.floor(Math.random() * unbonk.length)]
                             break;
 
                         case 'superbonk':
@@ -78,7 +78,7 @@ module.exports = {
                                 "name": userNames[i],
                                 "bonk": newBonk + 5
                             }
-                            response = 'https://cdn.discordapp.com/attachments/646510074986233867/850102936981078026/OD_h5HvqkZBd2DV2.mp4';
+                            response = superbonks[Math.floor(Math.random() * superbonks.length)]
                             break;
 
                         default:
@@ -184,7 +184,7 @@ async function bonk(user) {
                     "name": user.name,
                     "bonk": currentBonk - 1
                 }
-                response = 'https://cdn.discordapp.com/attachments/646510074986233867/849383431073955850/FB_IMG_1615148902348.jpg';
+                response = unbonk[Math.floor(Math.random() * unbonk.length)]
                 break;
 
             case 'superbonk':
@@ -193,7 +193,7 @@ async function bonk(user) {
                     "name": user.name,
                     "bonk": currentBonk + 5
                 }
-                response = 'https://cdn.discordapp.com/attachments/646510074986233867/850102936981078026/OD_h5HvqkZBd2DV2.mp4';
+                response = superbonks[Math.floor(Math.random() * superbonks.length)]
                 break;
 
             default:
