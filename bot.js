@@ -18,7 +18,8 @@ bot.commands = new Collection();
 // bot.polls = require('./polls.json');
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
-const commandCache = require('./slashCommands.json')
+const commandCache = require('./slashCommands.json');
+const poll = require('./cmds/poll');
 
 // checkRequiredFiles();
 
@@ -47,6 +48,67 @@ cron.schedule('0 9 * * *', async () => {
     }
 });
 
+cron.schedule('* * * * *', async () => {
+    const pollData = JSON.parse(fs.readFileSync('./polls.json', 'utf-8'))
+    for (let i in pollData) {
+        if (!pollData.hasOwnProperty(i)) continue
+        const time = pollData[i].time
+
+        if (Date.now() > time) {
+            try {
+                const question = pollData[i].question
+                const votes = pollData[i].votes
+                await bot.commands.get('poll').result(bot, question, votes)
+                delete pollData[i]
+
+                fs.writeFile('./polls.json', JSON.stringify(pollData, null, '\t'), err => { if (err) return console.error(err) })
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+})
+
+cron.schedule('0 0 * * 0', async () => {
+    const tokenBuffer = await fs.promises.readFile(TOKEN_PATH);
+    const tokenContent = JSON.parse(tokenBuffer);
+    const refreshToken = tokenContent.refresh_token;
+    const currentExpiration = token.expiry_date;
+
+    if (currentExpiration < Date.now()) {
+        const credentialsBuffer = await fs.promises.readFile(CREDENTIALS_PATH);
+        const credentials = JSON.parse(credentialsBuffer);
+        const clientID = credentials.installed.client_id;
+        const clientSecret = credentials.installed.client_secret;
+
+        try {
+            const response = await axios({
+                method: 'post',
+                url: 'https://oauth2.googleapis.com/token',
+                headers: {
+                    'Content-Type': 'application-json'
+                },
+                data: {
+                    'client_id': clientID,
+                    'client_secret': clientSecret,
+                    'refresh_token': refreshToken,
+                    'grant-type': 'refresh_token'
+                }
+            });
+
+            tokenContent['access_token'] = response.data.access_token;
+            tokenContent['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
+
+            fs.writeFile(TOKEN_PATH, JSON.stringify(tokenContent, null, '\t'), err => {
+                if (err) console.error(err);
+                console.log('Google API token refreshed');
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+})
+
 bot.on('ready', async () => {
     console.log(`Bot online as ${bot.user.username} in ${bot.guilds.cache.first()}`);
     bot.user.setActivity('your every move', {
@@ -62,73 +124,73 @@ bot.on('ready', async () => {
     // } catch (error) {
     //     console.log(error);
     // }
-    const reactMessage = await bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // caches reaction message
-    reactMessage.react('✅');
-    await setCommandPermissions()
+    // const reactMessage = await bot.channels.cache.get(config.rulesChannel).messages.fetch(config.reactMsg); // caches reaction message
+    // reactMessage.react('✅');
+    // await setCommandPermissions()
 
-    setInterval(async () => {
-        const pollData = JSON.parse(fs.readFileSync('./polls.json', 'utf-8'));
-        for (let i in pollData) {
-            if (!pollData.hasOwnProperty(i)) continue; // filters out built in key-value pairs
-            const time = pollData[i].time;
+    // setInterval(async () => {
+    //     const pollData = JSON.parse(fs.readFileSync('./polls.json', 'utf-8'));
+    //     for (let i in pollData) {
+    //         if (!pollData.hasOwnProperty(i)) continue; // filters out built in key-value pairs
+    //         const time = pollData[i].time;
 
-            if (Date.now() > time) {
-                try {
-                    const question = pollData[i].question;
-                    const votes = pollData[i].votes;
-                    bot.commands.get('poll').result(bot, question, votes);
-                    delete pollData[i];
+    //         if (Date.now() > time) {
+    //             try {
+    //                 const question = pollData[i].question;
+    //                 const votes = pollData[i].votes;
+    //                 bot.commands.get('poll').result(bot, question, votes);
+    //                 delete pollData[i];
 
-                    fs.writeFile('./polls.json', JSON.stringify(pollData, null, '\t'), err => {
-                        if (err) return console.error(err);
-                    });
-                } catch (error) {
-                    console.error(error)
-                }
-            }
-        }
-    }, 30000);
+    //                 fs.writeFile('./polls.json', JSON.stringify(pollData, null, '\t'), err => {
+    //                     if (err) return console.error(err);
+    //                 });
+    //             } catch (error) {
+    //                 console.error(error)
+    //             }
+    //         }
+    //     }
+    // }, 30000);
 
-    setInterval(async () => { //* script for refreshing Google Sheets API token
-        // let clientID, clientSecret, refreshToken, currentExpiration;
-        const tokenBuffer = await fs.promises.readFile(TOKEN_PATH);
-        const tokenContent = JSON.parse(tokenBuffer);
-        const refreshToken = tokenContent.refresh_token;
-        const currentExpiration = token.expiry_date;
+    // setInterval(async () => { //* script for refreshing Google Sheets API token
+    //     // let clientID, clientSecret, refreshToken, currentExpiration;
+    //     const tokenBuffer = await fs.promises.readFile(TOKEN_PATH);
+    //     const tokenContent = JSON.parse(tokenBuffer);
+    //     const refreshToken = tokenContent.refresh_token;
+    //     const currentExpiration = token.expiry_date;
 
-        if (currentExpiration < Date.now()) {
-            const credentialsBuffer = await fs.promises.readFile(CREDENTIALS_PATH);
-            const credentials = JSON.parse(credentialsBuffer);
-            const clientID = credentials.installed.client_id;
-            const clientSecret = credentials.installed.client_secret;
+    //     if (currentExpiration < Date.now()) {
+    //         const credentialsBuffer = await fs.promises.readFile(CREDENTIALS_PATH);
+    //         const credentials = JSON.parse(credentialsBuffer);
+    //         const clientID = credentials.installed.client_id;
+    //         const clientSecret = credentials.installed.client_secret;
 
-            try {
-                const response = await axios({
-                    method: 'post',
-                    url: 'https://oauth2.googleapis.com/token',
-                    headers: {
-                        'Content-Type': 'application-json'
-                    },
-                    data: {
-                        'client_id': clientID,
-                        'client_secret': clientSecret,
-                        'refresh_token': refreshToken,
-                        'grant-type': 'refresh_token'
-                    }
-                });
+    //         try {
+    //             const response = await axios({
+    //                 method: 'post',
+    //                 url: 'https://oauth2.googleapis.com/token',
+    //                 headers: {
+    //                     'Content-Type': 'application-json'
+    //                 },
+    //                 data: {
+    //                     'client_id': clientID,
+    //                     'client_secret': clientSecret,
+    //                     'refresh_token': refreshToken,
+    //                     'grant-type': 'refresh_token'
+    //                 }
+    //             });
 
-                tokenContent['access_token'] = response.data.access_token;
-                tokenContent['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
+    //             tokenContent['access_token'] = response.data.access_token;
+    //             tokenContent['expiry_date'] = Date.now() + (response.data.expires_in * 1000);
 
-                fs.writeFile(TOKEN_PATH, JSON.stringify(tokenContent, null, '\t'), err => {
-                    if (err) console.error(err);
-                    console.log('Google API token refreshed');
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }, 6.048e+8);
+    //             fs.writeFile(TOKEN_PATH, JSON.stringify(tokenContent, null, '\t'), err => {
+    //                 if (err) console.error(err);
+    //                 console.log('Google API token refreshed');
+    //             });
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }, 6.048e+8);
 });
 
 bot.on('messageReactionAdd', (reaction, user) => {
