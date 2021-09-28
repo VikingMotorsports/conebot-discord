@@ -1,3 +1,14 @@
+# 2021-09-27-21:00 - gearysw
+
+## Changes
+- Use node-cron to perform poll tasks in hopes to make results run more reliably
+
+# 2021-09-14-20:00 - gearysw
+
+## Changes
+- Updated discord.js library to v13
+- Slash commands now supported
+
 # 2021-05-06-18:15 - gearysw
 ## Features
 - Added competition countdown in days
