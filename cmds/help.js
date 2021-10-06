@@ -8,10 +8,11 @@ module.exports = {
         .setDescription('List of commands the bot can perform or info about a specific command')
         .addStringOption(option =>
             option.setName('command')
-            .setDescription('Get detailed help on a specific command')
-            .setRequired(false)),
+                .setDescription('Get detailed help on a specific command')
+                .setRequired(false)),
     aliases: ['commands'],
     usage: '<command name>',
+    isSlashCommand: true,
     execute: async (bot, message, args) => {
         if (!args.length) {
             return await showFullHelp(bot.commands);
