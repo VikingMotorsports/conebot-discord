@@ -1,8 +1,10 @@
 const { Client, Intents, Collection } = require('discord.js');
+// const {Client, GatewayIntentBits, Collection, Partials, codeBlock, InteractionType} = require('discord.js');
 const { codeBlock } = require('@discordjs/builders')
 const config = require('./config.json');
 const bot = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+    // intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildMessageReactions],
     allowedMentions: { parse: ['roles', 'everyone', 'users'], repliedUser: true }
 });
 const fs = require('fs');
@@ -31,7 +33,8 @@ for (const file of commandFiles) {
 bot.login(config.token);
 
 cron.schedule('0 9 * * *', async () => {
-    const data = await fs.promises.readFile('./config.json');
+    // const data = await fs.promises.readFile('./config.json');
+    const data = fs.readFileSync('./config.json')
     const competition = new Date(JSON.parse(data).competition);
 
     if (Date.now() > competition) return;
@@ -270,6 +273,9 @@ bot.on('messageCreate', async (message) => {
     if (message.content.toLowerCase().includes('can\'t believe you\'ve done this') || message.content.toLowerCase().includes('cant believe youve done this') || message.content.toLowerCase().includes('can\'t believe it') || message.content.toLowerCase().includes('cant believe it')) {
         message.channel.send('https://youtu.be/O7lRV1VHv1g?t=3');
     }
+    if (message.content.startsWith('?test')) {
+        testCommand()
+    }
     if (commandName.startsWith(config.prefix)) { //* dynamic command handler
         if (commandName[1] === config.prefix || !commandName[1]) return;
         const cmds = commandName.slice(config.prefix.length);
@@ -380,4 +386,22 @@ async function setCommandPermissions() {
         permission: true
     }]
     await updateCommand.permissions.add({ permissions })
+}
+
+async function testCommand() {
+    const data = fs.readFileSync('./config.json')
+    const competition = new Date(JSON.parse(data).competition);
+
+    if (Date.now() > competition) return;
+
+    const days = Math.ceil((competition.getTime() - Date.now()) / 8.64e+7);
+    if (days > 60) return;
+
+    // console.log(days);
+
+    try {
+        bot.channels.cache.get('644810281611952130').send(`competition: ${competition}\ndate now: ${Date.now()}\n${days} days until competition.`);
+    } catch (error) {
+        console.error(error);
+    }
 }
