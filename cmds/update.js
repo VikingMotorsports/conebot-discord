@@ -2,6 +2,7 @@
 const fs = require('fs');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 const updatableParameters = ['competition', 'prefix', 'currentPurchaseSheet']
+const { leadershipRoleId } = require('../config.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -42,7 +43,7 @@ module.exports = {
         // }
     },
     interact: async interaction => {
-        const leadershipRole = interaction.client.guild.roles.cache.find(r => r.name === 'Leadership')
+        const leadershipRole = interaction.guild.roles.cache.find(r => r.name === 'Leadership')
         const parameter = interaction.options.getString('parameter')
         const value = interaction.options.getString('value')
 
@@ -59,9 +60,10 @@ async function updateParameter(leadershipRole, member, parameter, updatedValue) 
     if (!member.roles.cache.has(leadershipRole.id)) return 'Not allowed.';
     if (!updatableParameters.includes(parameter)) return 'That parameter is not updatable.';
 
-    const config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
+    const configFile = fs.readFileSync('./config.json', 'utf-8')
+    const config = JSON.parse(configFile)
     config[parameter] = updatedValue;
 
     fs.writeFile('./config.json', JSON.stringify(config, null, '\t'), err => { if (err) console.error(err) });
-    return { content: `Parameter \`${parameter}\` updated to ${value}`, ephemeral: true }
+    return { content: `Parameter \`${parameter}\` updated to ${updatedValue}`, ephemeral: true }
 }
