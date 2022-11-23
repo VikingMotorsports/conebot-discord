@@ -10,5 +10,8 @@ module.exports = {
     isSlashCommand: true,
     execute: async (bot, message, args) => {
         return '<\',=,~~';
+    },
+    interact: async (interaction) => {
+        interaction.reply('<\',=,~~');
     }
 }
