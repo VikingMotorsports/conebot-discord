@@ -9,7 +9,7 @@ const bot = new Client({
 });
 const fs = require('fs');
 const cron = require('node-cron');
-const requiredFiles = ['config.json', 'credentials.json', 'emails.json', 'links.json', 'phones.json', 'polls.json', 'soda.json', 'token.json', 'bonk.json'];
+const requiredFiles = ['config.json', 'credentials.json', 'emails.json', 'links.json', 'phones.json', 'polls.json', 'soda.json', 'token.json'];
 
 //TODO for Google API token refresh
 const axios = require('axios');
