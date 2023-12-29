@@ -10,7 +10,7 @@ client.login(token);
 
 client.once('ready', async () => {
     // const channel = (await client.channels.fetch(rulesChannel)).fetch();
-    const channel = client.channels.cache.get(rulesChannel);
+    const channel = (await client.channels.fetch(rulesChannel));
     const row = new MessageActionRow().addComponents(new MessageButton()
         .setCustomId('join').setLabel('I agree').setStyle('PRIMARY'));
 
