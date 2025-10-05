@@ -7,12 +7,12 @@ module.exports = {
         .setDescription('Stores your email and display it upon calling the command by itself')
         .addUserOption(option =>
             option.setName('user')
-            .setDescription('Get email of user')
-            .setRequired(false))
+                .setDescription('Get email of user')
+                .setRequired(false))
         .addStringOption(option =>
             option.setName('store')
-            .setDescription('Input your email to store to the database')
-            .setRequired(false)),
+                .setDescription('Input your email to store to the database')
+                .setRequired(false)),
     aliases: ['emails', 'mail'],
     category: 'Team',
     showInHelp: true,
@@ -41,8 +41,8 @@ module.exports = {
         const email = interaction.options.getString('store');
 
         if (!mentionedUser && !email) interaction.reply(await findEmail(interaction.member))
-        if (mentionedUser !== null) interaction.reply(await findEmail(mentionedUser));
-        if (email !== null) interaction.reply(await storeEmail(interaction.user, email));
+        else if (mentionedUser !== null) interaction.reply(await findEmail(mentionedUser));
+        else if (email !== null) interaction.reply(await storeEmail(interaction.user, email));
     }
 }
 

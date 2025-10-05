@@ -295,15 +295,15 @@ bot.on('messageCreate', async (message) => {
     }
 });
 
-bot.on('interactionCreate', interaction => {
+bot.on('interactionCreate', async interaction => {
     if (interaction.isCommand() && bot.commands.has(interaction.commandName)) commandInteractionHandler(interaction);
     if (interaction.isSelectMenu() && interaction.customId === 'poll-options') pollSelectMenuHandler(interaction);
     if (interaction.isButton() && interaction.customId === 'join') joinButtonHandler(interaction);
     if (interaction.isContextMenu()) {
-        if (interaction.commandName !== 'Get Email Address' || interaction.commandName !== 'Get Phone Number') interaction.reply({ content: 'Error executing command', ephemeral: true })
+        if (interaction.commandName !== 'Get Email Address' && interaction.commandName !== 'Get Phone Number') interaction.reply({ content: 'Error executing command', ephemeral: true })
         if (interaction.commandName === 'Get Email Address') {
             try {
-                bot.commands.get('email').interact(interaction);
+                await bot.commands.get('email').interact(interaction);
             } catch (error) {
                 console.error(error)
                 if (!interaction.replied) interaction.reply({ content: `Error executing command:\n${codeBlock(error)}`, ephemeral: true })
@@ -311,7 +311,7 @@ bot.on('interactionCreate', interaction => {
         }
         if (interaction.commandName === 'Get Phone Number') {
             try {
-                bot.commands.get('phone').interact(interaction)
+                await bot.commands.get('phone').interact(interaction)
             } catch (error) {
                 console.error(error)
                 if (!interaction.replied) interaction.reply({ content: `Error executing command:\n${codeBlock(error)}`, ephemeral: true })
