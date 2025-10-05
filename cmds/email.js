@@ -41,8 +41,8 @@ module.exports = {
         const email = interaction.options.getString('store');
 
         if (!mentionedUser && !email) interaction.reply(await findEmail(interaction.member))
-        else if (mentionedUser !== null) interaction.reply(await findEmail(mentionedUser));
         else if (email !== null) interaction.reply(await storeEmail(interaction.user, email));
+        else if (mentionedUser !== null) interaction.reply(await findEmail(mentionedUser));
     }
 }
 
