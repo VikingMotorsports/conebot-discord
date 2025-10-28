@@ -11,9 +11,11 @@ module.exports = {
     args: false,
     isSlashCommand: true,
     execute: async (bot, message, args) => {
-        return `Check in to meetings, workshops, and events here:\n${checkin}`
+        return `Check in to meetings, workshops, and events here:\n${checkin}`;
     },
     interact: async (interaction) => {
-        interaction.reply(`Check in to meetings, workshops, and events here:\n${checkin}`);
-    }
-}
+        interaction.reply(
+            `Check in to meetings, workshops, and events here:\n${checkin}`
+        );
+    },
+};

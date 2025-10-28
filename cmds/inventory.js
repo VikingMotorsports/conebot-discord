@@ -1,4 +1,9 @@
-const { inventoryDocumentation, inventoryList, inventoryForm, wiresInventory } = require('../links.json');
+const {
+    inventoryDocumentation,
+    inventoryList,
+    inventoryForm,
+    wiresInventory,
+} = require('../links.json');
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -16,16 +21,20 @@ module.exports = {
     },
     interact: async (interaction) => {
         interaction.reply(await embedBuilder());
-    }
-}
+    },
+};
 
 async function embedBuilder() {
-    const embed = new MessageEmbed().setTitle('VMS Inventory').setColor('#004426')
-        .setDescription('Please read the documentation before using the check in/out form.')
+    const embed = new MessageEmbed()
+        .setTitle('VMS Inventory')
+        .setColor('#004426')
+        .setDescription(
+            'Please read the documentation before using the check in/out form.'
+        )
         .addField('Documentation', inventoryDocumentation)
         .addField('List', inventoryList)
         .addField('Cable Inventory', wiresInventory)
-        .addField('Check in/out', inventoryForm)
+        .addField('Check in/out', inventoryForm);
 
     return { embeds: [embed] };
 }

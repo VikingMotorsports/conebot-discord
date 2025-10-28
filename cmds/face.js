@@ -8,14 +8,21 @@ module.exports = {
         .setName('face')
         // .setDescription('Upload or show picture of your face for identifying purposes'),
         .setDescription('Face functionality is currently disabled.'),
-    aliases: ['faces', 'pp', 'dp', 'profilepicture', 'displaypicture', 'avatar'],
+    aliases: [
+        'faces',
+        'pp',
+        'dp',
+        'profilepicture',
+        'displaypicture',
+        'avatar',
+    ],
     category: 'Team',
     showInHelp: true,
     usage: '<@user> or [attachment]',
     easteregg: false,
     execute: async (bot, message, args) => {
         return 'Face functionality is currently disabled.';
-    }
+    },
     // execute: async (bot, message, args) => {
     //     const authorID = message.author.id;
     //     if (args.length && args[0] === 'remove') { //* delete picture logic
@@ -105,4 +112,4 @@ module.exports = {
     //         }
     //     }
     // }
-}
+};

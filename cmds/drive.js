@@ -15,5 +15,5 @@ module.exports = {
     },
     interact: async (interaction) => {
         interaction.reply(drive);
-    }
-}
+    },
+};

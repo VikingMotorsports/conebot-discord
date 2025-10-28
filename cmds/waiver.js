@@ -17,12 +17,16 @@ module.exports = {
     },
     interact: async (interaction) => {
         interaction.reply(await embedBuilder());
-    }
-}
+    },
+};
 
 async function embedBuilder() {
-    const embed = new MessageEmbed().setTitle('VMS Waivers').setColor('#004426')
-        .setDescription(`When completed, submit these waivers through this form ${waiverSubmission}`)
+    const embed = new MessageEmbed()
+        .setTitle('VMS Waivers')
+        .setColor('#004426')
+        .setDescription(
+            `When completed, submit these waivers through this form ${waiverSubmission}`
+        )
         .addField('Liability Waiver', liability)
         .addField('Photo Release', photoRelease);
 

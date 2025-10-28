@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
     data: {
         name: 'bored',
-        description: 'Find something to do'
+        description: 'Find something to do',
     },
     aliases: ['activity', 'newactivity'],
     showInHelp: false,
@@ -45,13 +45,13 @@ module.exports = {
                 .addField('Difficulty', difficulty)
                 .addField('Price', price);
 
-            return { embeds: [embed] }
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }
-    }
-}
+    },
+};
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};

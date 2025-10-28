@@ -6,7 +6,17 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('socialmedia')
         .setDescription('Shows VMS social media links'),
-    aliases: ['media', 'youtube', 'instagram', 'facebook', 'website', 'site', 'insta', 'yt', 'fb'],
+    aliases: [
+        'media',
+        'youtube',
+        'instagram',
+        'facebook',
+        'website',
+        'site',
+        'insta',
+        'yt',
+        'fb',
+    ],
     category: 'Team',
     args: false,
     showInHelp: true,
@@ -17,12 +27,13 @@ module.exports = {
     },
     interact: async (interaction) => {
         interaction.reply(await embedBuilder());
-    }
-}
+    },
+};
 
 async function embedBuilder() {
     const embed = new MessageEmbed()
-        .setTitle('Viking Motorsports Social Media').setColor('#004426')
+        .setTitle('Viking Motorsports Social Media')
+        .setColor('#004426')
         .addField('Website', website)
         .addField('YouTube', youtube)
         .addField('Facebook', facebook)

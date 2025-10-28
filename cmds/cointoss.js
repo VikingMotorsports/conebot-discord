@@ -4,7 +4,14 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('cointoss')
         .setDescription('Heads or tails'),
-    aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
+    aliases: [
+        'heads',
+        'tails',
+        'headstails',
+        'headsortails',
+        'toss',
+        'tosscoin',
+    ],
     category: 'Miscellaneous',
     showInHelp: true,
     easteregg: false,
@@ -14,8 +21,8 @@ module.exports = {
     },
     interact: async (interaction) => {
         interaction.reply(await headsOrTails());
-    }
-}
+    },
+};
 
 async function headsOrTails() {
     const chance = Math.floor(Math.random() * 2);

@@ -3,7 +3,7 @@ const { purchases } = require('../links.json');
 module.exports = {
     data: {
         name: 'purchases',
-        description: 'Spreadsheet outlining purchasing information and status'
+        description: 'Spreadsheet outlining purchasing information and status',
     },
     aliases: ['orders', 'orderstatus'],
     category: 'Purchases',
@@ -13,5 +13,5 @@ module.exports = {
     throughLinksCommand: true,
     execute: async (bot, message, args) => {
         return purchases;
-    }
-}
+    },
+};

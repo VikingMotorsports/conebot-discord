@@ -11,7 +11,7 @@ module.exports = {
     easteregg: true,
     execute: async (bot, message, args) => {
         let EE = [];
-        bot.commands.map(c => {
+        bot.commands.map((c) => {
             if (c.easteregg) {
                 EE.push(`${prefix}${c.name}`);
             }
@@ -23,5 +23,5 @@ module.exports = {
             .setDescription(EE.join('\n'));
 
         return { embeds: [embed] };
-    }
-}
+    },
+};

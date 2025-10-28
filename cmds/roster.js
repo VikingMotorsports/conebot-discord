@@ -3,7 +3,7 @@ const { roster } = require('../links.json');
 module.exports = {
     data: {
         name: 'roster',
-        description: 'Team roster spreadsheet'
+        description: 'Team roster spreadsheet',
     },
     aliases: ['members'],
     category: 'Team',
@@ -13,5 +13,5 @@ module.exports = {
     throughLinksCommand: true,
     execute: async (bot, message, args) => {
         return roster;
-    }
-}
+    },
+};

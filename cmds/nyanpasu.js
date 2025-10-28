@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
     data: {
         name: 'nyanpasu',
-        description: 'Nyanpasu~'
+        description: 'Nyanpasu~',
     },
     aliases: ['nyanpass'],
     showInHelp: false,
@@ -12,7 +12,7 @@ module.exports = {
     execute: async (bot, message, args) => {
         const Url = 'http://nyanpass.com/add.php';
         const Header = {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
         };
         const Form = 'nyan=pass';
 
@@ -21,7 +21,7 @@ module.exports = {
                 method: 'post',
                 url: Url,
                 headers: Header,
-                data: Form
+                data: Form,
             });
             const embed = new Discord.RichEmbed()
                 .setThumbnail('https://i.imgur.com/E83gsQh.jpg')
@@ -36,5 +36,5 @@ module.exports = {
         } catch (error) {
             console.error(error);
         }
-    }
-}
+    },
+};

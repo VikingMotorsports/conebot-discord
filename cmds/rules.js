@@ -3,7 +3,7 @@ const { rules } = require('../links.json');
 module.exports = {
     data: {
         name: 'rules',
-        description: 'Link to FSAE rule book'
+        description: 'Link to FSAE rule book',
     },
     category: 'Team',
     showInHelp: true,
@@ -11,5 +11,5 @@ module.exports = {
     throughLinksCommand: true,
     execute: async (bot, message, args) => {
         return rules;
-    }
-}
+    },
+};

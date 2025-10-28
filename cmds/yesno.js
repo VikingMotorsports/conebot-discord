@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
     data: {
         name: 'yesno',
-        description: 'Yes or no?'
+        description: 'Yes or no?',
     },
     aliases: ['yesorno'],
     showInHelp: false,
@@ -16,13 +16,13 @@ module.exports = {
                 .setTitle(res.data.answer.capitalize())
                 .setImage(res.data.image);
 
-            return { embeds: [embed] }
+            return { embeds: [embed] };
         } catch (error) {
             console.error(error);
         }
-    }
-}
+    },
+};
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};

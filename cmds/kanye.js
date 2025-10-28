@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
     data: {
         name: 'kanye',
-        description: 'Kanye West quotes'
+        description: 'Kanye West quotes',
     },
     aliases: ['kanyequote'],
     showInHelp: false,
@@ -23,5 +23,5 @@ module.exports = {
         } catch (error) {
             console.error(error);
         }
-    }
-}
+    },
+};

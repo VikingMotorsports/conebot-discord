@@ -3,7 +3,8 @@ const { car } = require('../links.json');
 module.exports = {
     data: {
         name: 'car',
-        description: 'Google Drive folder of collaboration documents for the current car'
+        description:
+            'Google Drive folder of collaboration documents for the current car',
     },
     aliases: ['currentcar'],
     category: 'Car',
@@ -12,5 +13,5 @@ module.exports = {
     throughLinksCommand: true,
     execute: async (bot, message, args) => {
         return car;
-    }
-}
+    },
+};

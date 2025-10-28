@@ -25,5 +25,8 @@
         "eslint": "^7.32.0",
         "googleapis": "^85.0.0",
         "node-cron": "^3.0.0"
+    },
+    "devDependencies": {
+        "prettier": "3.6.2"
     }
 }
