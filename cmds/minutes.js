@@ -1,12 +1,12 @@
-const { minutes } = require("../links.json");
+const { minutes } = require('../links.json');
 
 module.exports = {
   data: {
-    name: "minutes",
-    description: "General meeting minutes",
+    name: 'minutes',
+    description: 'General meeting minutes',
   },
-  aliases: ["minute", "meetingminutes"],
-  category: "Meetings/Events",
+  aliases: ['minute', 'meetingminutes'],
+  category: 'Meetings/Events',
   showInHelp: true,
   easteregg: false,
   throughLinksCommand: true,

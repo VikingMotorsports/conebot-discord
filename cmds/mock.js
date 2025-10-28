@@ -1,15 +1,15 @@
 module.exports = {
   data: {
-    name: "mock",
-    description: "Converts a string into retarded case",
+    name: 'mock',
+    description: 'Converts a string into retarded case',
   },
-  aliases: ["spongebobcase", "retard", "retardcase", "sponge"],
+  aliases: ['spongebobcase', 'retard', 'retardcase', 'sponge'],
   showInHelp: false,
   args: true,
-  usage: "string",
+  usage: 'string',
   easteregg: true,
   execute: async (bot, message, args) => {
-    const text = args.join(" ");
+    const text = args.join(' ');
     let newText = '"';
 
     for (let l of text) {

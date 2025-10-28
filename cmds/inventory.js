@@ -3,15 +3,15 @@ const {
   inventoryList,
   inventoryForm,
   wiresInventory,
-} = require("../links.json");
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+} = require('../links.json');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("inventory")
-    .setDescription("Show inventory list, check in/out, and documentation"),
-  category: "Team",
+    .setName('inventory')
+    .setDescription('Show inventory list, check in/out, and documentation'),
+  category: 'Team',
   args: false,
   showInHelp: true,
   easteregg: false,
@@ -26,15 +26,15 @@ module.exports = {
 
 async function embedBuilder() {
   const embed = new MessageEmbed()
-    .setTitle("VMS Inventory")
-    .setColor("#004426")
+    .setTitle('VMS Inventory')
+    .setColor('#004426')
     .setDescription(
-      "Please read the documentation before using the check in/out form.",
+      'Please read the documentation before using the check in/out form.'
     )
-    .addField("Documentation", inventoryDocumentation)
-    .addField("List", inventoryList)
-    .addField("Cable Inventory", wiresInventory)
-    .addField("Check in/out", inventoryForm);
+    .addField('Documentation', inventoryDocumentation)
+    .addField('List', inventoryList)
+    .addField('Cable Inventory', wiresInventory)
+    .addField('Check in/out', inventoryForm);
 
   return { embeds: [embed] };
 }

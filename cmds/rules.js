@@ -1,11 +1,11 @@
-const { rules } = require("../links.json");
+const { rules } = require('../links.json');
 
 module.exports = {
   data: {
-    name: "rules",
-    description: "Link to FSAE rule book",
+    name: 'rules',
+    description: 'Link to FSAE rule book',
   },
-  category: "Team",
+  category: 'Team',
   showInHelp: true,
   easteregg: false,
   throughLinksCommand: true,

@@ -1,12 +1,12 @@
-const { rulesChannel } = require("../config.json");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { rulesChannel } = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("invite")
-    .setDescription("Return invite link to the VMS Discord server"),
-  aliases: ["invitelink"],
-  category: "Server Moderation",
+    .setName('invite')
+    .setDescription('Return invite link to the VMS Discord server'),
+  aliases: ['invitelink'],
+  category: 'Server Moderation',
   showInHelp: true,
   isSlashCommand: true,
   execute: async (bot, message, args) => {

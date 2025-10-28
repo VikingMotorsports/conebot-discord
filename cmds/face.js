@@ -1,20 +1,20 @@
-const fs = require("fs");
-const axios = require("axios");
-const path = require("path");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const fs = require('fs');
+const axios = require('axios');
+const path = require('path');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("face")
+    .setName('face')
     // .setDescription('Upload or show picture of your face for identifying purposes'),
-    .setDescription("Face functionality is currently disabled."),
-  aliases: ["faces", "pp", "dp", "profilepicture", "displaypicture", "avatar"],
-  category: "Team",
+    .setDescription('Face functionality is currently disabled.'),
+  aliases: ['faces', 'pp', 'dp', 'profilepicture', 'displaypicture', 'avatar'],
+  category: 'Team',
   showInHelp: true,
-  usage: "<@user> or [attachment]",
+  usage: '<@user> or [attachment]',
   easteregg: false,
   execute: async (bot, message, args) => {
-    return "Face functionality is currently disabled.";
+    return 'Face functionality is currently disabled.';
   },
   // execute: async (bot, message, args) => {
   //     const authorID = message.author.id;

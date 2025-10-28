@@ -1,16 +1,16 @@
 module.exports = {
   data: {
-    name: "greeting",
-    description: "Greets the user",
+    name: 'greeting',
+    description: 'Greets the user',
   },
   aliases: [
-    "greetings",
-    "morning",
-    "night",
-    "afternoon",
-    "goodmorning",
-    "goodnight",
-    "goodafternoon",
+    'greetings',
+    'morning',
+    'night',
+    'afternoon',
+    'goodmorning',
+    'goodnight',
+    'goodafternoon',
   ],
   showInHelp: false,
   easteregg: true,
@@ -18,12 +18,12 @@ module.exports = {
     const name = !message.member.nickname
       ? message.author.username
       : message.member.nickname;
-    if (message.content.toLowerCase().includes("good morning")) {
+    if (message.content.toLowerCase().includes('good morning')) {
       return `Good morning, ${name}!`;
     }
     if (
-      message.content.toLowerCase().includes("good night") ||
-      message.content.toLowerCase().includes("gnight")
+      message.content.toLowerCase().includes('good night') ||
+      message.content.toLowerCase().includes('gnight')
     ) {
       let bye = [
         `Good night, ${name}.`,
@@ -33,7 +33,7 @@ module.exports = {
       let gn = bye[Math.floor(Math.random() * bye.length)];
       return gn;
     }
-    if (message.content.toLowerCase().includes("good afternoon")) {
+    if (message.content.toLowerCase().includes('good afternoon')) {
       return `Good afternoon, ${name}`;
     }
   },

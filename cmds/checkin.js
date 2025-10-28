@@ -1,11 +1,11 @@
-const { checkin } = require("../links.json");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { checkin } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("checkin")
-    .setDescription("Form to check in to meetings and events"),
-  category: "Meetings/Events",
+    .setName('checkin')
+    .setDescription('Form to check in to meetings and events'),
+  category: 'Meetings/Events',
   showInHelp: true,
   easteregg: false,
   args: false,
@@ -15,7 +15,7 @@ module.exports = {
   },
   interact: async (interaction) => {
     interaction.reply(
-      `Check in to meetings, workshops, and events here:\n${checkin}`,
+      `Check in to meetings, workshops, and events here:\n${checkin}`
     );
   },
 };

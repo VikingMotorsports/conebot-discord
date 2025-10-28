@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("rat").setDescription("<',=,~~"),
-  category: "Miscellaneous",
+  data: new SlashCommandBuilder().setName('rat').setDescription("<',=,~~"),
+  category: 'Miscellaneous',
   showInHelp: false,
   easteregg: true,
   isSlashCommand: true,

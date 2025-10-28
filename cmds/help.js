@@ -1,21 +1,21 @@
-const { prefix } = require("../config.json");
-const Discord = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { prefix } = require('../config.json');
+const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("help")
+    .setName('help')
     .setDescription(
-      "List of commands the bot can perform or info about a specific command",
+      'List of commands the bot can perform or info about a specific command'
     )
     .addStringOption((option) =>
       option
-        .setName("command")
-        .setDescription("Get detailed help on a specific command")
-        .setRequired(false),
+        .setName('command')
+        .setDescription('Get detailed help on a specific command')
+        .setRequired(false)
     ),
-  aliases: ["commands"],
-  usage: "<command name>",
+  aliases: ['commands'],
+  usage: '<command name>',
   isSlashCommand: true,
   execute: async (bot, message, args) => {
     if (!args.length) {
@@ -25,10 +25,10 @@ module.exports = {
     }
   },
   interact: async (interaction) => {
-    const command = interaction.options.getString("command");
+    const command = interaction.options.getString('command');
     if (command !== null) {
       interaction.reply(
-        await showDetailedHelp(interaction.client.commands, command),
+        await showDetailedHelp(interaction.client.commands, command)
       );
       return;
     }
@@ -51,7 +51,7 @@ async function showFullHelp(commands) {
       }
       let text = `${prefix}${c.data.name}`;
       if (c.throughLinksCommand) {
-        text += " (through links slash command)";
+        text += ' (through links slash command)';
       }
       categorizedCmds[c.category].push(text);
     }
@@ -59,18 +59,18 @@ async function showFullHelp(commands) {
 
   let categoryKeys = Object.keys(categorizedCmds);
   categoryKeys.push(
-    categoryKeys.splice(categoryKeys.indexOf("Miscellaneous"), 1)[0],
+    categoryKeys.splice(categoryKeys.indexOf('Miscellaneous'), 1)[0]
   );
 
   const allCmds = new Discord.MessageEmbed()
-    .setTitle("All available commands")
+    .setTitle('All available commands')
     .setDescription(
-      `Type ${prefix}help <command name> to get info on a specific command.\n`,
+      `Type ${prefix}help <command name> to get info on a specific command.\n`
     )
-    .setColor("#004426");
+    .setColor('#004426');
 
   for (const c of categoryKeys) {
-    allCmds.addField(c, categorizedCmds[c].join("\n"));
+    allCmds.addField(c, categorizedCmds[c].join('\n'));
   }
 
   return { embeds: [allCmds] };
@@ -89,14 +89,14 @@ async function showDetailedHelp(commands, commandHelp) {
     commands.get(name) ||
     commands.find((c) => c.aliases && c.aliases.includes(name));
 
-  if (!command) return "Command does not exist.";
+  if (!command) return 'Command does not exist.';
 
-  const detailedHelp = new Discord.MessageEmbed().setColor("#004225");
+  const detailedHelp = new Discord.MessageEmbed().setColor('#004225');
 
   if (command.aliases)
-    detailedHelp.addField("Aliases", command.aliases.join(", "));
+    detailedHelp.addField('Aliases', command.aliases.join(', '));
   if (command.isSlashCommand)
-    detailedHelp.setFooter("This command is also a slash command.");
+    detailedHelp.setFooter('This command is also a slash command.');
   if (command.description) detailedHelp.setDescription(command.description);
   if (command.usage)
     detailedHelp.setTitle(`${prefix}${command.data.name} ${command.usage}`);

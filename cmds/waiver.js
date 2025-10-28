@@ -1,13 +1,13 @@
-const { MessageEmbed } = require("discord.js");
-const { liability, photoRelease, waiverSubmission } = require("../links.json");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require('discord.js');
+const { liability, photoRelease, waiverSubmission } = require('../links.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("waiver")
-    .setDescription("Links to VMS liability waivers"),
-  aliases: ["liability", "release", "waivers"],
-  category: "Team",
+    .setName('waiver')
+    .setDescription('Links to VMS liability waivers'),
+  aliases: ['liability', 'release', 'waivers'],
+  category: 'Team',
   args: false,
   showInHelp: true,
   easteregg: false,
@@ -22,13 +22,13 @@ module.exports = {
 
 async function embedBuilder() {
   const embed = new MessageEmbed()
-    .setTitle("VMS Waivers")
-    .setColor("#004426")
+    .setTitle('VMS Waivers')
+    .setColor('#004426')
     .setDescription(
-      `When completed, submit these waivers through this form ${waiverSubmission}`,
+      `When completed, submit these waivers through this form ${waiverSubmission}`
     )
-    .addField("Liability Waiver", liability)
-    .addField("Photo Release", photoRelease);
+    .addField('Liability Waiver', liability)
+    .addField('Photo Release', photoRelease);
 
   return { embeds: [embed] };
 }

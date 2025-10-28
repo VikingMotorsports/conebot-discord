@@ -1,17 +1,17 @@
-const axios = require("axios");
+const axios = require('axios');
 
 module.exports = {
   data: {
-    name: "joke",
-    description: "Cheesy programmer jokes",
+    name: 'joke',
+    description: 'Cheesy programmer jokes',
   },
-  aliases: ["programmerjoke", "jokes", "programmerjokes"],
+  aliases: ['programmerjoke', 'jokes', 'programmerjokes'],
   showInHelp: false,
   easteregg: true,
   execute: async (bot, message, args) => {
     try {
       const response = await axios.get(
-        "https://official-joke-api.appspot.com/jokes/programming/random",
+        'https://official-joke-api.appspot.com/jokes/programming/random'
       );
       const joke = response.data[0];
       return `${joke.setup}\n\n${joke.punchline}`;

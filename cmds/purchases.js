@@ -1,12 +1,12 @@
-const { purchases } = require("../links.json");
+const { purchases } = require('../links.json');
 
 module.exports = {
   data: {
-    name: "purchases",
-    description: "Spreadsheet outlining purchasing information and status",
+    name: 'purchases',
+    description: 'Spreadsheet outlining purchasing information and status',
   },
-  aliases: ["orders", "orderstatus"],
-  category: "Purchases",
+  aliases: ['orders', 'orderstatus'],
+  category: 'Purchases',
   showInHelp: true,
   easteregg: false,
   args: false,

@@ -1,13 +1,13 @@
-const { msds } = require("../links.json");
+const { msds } = require('../links.json');
 
 module.exports = {
   data: {
-    name: "msds",
+    name: 'msds',
     description:
-      "Folder containing all relevant material safety data sheets (MSDS)",
+      'Folder containing all relevant material safety data sheets (MSDS)',
   },
-  aliases: ["safety", "safetysheets"],
-  category: "Team",
+  aliases: ['safety', 'safetysheets'],
+  category: 'Team',
   args: false,
   showInHelp: true,
   easteregg: false,

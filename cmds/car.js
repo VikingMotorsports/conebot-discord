@@ -1,13 +1,13 @@
-const { car } = require("../links.json");
+const { car } = require('../links.json');
 
 module.exports = {
   data: {
-    name: "car",
+    name: 'car',
     description:
-      "Google Drive folder of collaboration documents for the current car",
+      'Google Drive folder of collaboration documents for the current car',
   },
-  aliases: ["currentcar"],
-  category: "Car",
+  aliases: ['currentcar'],
+  category: 'Car',
   showInHelp: true,
   easteregg: false,
   throughLinksCommand: true,

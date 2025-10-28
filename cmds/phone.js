@@ -1,32 +1,32 @@
-const { prefix } = require("../config.json");
-const fs = require("fs");
-const { SlashCommandBuilder, codeBlock } = require("@discordjs/builders");
+const { prefix } = require('../config.json');
+const fs = require('fs');
+const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("phone")
+    .setName('phone')
     .setDescription(
-      "Stores your phone number and display it upon calling the command by itself",
+      'Stores your phone number and display it upon calling the command by itself'
     )
     .addStringOption((option) =>
       option
-        .setName("store")
+        .setName('store')
         .setDescription(
-          "Store your phone number into the database. Use the format 123-456-7890",
-        ),
+          'Store your phone number into the database. Use the format 123-456-7890'
+        )
     )
     .addUserOption((option) =>
-      option.setName("user").setDescription("Get phone number of user"),
+      option.setName('user').setDescription('Get phone number of user')
     ),
-  aliases: ["number", "phonenumber", "contact"],
-  category: "Team",
+  aliases: ['number', 'phonenumber', 'contact'],
+  category: 'Team',
   showInHelp: true,
   args: false,
-  usage: "123-456-7890 or @username",
+  usage: '123-456-7890 or @username',
   easteregg: false,
   isSlashCommand: true,
   execute: async (bot, message, args) => {
-    const numbersBuffer = await fs.promises.readFile("./phones.json");
+    const numbersBuffer = await fs.promises.readFile('./phones.json');
     let numbers = JSON.parse(numbersBuffer);
     if (!args.length) {
       return await findNumber(message.member);
@@ -66,19 +66,19 @@ module.exports = {
       // });
       // return;
     } else {
-      return "Please input your phone number with the following format: `123-456-7890`";
+      return 'Please input your phone number with the following format: `123-456-7890`';
     }
   },
   interact: async (interaction) => {
-    const member = interaction.options.getMember("user");
-    const phoneNumber = interaction.options.getString("store");
+    const member = interaction.options.getMember('user');
+    const phoneNumber = interaction.options.getString('store');
     const memberToCheck = member ? member : interaction.member;
 
     try {
       if (!phoneNumber)
         return interaction.reply(await findNumber(memberToCheck));
       return interaction.reply(
-        await storeNumber(interaction.member, phoneNumber),
+        await storeNumber(interaction.member, phoneNumber)
       );
     } catch (error) {
       console.error(error);
@@ -91,7 +91,7 @@ module.exports = {
 };
 
 async function findNumber(member) {
-  const phoneNumbers = JSON.parse(fs.readFileSync("./phones.json", "utf-8"));
+  const phoneNumbers = JSON.parse(fs.readFileSync('./phones.json', 'utf-8'));
   const name = member.nickname ? member.nickname : member.user.username;
 
   const number = phoneNumbers[member.id];
@@ -103,14 +103,14 @@ async function storeNumber(member, phone) {
   if (!phone.match(/^[2-9]\d{2}-\d{3}-\d{4}$/))
     return {
       content:
-        "Please input your phone number with the following format: `123-456-7890`",
+        'Please input your phone number with the following format: `123-456-7890`',
       ephemeral: true,
     };
 
-  const numbers = JSON.parse(fs.readFileSync("./phones.json", "utf-8"));
+  const numbers = JSON.parse(fs.readFileSync('./phones.json', 'utf-8'));
   numbers[member.id] = phone;
-  fs.writeFile("./phones.json", JSON.stringify(numbers, null, "\t"), (err) => {
+  fs.writeFile('./phones.json', JSON.stringify(numbers, null, '\t'), (err) => {
     if (err) console.error(err);
   });
-  return "Phone number saved.";
+  return 'Phone number saved.';
 }

@@ -1,33 +1,33 @@
-const fs = require("fs");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const fs = require('fs');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("email")
+    .setName('email')
     .setDescription(
-      "Stores your email and display it upon calling the command by itself",
+      'Stores your email and display it upon calling the command by itself'
     )
     .addUserOption((option) =>
       option
-        .setName("user")
-        .setDescription("Get email of user")
-        .setRequired(false),
+        .setName('user')
+        .setDescription('Get email of user')
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
-        .setName("store")
-        .setDescription("Input your email to store to the database")
-        .setRequired(false),
+        .setName('store')
+        .setDescription('Input your email to store to the database')
+        .setRequired(false)
     ),
-  aliases: ["emails", "mail"],
-  category: "Team",
+  aliases: ['emails', 'mail'],
+  category: 'Team',
   showInHelp: true,
   args: false,
-  usage: "<email address> or @username",
+  usage: '<email address> or @username',
   easteregg: false,
   isSlashCommand: true,
   execute: async (bot, message, args) => {
-    let json = await fs.promises.readFile("./emails.json");
+    let json = await fs.promises.readFile('./emails.json');
     let emails = JSON.parse(json);
     if (!args.length) {
       return await findEmail(message.member);
@@ -46,8 +46,8 @@ module.exports = {
     }
   },
   interact: async (interaction) => {
-    const mentionedUser = interaction.options.getMember("user");
-    const email = interaction.options.getString("store");
+    const mentionedUser = interaction.options.getMember('user');
+    const email = interaction.options.getString('store');
 
     if (!mentionedUser && !email)
       interaction.reply(await findEmail(interaction.member));
@@ -64,7 +64,7 @@ module.exports = {
  * @returns reply object
  */
 async function findEmail(user) {
-  const emails = JSON.parse(fs.readFileSync("./emails.json", "utf-8"));
+  const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
   const name = !user.nickname ? user.user.username : user.nickname;
   const email = emails[user.id];
 
@@ -79,14 +79,17 @@ async function findEmail(user) {
  * @returns reply object
  */
 async function storeEmail(user, email) {
-  const emails = JSON.parse(fs.readFileSync("./emails.json", "utf-8"));
+  const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
   if (!email.match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/))
-    return { content: "Please input a valid email address.", ephemeral: true };
+    return {
+      content: 'Please input a valid email address.',
+      ephemeral: true,
+    };
 
   emails[user.id] = email;
-  fs.writeFile("./emails.json", JSON.stringify(emails, null, "\t"), (err) => {
+  fs.writeFile('./emails.json', JSON.stringify(emails, null, '\t'), (err) => {
     if (err) console.error(err);
   });
 
-  return { content: "Email saved.", ephemeral: true };
+  return { content: 'Email saved.', ephemeral: true };
 }

@@ -1,11 +1,11 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("cointoss")
-    .setDescription("Heads or tails"),
-  aliases: ["heads", "tails", "headstails", "headsortails", "toss", "tosscoin"],
-  category: "Miscellaneous",
+    .setName('cointoss')
+    .setDescription('Heads or tails'),
+  aliases: ['heads', 'tails', 'headstails', 'headsortails', 'toss', 'tosscoin'],
+  category: 'Miscellaneous',
   showInHelp: true,
   easteregg: false,
   isSlashCommand: true,
@@ -19,6 +19,6 @@ module.exports = {
 
 async function headsOrTails() {
   const chance = Math.floor(Math.random() * 2);
-  if (chance === 0) return "Heads";
-  if (chance === 1) return "Tails";
+  if (chance === 0) return 'Heads';
+  if (chance === 1) return 'Tails';
 }

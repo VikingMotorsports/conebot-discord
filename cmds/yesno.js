@@ -1,17 +1,17 @@
-const { MessageEmbed } = require("discord.js");
-const axios = require("axios");
+const { MessageEmbed } = require('discord.js');
+const axios = require('axios');
 
 module.exports = {
   data: {
-    name: "yesno",
-    description: "Yes or no?",
+    name: 'yesno',
+    description: 'Yes or no?',
   },
-  aliases: ["yesorno"],
+  aliases: ['yesorno'],
   showInHelp: false,
   easteregg: true,
   execute: async (bot, message, args) => {
     try {
-      const res = await axios.get("https://yesno.wtf/api");
+      const res = await axios.get('https://yesno.wtf/api');
       const embed = new MessageEmbed()
         .setTitle(res.data.answer.capitalize())
         .setImage(res.data.image);
