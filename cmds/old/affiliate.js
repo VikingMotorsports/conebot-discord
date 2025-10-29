@@ -1,5 +1,12 @@
+/**
+ * @file Tutorial on how to affiliate yourself with the team on sae.org
+ *
+ * Prefix command:
+ * <prefix>affiliate
+ */
+
 const { affiliate } = require('../links.json');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,7 +18,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, _message, _args) => {
         return affiliate;
     },
 };
