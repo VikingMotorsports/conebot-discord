@@ -2,7 +2,7 @@
  * @file Returns link for document or folder
  *
  * Slash command:
- * /links item:_
+ * /links item:<_>
  */
 
 const { SlashCommandBuilder } = require('discord.js');

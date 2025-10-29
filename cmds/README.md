@@ -27,7 +27,7 @@ module.exports = {
         // function to execute prefix command
     },
     interact: async (interaction) => {
-        // function to execute slash command 
+        // function to execute slash command
     },
 };
 ```

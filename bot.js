@@ -79,7 +79,7 @@ bot.once(Events.ClientReady, (bot) => {
     );
 });
 
-bot.on(Events.MessageCreate, (message) => {
+bot.on(Events.MessageCreate, async (message) => {
     //* message-based replies
     const replies = require('./messageReplies');
 
@@ -108,17 +108,19 @@ bot.on(Events.MessageCreate, (message) => {
             );
         try {
             if (command.args && !args.length) {
-                message.channel.send(
+                await message.channel.send(
                     'You need to provide arguments for that command.'
                 );
             } else {
                 const reply = command.execute(bot, message, args);
-                message.channel.send(reply);
+                await message.channel.send(reply);
             }
         } catch (error) {
             console.error(error);
-            message.channel.send('There was an error executing that command.');
-            bot.guilds.cache
+            await message.channel.send(
+                'There was an error executing that command.',
+            );
+            await bot.guilds.cache
                 .first()
                 .members.cache.get(config.botOwner)
                 .send(`General error:\n\n${error}`);

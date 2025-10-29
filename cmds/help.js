@@ -12,10 +12,7 @@
  */
 
 const { prefix } = require('../config.json');
-const {
-    EmbedBuilder,
-    SlashCommandBuilder,
-} = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -115,8 +112,7 @@ function showDetailedHelp(commands, commandHelp) {
     if (command.isSlashCommand)
         detailedHelp.setFooter({
             text: 'This command is also a slash command.',
-        }
-        );
+        });
     if (command.description) detailedHelp.setDescription(command.description);
     if (command.usage)
         detailedHelp.setTitle(`${prefix}${command.data.name} ${command.usage}`);
