@@ -79,7 +79,7 @@ bot.once(Events.ClientReady, (bot) => {
     );
 });
 
-bot.on(Events.MessageCreate, async (message) => {
+bot.on(Events.MessageCreate, (message) => {
     //* message-based replies
     const replies = require('./messageReplies');
 
@@ -112,7 +112,7 @@ bot.on(Events.MessageCreate, async (message) => {
                     'You need to provide arguments for that command.'
                 );
             } else {
-                const reply = await command.execute(bot, message, args);
+                const reply = command.execute(bot, message, args);
                 message.channel.send(reply);
             }
         } catch (error) {

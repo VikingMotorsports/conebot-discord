@@ -36,7 +36,10 @@ module.exports = {
                     { name: 'Website', value: 'website' }
                 )
         ),
+    args: true,
     showInHelp: true,
+    easteregg: false,
+    usage: '<link name>',
     category: 'Team',
     isSlashCommand: true,
     interact: async (interaction) => {
