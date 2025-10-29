@@ -1,11 +1,26 @@
-const fs = require('fs');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+/**
+ * @file Stores and retrieves user emails.
+ *
+ * Prefix command:
+ * <prefix>email            Retrieve own email.
+ * <prefix>email <@user>    Retrieve email for user.
+ * <prefix>email <email>    Store/update own email.
+ *
+ *
+ * Slash command:
+ * /email                   Retrieve own email.
+ * /email user:@user        Retrieve email for user.
+ * /email store:email       Store/update own email.
+ */
+
+const fs = require('node:fs');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('email')
         .setDescription(
-            'Stores your email and display it upon calling the command by itself'
+            'Stores your email and displays it upon calling the command by itself'
         )
         .addUserOption((option) =>
             option
@@ -26,64 +41,55 @@ module.exports = {
     usage: '<email address> or @username',
     easteregg: false,
     isSlashCommand: true,
-    execute: async (bot, message, args) => {
-        let json = await fs.promises.readFile('./emails.json');
-        let emails = JSON.parse(json);
+    execute: (_bot, message, args) => {
         if (!args.length) {
-            return await findEmail(message.member);
+            return findEmail(message.member);
         }
 
         if (message.mentions.users.size > 0) {
-            const user = message.mentions.members.first();
-            return await findEmail(user);
+            const member = message.mentions.members.first();
+            return findEmail(member);
         }
 
-        if (
-            args.length &&
-            args[0].match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/)
-        ) {
-            return await storeEmail(message.author, args[0]);
-        }
+        return storeEmail(message.author, args[0]);
     },
     interact: async (interaction) => {
         const mentionedUser = interaction.options.getMember('user');
         const email = interaction.options.getString('store');
 
         if (!mentionedUser && !email)
-            interaction.reply(await findEmail(interaction.member));
+            await interaction.reply(findEmail(interaction.member));
         else if (email !== null)
-            interaction.reply(await storeEmail(interaction.user, email));
+            await interaction.reply(storeEmail(interaction.user, email));
         else if (mentionedUser !== null)
-            interaction.reply(await findEmail(mentionedUser));
+            await interaction.reply(findEmail(mentionedUser));
     },
 };
 
 /**
- *
- * @param {Object} user user collection from discord
+ * @param {Object} member member collection from discord
  * @returns reply object
  */
-async function findEmail(user) {
+function findEmail(member) {
     const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
-    const name = !user.nickname ? user.user.username : user.nickname;
-    const email = emails[user.id];
+    const name = member.nickname ?? member.user.username;
+    const email = emails[member.user.id];
 
     if (!email) return `No email found for ${name}.`;
     return `${name}'s email address: ${email}`;
 }
 
 /**
- *
  * @param {Object} user user collection from discord
  * @param {string} email email string to store
  * @returns reply object
  */
-async function storeEmail(user, email) {
+function storeEmail(user, email) {
     const emails = JSON.parse(fs.readFileSync('./emails.json', 'utf-8'));
     if (!email.match(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/))
         return {
             content: 'Please input a valid email address.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         };
 
     emails[user.id] = email;
@@ -91,5 +97,5 @@ async function storeEmail(user, email) {
         if (err) console.error(err);
     });
 
-    return { content: 'Email saved.', ephemeral: true };
+    return { content: 'Email saved.', flags: MessageFlags.Ephemeral };
 }

@@ -129,7 +129,10 @@ bot.on(Events.MessageCreate, async (message) => {
 });
 
 bot.on(Events.InteractionCreate, async (interaction) => {
-    if (interaction.isCommand() && bot.commands.has(interaction.commandName))
+    if (
+        interaction.isChatInputCommand() &&
+        bot.commands.has(interaction.commandName)
+    )
         commandInteractionHandler(interaction);
     if (
         interaction.isStringSelectMenu() &&
@@ -197,15 +200,27 @@ async function checkRequiredFiles() {
 }
 
 async function commandInteractionHandler(interaction) {
+    const command = interaction.client.commands.get(interaction.commandName);
+
+    if (!command) {
+        console.error(`No command matching ${interaction.commandName} found.`);
+        return;
+    }
     try {
-        await bot.commands.get(interaction.commandName).interact(interaction);
+        await command.interact(interaction);
     } catch (error) {
         console.error(error);
-        if (!interaction.replied)
-            await interaction.reply({
-                content: 'Error executing command',
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({
+                content: 'There was an error while executing this command!',
                 flags: MessageFlags.Ephemeral,
             });
+        } else {
+            await interaction.reply({
+                content: 'There was an error while executing this command!',
+                flags: MessageFlags.Ephemeral,
+            });
+        }
     }
 }
 

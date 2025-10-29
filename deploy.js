@@ -1,25 +1,15 @@
-const { REST, Routes } = require('discord.js');
-const { token, clientID, guildID } = require('./config.json');
-const { writeFile, readdirSync } = require('fs');
-// const { SlashCommandBuilder } = require('@discordjs/builders');
+/**
+ * @file Register slash commands.
+ */
 
-// const slashCommands = ['help', 'bonk', 'checkin', 'cointoss', 'drive', 'email', 'inventory', 'invite', 'license', 'order', 'pdm', 'phone', 'poll', 'role', 'roll', 'socialmedia', 'soda', 'stash', 'tutorials', 'update', 'waiver'];
+const { REST, Routes, ApplicationCommandType } = require('discord.js');
+const { token, clientID, guildID } = require('./config.json');
+const { writeFile, readdirSync } = require('node:fs');
+
 const commandsPayload = [];
 const commandFiles = readdirSync('./cmds').filter((file) =>
     file.endsWith('.js')
 );
-
-// for (const f of slashCommands) {
-//     const command = require(`./cmds/${f}.js`);
-//     if (f === 'update') {
-//         const data = command.data.toJSON();
-//         data['default_permission'] = false;
-//         commandsPayload.push(data);
-//         continue;
-//     }
-//     commandsPayload.push(command.data.toJSON());
-// }
-// const linksCommand = require('./cmds/links.js');
 
 for (const f of commandFiles) {
     const command = require(`./cmds/${f}`);
@@ -29,20 +19,23 @@ for (const f of commandFiles) {
         commandsPayload.push(data);
         continue;
     }
-    if (command.isSlashCommand) commandsPayload.push(command.data.toJSON());
+    if (command.isSlashCommand) {
+        commandsPayload.push(command.data.toJSON());
+    }
 }
-// commandsPayload.push(linksCommand.data.toJSON());
+
 const emailContextMenu = {
     name: 'Get Email Address',
-    type: 2,
+    type: ApplicationCommandType.User,
 };
 const phoneContextMenu = {
     name: 'Get Phone Number',
-    type: 2,
+    type: ApplicationCommandType.User,
 };
+
 commandsPayload.push(emailContextMenu, phoneContextMenu);
 
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST().setToken(token);
 
 (async () => {
     try {

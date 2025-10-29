@@ -14,6 +14,6 @@ module.exports = {
     easteregg: true, // boolean whether the command is an Easter egg or not
     execute: async (bot, message, args) => {
         // function to execute when the command is called
-    }
-}
+    },
+};
 ```
