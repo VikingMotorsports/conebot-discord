@@ -1,9 +1,9 @@
 module.exports = {
     data: {
         name: 'mock',
-        description: 'Converts a string into retarded case',
+        description: 'Converts a string into random case',
     },
-    aliases: ['spongebobcase', 'retard', 'retardcase', 'sponge'],
+    aliases: ['spongebobcase', 'sponge'],
     showInHelp: false,
     args: true,
     usage: 'string',

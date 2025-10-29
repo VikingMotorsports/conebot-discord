@@ -1,6 +1,20 @@
-const { prefix } = require('../config.json');
-const fs = require('fs');
-const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
+/**
+ * @file Stores and retrieves user phone numbers.
+ *
+ * Prefix command:
+ * <prefix>phone                    Retrieve own phone.
+ * <prefix>phone <@user>            Retrieve phone for user.
+ * <prefix>phone <xxx-xxx-xxx>      Store/update own phone.
+ *
+ *
+ * Slash command:
+ * /phone                           Retrieve own phone.
+ * /phone user:@user                Retrieve phone for user.
+ * /phone store:xxx-xxx-xxx         Store/update own phone.
+ */
+
+const fs = require('node:fs');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,96 +39,61 @@ module.exports = {
     usage: '123-456-7890 or @username',
     easteregg: false,
     isSlashCommand: true,
-    execute: async (bot, message, args) => {
-        const numbersBuffer = await fs.promises.readFile('./phones.json');
-        let numbers = JSON.parse(numbersBuffer);
+    execute: (_bot, message, args) => {
         if (!args.length) {
-            return await findNumber(message.member);
-            // const name = (!message.member.nickname) ? message.author.username : message.member.nickname;
-            // const number = numbers[message.author.id];
-            // if (!number) return message.channel.send(`No phone number found for ${name}.`);
-            // message.channel.send(`${name}'s phone number: ${number}`);
-            // return;
+            return findNumber(message.member);
         }
 
         if (message.mentions.users.size > 0) {
             const member = message.mentions.members.first();
-            return await findNumber(member);
-            // const userIDs = [];
-            // const userNames = [];
-            // message.mentions.members.map(u => {
-            //     const name = (!u.nickname) ? u.user.username : u.nickname;
-            //     const id = u.id;
-            //     userIDs.push(id);
-            //     userNames.push(name);
-            // });
-
-            // let reply = '';
-            // for (const [i, v] of userIDs.entries()) {
-            //     reply += `${userNames[i]}'s phone number: ${numbers[v]}\n`
-            // }
-
-            // return message.channel.send(reply);
+            return findNumber(member);
         }
 
-        if (args.length && args[0].match(/^[2-9]\d{2}-\d{3}-\d{4}$/)) {
-            return await storeNumber(message.member, args[0]);
-            // numbers[message.author.id] = args[0];
-            // fs.writeFile('./phones.json', JSON.stringify(numbers, null, '\t'), err => {
-            //     if (err) console.error(err);
-            //     message.channel.send('Phone number saved.');
-            // });
-            // return;
-        } else {
-            return 'Please input your phone number with the following format: `123-456-7890`';
-        }
+        return storeNumber(message.member, args[0]);
     },
     interact: async (interaction) => {
-        const member = interaction.options.getMember('user');
-        const phoneNumber = interaction.options.getString('store');
-        const memberToCheck = member ? member : interaction.member;
+        const mentionedUser = interaction.options.getMember('user');
+        const phone = interaction.options.getString('store');
 
-        try {
-            if (!phoneNumber)
-                return interaction.reply(await findNumber(memberToCheck));
-            return interaction.reply(
-                await storeNumber(interaction.member, phoneNumber)
-            );
-        } catch (error) {
-            console.error(error);
-            interaction.reply({
-                content: `Error executing command:\n${codeBlock(error)}`,
-                ephemeral: true,
-            });
-        }
+        if (!mentionedUser)
+            await interaction.reply(findNumber(interaction.member));
+        else if (phone !== null)
+            await interaction.reply(storeNumber(interaction.user, phone));
+        else if (mentionedUser !== null)
+            await interaction.reply(findNumber(mentionedUser));
     },
 };
 
-async function findNumber(member) {
+/**
+ * @param {Object} member memebr collection from discord
+ * @returns reply object
+ */
+function findNumber(member) {
     const phoneNumbers = JSON.parse(fs.readFileSync('./phones.json', 'utf-8'));
-    const name = member.nickname ? member.nickname : member.user.username;
+    const name = member.nickname ?? member.user.username;
+    const number = phoneNumbers[member.user.id];
 
-    const number = phoneNumbers[member.id];
     if (!number) return `No phone number found for ${name}.`;
     return `${name}'s phone number: ${number}`;
 }
-
-async function storeNumber(member, phone) {
+/**
+ * @param {Object} user user collection from discord
+ * @param {string} phone phone string to store
+ * @returns reply object
+ */
+function storeNumber(user, phone) {
+    const phones = JSON.parse(fs.readFileSync('./phones.json', 'utf-8'));
     if (!phone.match(/^[2-9]\d{2}-\d{3}-\d{4}$/))
         return {
             content:
                 'Please input your phone number with the following format: `123-456-7890`',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         };
 
-    const numbers = JSON.parse(fs.readFileSync('./phones.json', 'utf-8'));
-    numbers[member.id] = phone;
-    fs.writeFile(
-        './phones.json',
-        JSON.stringify(numbers, null, '\t'),
-        (err) => {
-            if (err) console.error(err);
-        }
-    );
-    return 'Phone number saved.';
+    phones[user.id] = phone;
+    fs.writeFile('./phones.json', JSON.stringify(phones, null, '\t'), (err) => {
+        if (err) console.error(err);
+    });
+
+    return { content: 'Phone number saved.', flags: MessageFlags.Ephemeral };
 }

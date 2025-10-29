@@ -1,4 +1,12 @@
-const Discord = require('discord.js');
+/**
+ * @file Retrieve user info.
+ *
+ * Prefix command:
+ * <prefix>userinfo              Retrieve own user info.
+ * <prefix>userinfo <@user>*     Retrieve one or more user's info.
+ */
+
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: {
@@ -9,32 +17,35 @@ module.exports = {
     showInHelp: false,
     easteregg: true,
     usage: '<@user>',
-    execute: async (bot, message, args) => {
+    execute: (_bot, message, _args) => {
         if (!message.mentions.users.size) {
             const name = message.author.username;
             const id = message.author.id;
             const avatar = message.author.avatarURL({ dynamic: true });
             const discriminator = message.author.discriminator;
-            const userEmbed = new Discord.MessageEmbed()
+            const userEmbed = new EmbedBuilder()
                 .setColor('#00635D')
                 .setTitle('User Info')
                 .setThumbnail(avatar)
-                .addField('Username', name)
-                .addField('Discriminator', discriminator)
-                .addField('ID', id);
+                .addFields(
+                    { name: 'Username', value: name },
+                    { name: 'Discriminator', value: discriminator },
+                    { name: 'ID', value: id }
+                );
             console.log(avatar);
             return { embeds: [userEmbed] };
         }
         const userList = message.mentions.users.map((user) => {
-            const userEmbed = new Discord.MessageEmbed()
+            return new EmbedBuilder()
                 .setColor('#00635D')
                 .setTitle('User Info')
                 .setThumbnail(user.avatarURL({ dynamic: true }))
-                .addField('Username', user.username)
-                .addField('Discriminator', user.discriminator)
-                .addField('ID', user.id);
-
-            return { embeds: [userEmbed] };
+                .addFields(
+                    { name: 'Username', value: user.username },
+                    { name: 'Discriminator', value: user.discriminator },
+                    { name: 'ID', value: user.id }
+                );
         });
+        return { embeds: userList };
     },
 };

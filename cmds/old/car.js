@@ -11,7 +11,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, _message, _args) => {
         return car;
     },
 };

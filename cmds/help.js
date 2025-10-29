@@ -1,6 +1,18 @@
+/**
+ * @file Show list of commands the bot can perform or info about a specific
+ * command.
+ *
+ * Prefix command:
+ * <prefix>help                  Show full help.
+ * <prefix>help <command>        Show detailed help.
+ *
+ * Slash command:
+ * /help                         Show full help.
+ * /help command:<_>             Show detailed help.
+ */
+
 const { prefix } = require('../config.json');
-const Discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,32 +28,32 @@ module.exports = {
         ),
     aliases: ['commands'],
     usage: '<command name>',
+    easteregg: false,
     isSlashCommand: true,
-    execute: async (bot, message, args) => {
+    execute: (bot, _message, args) => {
         if (!args.length) {
-            return await showFullHelp(bot.commands);
+            return showFullHelp(bot.commands);
         } else if (args.length == 1) {
-            return await showDetailedHelp(bot.commands, args[0]);
+            return showDetailedHelp(bot.commands, args[0]);
         }
     },
     interact: async (interaction) => {
         const command = interaction.options.getString('command');
         if (command !== null) {
-            interaction.reply(
-                await showDetailedHelp(interaction.client.commands, command)
+            await interaction.reply(
+                showDetailedHelp(interaction.client.commands, command)
             );
-            return;
+        } else {
+            await interaction.reply(showFullHelp(interaction.client.commands));
         }
-        interaction.reply(await showFullHelp(interaction.client.commands));
     },
 };
 
 /**
- *
  * @param {collection} commands Commands collection set in the client
  * @returns reply object
  */
-async function showFullHelp(commands) {
+function showFullHelp(commands) {
     const categorizedCmds = {};
 
     commands.each((c) => {
@@ -62,7 +74,7 @@ async function showFullHelp(commands) {
         categoryKeys.splice(categoryKeys.indexOf('Miscellaneous'), 1)[0]
     );
 
-    const allCmds = new Discord.MessageEmbed()
+    const allCmds = new EmbedBuilder()
         .setTitle('All available commands')
         .setDescription(
             `Type ${prefix}help <command name> to get info on a specific command.\n`
@@ -70,19 +82,18 @@ async function showFullHelp(commands) {
         .setColor('#004426');
 
     for (const c of categoryKeys) {
-        allCmds.addField(c, categorizedCmds[c].join('\n'));
+        allCmds.addFields({ name: c, value: categorizedCmds[c].join('\n') });
     }
 
     return { embeds: [allCmds] };
 }
 
 /**
- *
  * @param {collection} commands Commands collection set in the client
  * @param {string} commandHelp Command string to get detailed help for
  * @returns reply object
  */
-async function showDetailedHelp(commands, commandHelp) {
+function showDetailedHelp(commands, commandHelp) {
     let name = commandHelp;
     if (name.startsWith(prefix)) name = name.slice(prefix.length);
     const command =
@@ -91,12 +102,17 @@ async function showDetailedHelp(commands, commandHelp) {
 
     if (!command) return 'Command does not exist.';
 
-    const detailedHelp = new Discord.MessageEmbed().setColor('#004225');
+    const detailedHelp = new EmbedBuilder().setColor('#004225');
 
     if (command.aliases)
-        detailedHelp.addField('Aliases', command.aliases.join(', '));
+        detailedHelp.addFields({
+            name: 'Aliases',
+            value: command.aliases.join(', '),
+        });
     if (command.isSlashCommand)
-        detailedHelp.setFooter('This command is also a slash command.');
+        detailedHelp.setFooter({
+            text: 'This command is also a slash command.',
+        });
     if (command.description) detailedHelp.setDescription(command.description);
     if (command.usage)
         detailedHelp.setTitle(`${prefix}${command.data.name} ${command.usage}`);
