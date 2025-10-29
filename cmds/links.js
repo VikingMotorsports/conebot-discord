@@ -33,8 +33,8 @@ module.exports = {
                     { name: 'Team Library', value: 'library' },
                     { name: 'Team Roster', value: 'roster' },
                     { name: 'Current Rule Book', value: 'rules' },
-                    { name: 'Website', value: 'website' },
-                ),
+                    { name: 'Website', value: 'website' }
+                )
         ),
     showInHelp: true,
     category: 'Team',
@@ -46,7 +46,9 @@ module.exports = {
         if (linkString) {
             await interaction.reply(linkString);
         } else {
-            await interaction.reply('link unset: contact a leader or developer.');
+            await interaction.reply(
+                'link unset: contact a leader or developer.'
+            );
         }
     },
 };

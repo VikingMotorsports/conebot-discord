@@ -131,14 +131,15 @@ bot.on(Events.MessageCreate, async (message) => {
 bot.on(Events.InteractionCreate, async (interaction) => {
     if (
         interaction.isChatInputCommand() &&
-        bot.commands.has(interaction.commandName))
+        bot.commands.has(interaction.commandName)
+    )
         commandInteractionHandler(interaction);
     if (
         interaction.isStringSelectMenu() &&
-        interaction.customId === 'poll-options')
+        interaction.customId === 'poll-options'
+    )
         pollSelectMenuHandler(interaction);
-    if (interaction.isButton() &&
-        interaction.customId === 'join')
+    if (interaction.isButton() && interaction.customId === 'join')
         joinButtonHandler(interaction);
     if (interaction.isContextMenuCommand()) {
         if (
