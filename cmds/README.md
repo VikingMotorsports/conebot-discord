@@ -31,3 +31,17 @@ module.exports = {
     },
 };
 ```
+
+Document each command with a description and usage:
+
+```js
+/**
+ * @file [Command description]
+ *
+ * Prefix command:
+ * <prefix>[Command name] {args}    [Description]
+ *
+ * Slash command:
+ * /[Command name] {args}           [Description]
+ */
+```
