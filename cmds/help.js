@@ -30,7 +30,7 @@ module.exports = {
     usage: '<command name>',
     easteregg: false,
     isSlashCommand: true,
-    execute: (bot, _message, args) => {
+    execute: async (bot, _message, args) => {
         if (!args.length) {
             return showFullHelp(bot.commands);
         } else if (args.length == 1) {

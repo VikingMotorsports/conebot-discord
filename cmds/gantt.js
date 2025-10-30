@@ -1,3 +1,10 @@
+/**
+ * @file Overall timeline of vehicle projects.
+ *
+ * Prefix command:
+ * <prefix>gantt         Return link.
+ */
+
 const { gantt } = require('../links.json');
 
 module.exports = {
@@ -10,7 +17,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return gantt;
+    execute: async (_bot, _message, _args) => {
+        return gantt || 'error: field unset';
     },
 };

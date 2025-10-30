@@ -1,3 +1,10 @@
+/**
+ * @file General meeting minutes.
+ *
+ * Prefix command:
+ * <prefix>minutes           Return link.
+ */
+
 const { minutes } = require('../links.json');
 
 module.exports = {
@@ -10,7 +17,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return minutes;
+    execute: async (_bot, _message, _args) => {
+        return minutes || 'error: field unset';
     },
 };

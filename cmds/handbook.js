@@ -1,3 +1,10 @@
+/**
+ * @file Link to member handbook.
+ *
+ * Prefix command:
+ * <prefix>handbook          Return link.
+ */
+
 const { handbook } = require('../links.json');
 
 module.exports = {
@@ -10,7 +17,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return handbook;
+    execute: async (_bot, _message, _args) => {
+        return handbook || 'error: field unset';
     },
 };

@@ -39,7 +39,7 @@ module.exports = {
     usage: '123-456-7890 or @username',
     easteregg: false,
     isSlashCommand: true,
-    execute: (_bot, message, args) => {
+    execute: async (_bot, message, args) => {
         if (!args.length) {
             return findNumber(message.member);
         }

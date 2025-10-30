@@ -1,3 +1,10 @@
+/**
+ * @file Reference documents folder
+ *
+ * Prefix command:
+ * <prefix>library           Return link.
+ */
+
 const { library } = require('../links.json');
 
 module.exports = {
@@ -10,7 +17,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return library;
+    execute: async (_bot, _message, _args) => {
+        return library || 'error: field unset';
     },
 };

@@ -46,12 +46,9 @@ module.exports = {
         const requestedLink = interaction.options.getString('item');
         const linkString = links[requestedLink];
 
-        if (linkString) {
-            await interaction.reply(linkString);
-        } else {
-            await interaction.reply(
-                'link unset: contact a leader or developer.'
-            );
+        if (!linkString) {
+            await interaction.reply('error: field unset');
         }
+        await interaction.reply(linkString);
     },
 };

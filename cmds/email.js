@@ -41,7 +41,7 @@ module.exports = {
     usage: '<email address> or @username',
     easteregg: false,
     isSlashCommand: true,
-    execute: (_bot, message, args) => {
+    execute: async (_bot, message, args) => {
         if (!args.length) {
             return findEmail(message.member);
         }

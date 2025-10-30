@@ -23,7 +23,7 @@ module.exports = {
     showInHelp: true,
     // boolean whether the command shows up in !help command or not
     easteregg: true,
-    execute: (bot, message, args) => {
+    execute: async (bot, message, args) => {
         // function to execute prefix command
     },
     interact: async (interaction) => {

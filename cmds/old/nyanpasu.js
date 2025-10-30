@@ -9,7 +9,7 @@ module.exports = {
     aliases: ['nyanpass'],
     showInHelp: false,
     easteregg: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, _message, _args) => {
         const Url = 'http://nyanpass.com/add.php';
         const Header = {
             'Content-Type': 'application/x-www-form-urlencoded',

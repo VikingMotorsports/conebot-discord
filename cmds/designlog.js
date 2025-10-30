@@ -1,3 +1,10 @@
+/**
+ * @file Working document for design logs of the car.
+ *
+ * Prefix command:
+ * <prefix>designlog         Return link.
+ */
+
 const { designlog } = require('../links.json');
 
 module.exports = {
@@ -10,7 +17,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return designlog;
+    execute: async (_bot, _message, _args) => {
+        return designlog || 'error: field unset';
     },
 };

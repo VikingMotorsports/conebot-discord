@@ -1,3 +1,10 @@
+/**
+ * @file Folder containing all relevant material safety data sheets (MSDS)
+ *
+ * Prefix command:
+ * <prefix>msds          Return link.
+ */
+
 const { msds } = require('../links.json');
 
 module.exports = {
@@ -12,7 +19,7 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return msds;
+    execute: async (_bot, _message, _args) => {
+        return msds || 'error: field unset';
     },
 };

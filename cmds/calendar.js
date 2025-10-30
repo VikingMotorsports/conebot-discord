@@ -1,3 +1,10 @@
+/**
+ * @file The team's Google calendar
+ *
+ * Prefix command:
+ * <prefix>calendar          Return link.
+ */
+
 const { calendar } = require('../links.json');
 
 module.exports = {
@@ -5,13 +12,13 @@ module.exports = {
         name: 'calendar',
         description: "The team's Google calendar",
     },
-    aliases: [],
+    aliases: ['cal'],
     category: 'Team',
     args: false,
     showInHelp: true,
     easteregg: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return calendar;
+    execute: async (_bot, _message, _args) => {
+        return calendar || 'error: field unset';
     },
 };

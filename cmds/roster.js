@@ -1,3 +1,10 @@
+/**
+ * @file Team roster spreadsheet.
+ *
+ * Prefix command:
+ * <prefix>roster            Return link.
+ */
+
 const { roster } = require('../links.json');
 
 module.exports = {
@@ -11,7 +18,7 @@ module.exports = {
     easteregg: false,
     args: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return roster;
+    execute: async (_bot, _message, _args) => {
+        return roster || 'error: field unset';
     },
 };

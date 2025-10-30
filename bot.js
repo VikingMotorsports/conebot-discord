@@ -102,7 +102,7 @@ bot.on(Events.MessageCreate, async (message) => {
         if (commandName[1] === config.prefix || !commandName[1]) return;
         const cmds = commandName.slice(config.prefix.length);
         const command =
-            bot.commands.get(cmds) ??
+            bot.commands.get(cmds) ?? // map.get returns undefined if not found
             bot.commands.find(
                 (cmd) => cmd.aliases && cmd.aliases.includes(cmds)
             );
@@ -112,13 +112,13 @@ bot.on(Events.MessageCreate, async (message) => {
                     'You need to provide arguments for that command.'
                 );
             } else {
-                const reply = command.execute(bot, message, args);
+                const reply = await command.execute(bot, message, args);
                 await message.channel.send(reply);
             }
         } catch (error) {
             console.error(error);
             await message.channel.send(
-                'There was an error executing that command.',
+                'There was an error executing that command.'
             );
             await bot.guilds.cache
                 .first()

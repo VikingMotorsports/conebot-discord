@@ -17,7 +17,7 @@ module.exports = {
     showInHelp: false,
     easteregg: true,
     usage: '<@user>',
-    execute: (_bot, message, _args) => {
+    execute: async (_bot, message, _args) => {
         if (!message.mentions.users.size) {
             const name = message.author.username;
             const id = message.author.id;

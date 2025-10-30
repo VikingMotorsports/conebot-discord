@@ -2,7 +2,7 @@
  * @file Tutorial on how to affiliate yourself with the team on sae.org
  *
  * Prefix command:
- * <prefix>affiliate
+ * <prefix>affiliate        Return link.
  */
 
 const { affiliate } = require('../links.json');
@@ -19,6 +19,6 @@ module.exports = {
     easteregg: false,
     throughLinksCommand: true,
     execute: async (_bot, _message, _args) => {
-        return affiliate;
+        return affiliate || 'error: field unset';
     },
 };

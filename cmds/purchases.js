@@ -1,3 +1,10 @@
+/**
+ * @file Spreadsheet outlining purchasing information and status
+ *
+ * Prefix command:
+ * <prefix>purchases         Return link.
+ */
+
 const { purchases } = require('../links.json');
 
 module.exports = {
@@ -11,7 +18,7 @@ module.exports = {
     easteregg: false,
     args: false,
     throughLinksCommand: true,
-    execute: async (bot, message, args) => {
-        return purchases;
+    execute: async (_bot, _message, _args) => {
+        return purchases || 'error: field unset';
     },
 };

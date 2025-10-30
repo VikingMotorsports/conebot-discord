@@ -4,7 +4,7 @@
     "description": "Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone), adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.",
     "main": "bot.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "node test.js"
     },
     "repository": {
         "type": "git",

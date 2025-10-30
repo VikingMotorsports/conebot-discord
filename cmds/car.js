@@ -1,3 +1,10 @@
+/**
+ * @file Google Drive folder of collaboration documents for the current car.
+ *
+ * Prefix command:
+ * <prefix>car           Return Link.
+ */
+
 const { car } = require('../links.json');
 
 module.exports = {
@@ -12,6 +19,6 @@ module.exports = {
     easteregg: false,
     throughLinksCommand: true,
     execute: async (_bot, _message, _args) => {
-        return car;
+        return car || 'error: field unset';
     },
 };
