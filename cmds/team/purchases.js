@@ -5,7 +5,7 @@
  * <prefix>purchases         Return link.
  */
 
-const { purchases } = require('../links.json');
+const { purchases } = require('../../links.json');
 
 module.exports = {
     data: {

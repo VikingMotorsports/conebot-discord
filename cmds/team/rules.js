@@ -5,7 +5,7 @@
  * <prefix>rules
  */
 
-const { rules } = require('../links.json');
+const { rules } = require('../../links.json');
 
 module.exports = {
     data: {

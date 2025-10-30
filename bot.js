@@ -5,12 +5,12 @@ const {
     Partials,
     codeBlock,
     ChannelType,
-    InteractionType,
     Events,
     ActivityType,
     MessageFlags,
 } = require('discord.js');
 const fs = require('node:fs');
+const path = require('node:path');
 const config = require('./config.json');
 
 const bot = new Client({
@@ -50,20 +50,29 @@ require('./cron.js')(bot);
 bot.commands = new Collection();
 // bot.polls = require('./polls.json');
 
-const commandFiles = fs
-    .readdirSync('./cmds')
-    .filter((file) => file.endsWith('.js'));
+const foldersPath = path.join(__dirname, 'cmds');
+const commandFolders = fs
+    .readdirSync(foldersPath)
+    .filter((file) => file !== 'README.md');
+
+for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = fs
+        .readdirSync(commandsPath)
+        .filter((file) => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        const command = require(filePath);
+        bot.commands.set(command.data.name, command);
+    }
+}
+
 //const commandCache = require('./slashCommands.json');
 
 // WARN: commented because unused
 //const poll = require('./cmds/poll');
 
 // checkRequiredFiles();
-
-for (const file of commandFiles) {
-    const command = require(`./cmds/${file}`);
-    bot.commands.set(command.data.name, command);
-}
 
 bot.login(config.token);
 

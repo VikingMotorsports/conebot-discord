@@ -5,7 +5,7 @@
  * <prefix>handbook          Return link.
  */
 
-const { handbook } = require('../links.json');
+const { handbook } = require('../../links.json');
 
 module.exports = {
     data: {

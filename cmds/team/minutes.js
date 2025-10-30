@@ -5,7 +5,7 @@
  * <prefix>minutes           Return link.
  */
 
-const { minutes } = require('../links.json');
+const { minutes } = require('../../links.json');
 
 module.exports = {
     data: {

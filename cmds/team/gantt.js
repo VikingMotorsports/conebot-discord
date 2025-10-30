@@ -5,7 +5,7 @@
  * <prefix>gantt         Return link.
  */
 
-const { gantt } = require('../links.json');
+const { gantt } = require('../../links.json');
 
 module.exports = {
     data: {

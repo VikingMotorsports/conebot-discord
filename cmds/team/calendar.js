@@ -5,7 +5,7 @@
  * <prefix>calendar          Return link.
  */
 
-const { calendar } = require('../links.json');
+const { calendar } = require('../../links.json');
 
 module.exports = {
     data: {

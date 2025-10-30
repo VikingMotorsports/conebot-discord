@@ -5,7 +5,7 @@
  * <prefix>designlog         Return link.
  */
 
-const { designlog } = require('../links.json');
+const { designlog } = require('../../links.json');
 
 module.exports = {
     data: {

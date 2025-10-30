@@ -6,7 +6,7 @@
  */
 
 const { SlashCommandBuilder } = require('discord.js');
-const links = require('../links.json');
+const links = require('../../links.json');
 
 module.exports = {
     data: new SlashCommandBuilder()

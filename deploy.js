@@ -4,23 +4,26 @@
 
 const { REST, Routes, ApplicationCommandType } = require('discord.js');
 const { token, clientID, guildID } = require('./config.json');
-const { writeFile, readdirSync } = require('node:fs');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const commandsPayload = [];
-const commandFiles = readdirSync('./cmds').filter((file) =>
-    file.endsWith('.js')
-);
+const foldersPath = path.join(__dirname, 'cmds');
+const commandFolders = fs
+    .readdirSync(foldersPath)
+    .filter((file) => file !== 'README.md');
 
-for (const f of commandFiles) {
-    const command = require(`./cmds/${f}`);
-    if (command.data.name === 'update') {
-        const data = command.data.toJSON();
-        data['default_permission'] = false;
-        commandsPayload.push(data);
-        continue;
-    }
-    if (command.isSlashCommand) {
-        commandsPayload.push(command.data.toJSON());
+for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = fs
+        .readdirSync(commandsPath)
+        .filter((file) => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        const command = require(filePath);
+        if ('data' in command && 'interact' in command) {
+            commandsPayload.push(command.data.toJSON());
+        }
     }
 }
 
@@ -45,7 +48,7 @@ const rest = new REST().setToken(token);
             Routes.applicationGuildCommands(clientID, guildID),
             { body: commandsPayload }
         );
-        writeFile(
+        fs.writeFileSync(
             './slashCommands.json',
             JSON.stringify(res, null, '\t'),
             (err) => {

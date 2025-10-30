@@ -5,7 +5,7 @@
  * <prefix>roster            Return link.
  */
 
-const { roster } = require('../links.json');
+const { roster } = require('../../links.json');
 
 module.exports = {
     data: {

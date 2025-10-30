@@ -8,7 +8,7 @@
  * /checkin              Return link.
  */
 
-const { checkin } = require('../links.json');
+const { checkin } = require('../../links.json');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {

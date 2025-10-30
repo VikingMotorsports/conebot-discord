@@ -5,7 +5,7 @@
  * <prefix>affiliate        Return link.
  */
 
-const { affiliate } = require('../links.json');
+const { affiliate } = require('../../links.json');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {

@@ -5,7 +5,7 @@
  * <prefix>library           Return link.
  */
 
-const { library } = require('../links.json');
+const { library } = require('../../links.json');
 
 module.exports = {
     data: {

@@ -8,7 +8,7 @@
  * /order                Return link.
  */
 
-const { order } = require('../links.json');
+const { order } = require('../../links.json');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {

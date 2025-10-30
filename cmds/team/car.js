@@ -5,7 +5,7 @@
  * <prefix>car           Return Link.
  */
 
-const { car } = require('../links.json');
+const { car } = require('../../links.json');
 
 module.exports = {
     data: {

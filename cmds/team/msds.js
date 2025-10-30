@@ -5,7 +5,7 @@
  * <prefix>msds          Return link.
  */
 
-const { msds } = require('../links.json');
+const { msds } = require('../../links.json');
 
 module.exports = {
     data: {
