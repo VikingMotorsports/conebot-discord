@@ -1,3 +1,5 @@
+// bored api is defunct
+
 const Discord = require('discord.js');
 const axios = require('axios');
 

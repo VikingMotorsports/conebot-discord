@@ -32,16 +32,16 @@ module.exports = {
 };
 ```
 
-Document each command with a description and usage:
+Document each command with the description and usage:
 
 ```js
 /**
  * @file [Command description]
  *
  * Prefix command:
- * <prefix>[Command name] {args}    [Description]
+ * <prefix>name arg         [Description]
  *
  * Slash command:
- * /[Command name] {args}           [Description]
+ * /name arg:value          [Description]
  */
 ```

@@ -1,4 +1,14 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+/**
+    * @file Flip a coin.
+    *
+    * Prefix command:
+    * <prefix>cointoss          Return head or tails.
+    *
+    * Slash command:
+    * /cointoss                 Return head or tails.
+    */
+
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,11 +26,11 @@ module.exports = {
     showInHelp: true,
     easteregg: false,
     isSlashCommand: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, _message, _args) => {
         return await headsOrTails();
     },
     interact: async (interaction) => {
-        interaction.reply(await headsOrTails());
+        await interaction.reply(await headsOrTails());
     },
 };
 

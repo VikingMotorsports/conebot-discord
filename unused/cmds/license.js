@@ -1,3 +1,5 @@
+// Currently using OnShape
+
 const { license } = require('../links.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 

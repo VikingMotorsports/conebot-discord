@@ -1,8 +1,8 @@
 /**
- * @file Returns link for document or folder
+ * @file Returns link for document or folder.
  *
  * Slash command:
- * /links item:<_>
+ * /links item:name
  */
 
 const { SlashCommandBuilder } = require('discord.js');
@@ -33,6 +33,7 @@ module.exports = {
                     { name: 'Team Library', value: 'library' },
                     { name: 'Team Roster', value: 'roster' },
                     { name: 'Current Rule Book', value: 'rules' },
+                    { name: 'OnShape', value: 'onshape' },
                     { name: 'Website', value: 'website' }
                 )
         ),
