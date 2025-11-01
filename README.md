@@ -32,7 +32,8 @@ Other files to create before using the bot:
     - `purchases`: link to member facing purchasing spreadsheet
     - `library`: link to the team's library
     - `roster`: link to the team roster
-    - `rules`: link to the latest FSAE rulebook
+    - `rules`: link to the latest BAJA/FSAE rulebook
+    - `onshape`: link to sign up for an OnShape education account.
     - `website`: link to the team's website
 
 test

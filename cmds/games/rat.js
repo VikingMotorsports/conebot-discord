@@ -1,12 +1,12 @@
 /**
-    * @file Rat.
-    *
-    * Prefix command:
-    * <prefix>rat           Print a rat.
-    *
-    * Slash command:
-    * /rat                  Print a rat.
-    */
+ * @file Rat.
+ *
+ * Prefix command:
+ * <prefix>rat           Print a rat.
+ *
+ * Slash command:
+ * /rat                  Print a rat.
+ */
 
 const { SlashCommandBuilder } = require('discord.js');
 

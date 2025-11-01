@@ -1,12 +1,12 @@
 /**
-    * @file Main Google Drive folder.
-    *
-    * Prefix command:
-    * <prefix>drive         Return link.
-    *
-    * Slash command:
-    * /drive                Return link.
-    */
+ * @file Main Google Drive folder.
+ *
+ * Prefix command:
+ * <prefix>drive         Return link.
+ *
+ * Slash command:
+ * /drive                Return link.
+ */
 
 const { SlashCommandBuilder } = require('discord.js');
 const { drive } = require('../../links.json');

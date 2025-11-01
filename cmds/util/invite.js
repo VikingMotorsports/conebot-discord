@@ -1,12 +1,12 @@
 /**
-    * @file Return invite link to the VMS Discord server.
-    *
-    * Prefix command:
-    * <prefix>invite            Return invite.
-    *
-    * Slash command:
-    * /invite                   Return invite.
-    */
+ * @file Return invite link to the VMS Discord server.
+ *
+ * Prefix command:
+ * <prefix>invite            Return invite.
+ *
+ * Slash command:
+ * /invite                   Return invite.
+ */
 
 const { guildID, rulesChannel } = require('../../config.json');
 const { SlashCommandBuilder } = require('discord.js');

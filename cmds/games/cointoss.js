@@ -1,12 +1,12 @@
 /**
-    * @file Flip a coin.
-    *
-    * Prefix command:
-    * <prefix>cointoss          Return head or tails.
-    *
-    * Slash command:
-    * /cointoss                 Return head or tails.
-    */
+ * @file Flip a coin.
+ *
+ * Prefix command:
+ * <prefix>cointoss          Return head or tails.
+ *
+ * Slash command:
+ * /cointoss                 Return head or tails.
+ */
 
 const { SlashCommandBuilder } = require('discord.js');
 

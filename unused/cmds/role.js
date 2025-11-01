@@ -60,7 +60,7 @@ module.exports = {
     usage: 'add|remove <name of role>',
     args: false,
     isSlashCommand: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, message, args) => {
         const cmd = args.shift();
 
         if (!args.length) {
@@ -190,11 +190,11 @@ module.exports = {
         try {
             if (command === 'add') {
                 const reply = await addRole(member, role);
-                interaction.reply(reply);
+                await interaction.reply(reply);
             }
             if (command === 'remove') {
                 const reply = await removeRole(member, role);
-                interaction.reply(reply);
+                await interaction.reply(reply);
             }
             if (isLeader && command === 'assign') {
                 if (target === null)
@@ -203,7 +203,7 @@ module.exports = {
                         ephemeral: true,
                     });
                 const reply = await assignRole(target, role);
-                interaction.reply(reply);
+                await interaction.reply(reply);
             }
             if (isLeader && command === 'unassign') {
                 if (target === null)
@@ -212,12 +212,12 @@ module.exports = {
                         ephemeral: true,
                     });
                 const reply = await unassignRole(target, role);
-                interaction.reply(reply);
+                await interaction.reply(reply);
             }
         } catch (error) {
             console.error(error);
             // interaction.reply({ content: 'There was an error executing that command.', ephemeral: true })
-            interaction.reply({
+            await interaction.reply({
                 content: `Error executing command:\n${codeBlock('js', error)}`,
                 ephemeral: true,
             });

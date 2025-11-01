@@ -1,4 +1,11 @@
-const { MessageEmbed } = require('discord.js');
+/**
+ * @file Yes or no?
+ *
+ * Prefix command:
+ * <prefix>yesno         Return gif.
+ */
+
+const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
@@ -9,10 +16,10 @@ module.exports = {
     aliases: ['yesorno'],
     showInHelp: false,
     easteregg: true,
-    execute: async (bot, message, args) => {
+    execute: async (_bot, _message, _args) => {
         try {
             const res = await axios.get('https://yesno.wtf/api');
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle(res.data.answer.capitalize())
                 .setImage(res.data.image);
 

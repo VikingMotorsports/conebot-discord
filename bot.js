@@ -115,6 +115,9 @@ bot.on(Events.MessageCreate, async (message) => {
             bot.commands.find(
                 (cmd) => cmd.aliases && cmd.aliases.includes(cmds)
             );
+        if (!command) {
+            return;
+        }
         try {
             if (command.args && !args.length) {
                 await message.channel.send(
@@ -126,13 +129,6 @@ bot.on(Events.MessageCreate, async (message) => {
             }
         } catch (error) {
             console.error(error);
-            await message.channel.send(
-                'There was an error executing that command.'
-            );
-            await bot.guilds.cache
-                .first()
-                .members.cache.get(config.botOwner)
-                .send(`General error:\n\n${error}`);
         }
     } else {
         replies(bot, message);
