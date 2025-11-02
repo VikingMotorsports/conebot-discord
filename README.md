@@ -15,7 +15,7 @@ adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) lib
 - `announcementsChannel`: Where bot will ignore any commands;
 
 > [!Note]
-> Minimum required parameters: `token`, `prefix`, `guildID`.
+> Minimum required parameters: `token`, `prefix`, `cliendID`, `guildID`.
 
 ### Other files to create before using the bot:
 
