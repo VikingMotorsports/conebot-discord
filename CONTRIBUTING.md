@@ -34,4 +34,4 @@ https://docs.google.com/document/d/1u4WmY1o_xz6vr34-CShiVWR9DAi5ZG2SEWoG3ipU0AM/
 
 ## Joining the VMS GitHub Organization
 
-You must be a current PSU student or recent grad and express desire to contribute to any project, capstone, or other. Currently, being part of the organization is not required to contribute to the discord bot.
+You must be a current PSU student and express desire to contribute to any project, capstone, or other. Currently, being part of the organization is not required to contribute to the discord bot.
