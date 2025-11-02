@@ -35,20 +35,19 @@ const bot = new Client({
 
 const requiredFiles = [
     'config.json',
-    'credentials.json',
     'emails.json',
-    'links.json',
     'phones.json',
-    'polls.json',
-    'soda.json',
-    'token.json',
+    'links.json',
 ];
 
+// check files
+(async () => {
+    await checkRequiredFiles();
+})();
 // register cronjobs
 require('./cron.js')(bot);
 
 bot.commands = new Collection();
-// bot.polls = require('./polls.json');
 
 const foldersPath = path.join(__dirname, 'cmds');
 const commandFolders = fs
@@ -66,13 +65,6 @@ for (const folder of commandFolders) {
         bot.commands.set(command.data.name, command);
     }
 }
-
-//const commandCache = require('./slashCommands.json');
-
-// WARN: commented because unused
-//const poll = require('./cmds/poll');
-
-// checkRequiredFiles();
 
 bot.login(config.token);
 
@@ -92,7 +84,7 @@ bot.on(Events.MessageCreate, async (message) => {
     //* message-based replies
     const replies = require('./messageReplies');
 
-    //*  ignores messages made by bots
+    //* ignores messages made by bots
     if (message.author.bot) return;
     //* ignores messages outside of channels
     if (message.channel.type === ChannelType.DM) return;
@@ -104,9 +96,7 @@ bot.on(Events.MessageCreate, async (message) => {
     const args = message.content.toLowerCase().split(/ +/);
     const commandName = args.shift();
 
-    if (message.content.startsWith('?test')) {
-        testCommand();
-    } else if (commandName.startsWith(config.prefix)) {
+    if (commandName.startsWith(config.prefix)) {
         //* dynamic command handler
         if (commandName[1] === config.prefix || !commandName[1]) return;
         const cmds = commandName.slice(config.prefix.length);
@@ -129,6 +119,7 @@ bot.on(Events.MessageCreate, async (message) => {
             }
         } catch (error) {
             console.error(error);
+            message.channel.send('There was an error executing that command.');
         }
     } else {
         replies(bot, message);
@@ -139,16 +130,11 @@ bot.on(Events.InteractionCreate, async (interaction) => {
     if (
         interaction.isChatInputCommand() &&
         bot.commands.has(interaction.commandName)
-    )
+    ) {
         commandInteractionHandler(interaction);
-    if (
-        interaction.isStringSelectMenu() &&
-        interaction.customId === 'poll-options'
-    )
-        pollSelectMenuHandler(interaction);
-    if (interaction.isButton() && interaction.customId === 'join')
+    } else if (interaction.isButton() && interaction.customId === 'join') {
         joinButtonHandler(interaction);
-    if (interaction.isContextMenuCommand()) {
+    } else if (interaction.isContextMenuCommand()) {
         if (
             interaction.commandName !== 'Get Email Address' &&
             interaction.commandName !== 'Get Phone Number'
@@ -183,13 +169,6 @@ bot.on(Events.InteractionCreate, async (interaction) => {
         }
     }
 });
-
-async function findEmoji(emojiName) {
-    const emoji = await bot.emojis.cache.find(
-        (emote) => emote.name === emojiName
-    );
-    return emoji;
-}
 
 async function checkRequiredFiles() {
     for (f of requiredFiles) {
@@ -231,25 +210,6 @@ async function commandInteractionHandler(interaction) {
     }
 }
 
-async function pollSelectMenuHandler(interaction) {
-    const option = interaction.values;
-    const messageId = interaction.message.id;
-    const user = interaction.user.id;
-    try {
-        const reply = await bot.commands
-            .get('poll')
-            .cast(messageId, option, user);
-        interaction.reply(reply);
-    } catch (error) {
-        console.error(error);
-        if (!interaction.replied)
-            await interaction.reply({
-                content: `Error executing command:\n${codeBlock('js', error)}`,
-                flags: MessageFlags.Ephemeral,
-            });
-    }
-}
-
 async function joinButtonHandler(interaction) {
     try {
         const isMember = interaction.member.roles.cache.find(
@@ -276,69 +236,4 @@ async function joinButtonHandler(interaction) {
                 flags: MessageFlags.Ephemeral,
             });
     }
-}
-
-async function setCommandPermissions() {
-    bot.application.fetch();
-    const index = commandCache.map((c) => c.name).indexOf('update');
-    if (index === -1) return;
-    const updateCommand = await bot.guilds.cache
-        .get(config.guildID)
-        .commands.fetch(commandCache[index].id);
-    const permissions = [
-        {
-            id: config.leadershipRoleId,
-            type: 'ROLE',
-            permission: true,
-        },
-    ];
-    await updateCommand.permissions.add({ permissions });
-}
-
-async function testCommand() {
-    const data = fs.readFileSync('./config.json');
-    const competition = new Date(JSON.parse(data).competition);
-
-    if (Date.now() > competition) return;
-
-    const days = Math.ceil((competition.getTime() - Date.now()) / 8.64e7);
-    if (days > 60) return;
-
-    // console.log(days);
-
-    try {
-        bot.channels.cache
-            .get('644810281611952130')
-            .send(
-                `competition: ${competition}\ndate now: ${Date.now()}\n${days} days until competition.`
-            );
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-async function createInvite(client) {
-    try {
-        const invite = await client.generateInvite([
-            'ADD_REACTIONS',
-            'SEND_MESSAGES',
-            'VIEW_CHANNEL',
-            'EMBED_LINKS',
-            'ATTACH_FILES',
-            'READ_MESSAGE_HISTORY',
-            'CONNECT',
-            'SPEAK',
-            'CHANGE_NICKNAME',
-            'MANAGE_ROLES',
-            'MANAGE_EMOJIS',
-        ]);
-        console.log(invite);
-    } catch (error) {
-        console.log(error);
-    }
-    const reactMessage = await bot.channels.cache
-        .get(config.rulesChannel)
-        .messages.fetch(config.reactMsg); // caches reaction message
-    reactMessage.react('✅');
-    await setCommandPermissions();
 }

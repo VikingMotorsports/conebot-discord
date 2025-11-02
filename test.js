@@ -9,6 +9,7 @@ const assert = require('node:assert');
 test('command interface test', () => {
     const commandInterface = {
         data: true,
+        execute: true,
     };
 
     const commandFiles = fs

@@ -1,6 +1,6 @@
 module.exports = async function (bot, message) {
     if (message.content.toLowerCase().includes('hello')) {
-        const blobwave = await findEmoji('blobwave');
+        const blobwave = findEmoji('blobwave');
         message.channel.send(`Hi! ${blobwave}`);
     }
     if (
@@ -17,7 +17,7 @@ module.exports = async function (bot, message) {
             message.content.toLowerCase().includes('slav') ||
             message.content.toLowerCase().includes('whiskey'))
     ) {
-        const blyat = await findEmoji('blyat');
+        const blyat = findEmoji('blyat');
         message.react(blyat);
     }
     if (
@@ -46,7 +46,7 @@ module.exports = async function (bot, message) {
         }
     }
     if (message.content.toLowerCase().includes('blyat')) {
-        const blyat = await findEmoji('blyat');
+        const blyat = findEmoji('blyat');
         message.react(blyat);
     }
     if (message.content.toLowerCase().includes('good bot')) {
@@ -71,32 +71,32 @@ module.exports = async function (bot, message) {
             message.content.toLowerCase().includes('mind') ||
             message.content.toLowerCase().includes('watch out'))
     ) {
-        const cone = await findEmoji('cone');
+        const cone = findEmoji('cone');
         message.react(cone);
     }
     if (
         message.content.toLowerCase().includes('ducttape') ||
         message.content.toLowerCase().includes('duct tape')
     ) {
-        const ducttape = await findEmoji('ducttape');
+        const ducttape = findEmoji('ducttape');
         message.react(ducttape);
     }
     if (message.content.toLowerCase().match(/ye{2,}t/)) {
-        const yeet = await findEmoji('yeet');
+        const yeet = findEmoji('yeet');
         message.react(yeet);
     }
     if (
         message.content.toLowerCase().includes('send it') ||
         message.content.toLowerCase().includes('sent it')
     ) {
-        const send = await findEmoji('sendit');
+        const send = findEmoji('sendit');
         message.react(send);
     }
     if (message.content.toLowerCase().includes('euro')) {
         message.react('🇪🇺');
     }
     if (message.content.toLowerCase().includes('doubt')) {
-        const doubt = await findEmoji('doubt');
+        const doubt = findEmoji('doubt');
         message.react(doubt);
     }
     if (
@@ -175,3 +175,8 @@ module.exports = async function (bot, message) {
         message.channel.send('https://youtu.be/O7lRV1VHv1g?t=3');
     }
 };
+
+function findEmoji(emojiName) {
+    const emoji = bot.emojis.cache.find((emote) => emote.name === emojiName);
+    return emoji;
+}

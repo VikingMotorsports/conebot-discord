@@ -1,3 +1,5 @@
+// Outdated: discord added a poll feature April 2024
+
 const {
     MessageEmbed,
     MessageActionRow,
@@ -200,7 +202,6 @@ module.exports = {
 };
 
 /**
- *
  * @param {Collection} client client object
  * @param {number} minutes Number of minutes to wait for results
  * @param {string} creator Name of the poll creator

@@ -1,3 +1,5 @@
+// Currently outdated
+
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 

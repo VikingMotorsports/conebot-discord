@@ -1,3 +1,5 @@
+// Currently outdated
+
 const {
     inventoryDocumentation,
     inventoryList,
