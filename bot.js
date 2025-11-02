@@ -8,7 +8,9 @@ const {
     Events,
     ActivityType,
     MessageFlags,
+    Routes,
 } = require('discord.js');
+const { REST } = require('@discordjs/rest');
 const fs = require('node:fs');
 const path = require('node:path');
 const config = require('./config.json');
@@ -40,14 +42,15 @@ const requiredFiles = [
     'links.json',
 ];
 
-// check files
+// Check for required files on startup
 (async () => {
     await checkRequiredFiles();
 })();
-// register cronjobs
+// Register cronjobs
 require('./cron.js')(bot);
 
-bot.commands = new Collection();
+bot.commands = new Collection(); // Stores full command objects
+const slashCommandsToRegister = []; // Array to hold JSON data for slash commands
 
 const foldersPath = path.join(__dirname, 'cmds');
 const commandFolders = fs
@@ -62,116 +65,127 @@ for (const folder of commandFolders) {
     for (const file of commandFiles) {
         const filePath = path.join(commandsPath, file);
         const command = require(filePath);
-        bot.commands.set(command.data.name, command);
+
+        // All new/refactored commands must have data, executePrefix, and executeSlash
+        if (command.data && command.executeSlash) {
+            bot.commands.set(command.data.name, command);
+            slashCommandsToRegister.push(command.data.toJSON());
+        } else {
+            console.warn(
+                `[WARNING] The command at ${filePath} is missing required 'data' or 'executeSlash' properties and will not be loaded.`
+            );
+        }
+    }
+}
+
+// Function to register slash commands with Discord API
+async function registerSlashCommands(client) {
+    const rest = new REST({ version: '10' }).setToken(config.token);
+
+    try {
+        console.log(
+            `Started refreshing ${slashCommandsToRegister.length} application (/) commands.`
+        );
+
+        // The put method is used to fully refresh all commands with the current set
+        const data = await rest.put(
+            Routes.applicationCommands(client.user.id),
+            { body: slashCommandsToRegister }
+        );
+
+        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+    } catch (error) {
+        console.error('Error refreshing application (/) commands:', error);
     }
 }
 
 bot.login(config.token);
 
-bot.once(Events.ClientReady, (bot) => {
-    console.log(`Bot online as ${bot.user.tag} in ${bot.guilds.cache.first()}`);
-    bot.user.setActivity('your every move', {
+bot.once(Events.ClientReady, async (client) => {
+    console.log(`Bot online as ${client.user.tag} in ${client.guilds.cache.first()}`);
+    client.user.setActivity('your every move', {
         type: ActivityType.Watching,
-    }); //* sets what the bot is playing
+    });
 
     console.assert(
-        bot.channels.cache.get(config.rulesChannel) !== undefined,
+        client.channels.cache.get(config.rulesChannel) !== undefined,
         'rules channel not set'
     );
+
+    // Register slash commands once the bot is ready.
+    // For production, this is better done in a separate deploy script.
+    await registerSlashCommands(client);
 });
 
 bot.on(Events.MessageCreate, async (message) => {
-    //* message-based replies
     const replies = require('./messageReplies');
 
-    //* ignores messages made by bots
-    if (message.author.bot) return;
-    //* ignores messages outside of channels
-    if (message.channel.type === ChannelType.DM) return;
-    //* ignores messages in announcements
-    if (message.channel.id === config.announcementsChannel) return;
-    //* ignores messages with code blocks
-    if (message.content.includes('\`')) return;
+    if (message.author.bot || message.channel.type === ChannelType.DM)
+        return;
 
-    const args = message.content.toLowerCase().split(/ +/);
-    const commandName = args.shift();
+    // Handle prefix commands
+    if (message.content.startsWith(config.prefix)) {
+        if (message.content.includes('`')) return; // Ignore messages with code blocks
 
-    if (commandName.startsWith(config.prefix)) {
-        //* dynamic command handler
-        if (commandName[1] === config.prefix || !commandName[1]) return;
-        const cmds = commandName.slice(config.prefix.length);
+        const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+        if (!args.length) return;
+        const commandName = args.shift().toLowerCase();
+
         const command =
-            bot.commands.get(cmds) ?? // map.get returns undefined if not found
-            bot.commands.find(
-                (cmd) => cmd.aliases && cmd.aliases.includes(cmds)
-            );
-        if (!command) {
+            bot.commands.get(commandName) ??
+            bot.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+
+        if (!command) return;
+
+        if (!command.executePrefix) {
+            // Optionally inform user this is a slash-only command
             return;
         }
+
         try {
-            if (command.args && !args.length) {
-                await message.channel.send(
-                    'You need to provide arguments for that command.'
-                );
-            } else {
-                const reply = await command.execute(bot, message, args);
-                await message.channel.send(reply);
-            }
+            await command.executePrefix(message, args);
         } catch (error) {
             console.error(error);
             message.channel.send('There was an error executing that command.');
         }
     } else {
+        // Handle message-based replies for non-commands
         replies(bot, message);
     }
 });
 
 bot.on(Events.InteractionCreate, async (interaction) => {
-    if (
-        interaction.isChatInputCommand() &&
-        bot.commands.has(interaction.commandName)
-    ) {
-        commandInteractionHandler(interaction);
+    if (interaction.isChatInputCommand() || interaction.isContextMenuCommand()) {
+        await handleCommandInteraction(interaction);
     } else if (interaction.isButton() && interaction.customId === 'join') {
-        joinButtonHandler(interaction);
-    } else if (interaction.isContextMenuCommand()) {
-        if (
-            interaction.commandName !== 'Get Email Address' &&
-            interaction.commandName !== 'Get Phone Number'
-        )
-            interaction.reply({
-                content: 'Error executing command',
-                flags: MessageFlags.Ephemeral,
-            });
-        if (interaction.commandName === 'Get Email Address') {
-            try {
-                await bot.commands.get('email').interact(interaction);
-            } catch (error) {
-                console.error(error);
-                if (!interaction.replied)
-                    interaction.reply({
-                        content: `Error executing command:\n${codeBlock(error)}`,
-                        flags: MessageFlags.Ephemeral,
-                    });
-            }
-        }
-        if (interaction.commandName === 'Get Phone Number') {
-            try {
-                await bot.commands.get('phone').interact(interaction);
-            } catch (error) {
-                console.error(error);
-                if (!interaction.replied)
-                    interaction.reply({
-                        content: `Error executing command:\n${codeBlock(error)}`,
-                        flags: MessageFlags.Ephemeral,
-                    });
-            }
-        }
+        await joinButtonHandler(interaction);
     }
 });
 
+async function handleCommandInteraction(interaction) {
+    const command = interaction.client.commands.get(interaction.commandName);
+
+    if (!command) {
+        console.error(`No command matching ${interaction.commandName} was found.`);
+        await interaction.reply({ content: 'Error: Command not found.', ephemeral: true });
+        return;
+    }
+
+    try {
+        await command.executeSlash(interaction);
+    } catch (error) {
+        console.error(`Error executing '${interaction.commandName}':`, error);
+        const errorMessage = { content: 'There was an error while executing this command!', ephemeral: true };
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp(errorMessage);
+        } else {
+            await interaction.reply(errorMessage);
+        }
+    }
+}
+
 async function checkRequiredFiles() {
-    for (f of requiredFiles) {
+    for (const f of requiredFiles) {
         try {
             await fs.promises.access(`./${f}`, fs.constants.F_OK);
             console.log(`${f} exists`);
@@ -180,60 +194,13 @@ async function checkRequiredFiles() {
                 if (err) console.error(err);
             });
             console.log(`${f} created`);
-            continue;
         }
     }
 }
 
-async function commandInteractionHandler(interaction) {
-    const command = interaction.client.commands.get(interaction.commandName);
-
-    if (!command) {
-        console.error(`No command matching ${interaction.commandName} found.`);
-        return;
-    }
-    try {
-        await command.interact(interaction);
-    } catch (error) {
-        console.error(error);
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({
-                content: 'There was an error while executing this command!',
-                flags: MessageFlags.Ephemeral,
-            });
-        } else {
-            await interaction.reply({
-                content: 'There was an error while executing this command!',
-                flags: MessageFlags.Ephemeral,
-            });
-        }
-    }
-}
-
+// Placeholder for button handler logic
 async function joinButtonHandler(interaction) {
-    try {
-        const isMember = interaction.member.roles.cache.find(
-            (r) => r.name === 'Member'
-        );
-        if (isMember)
-            return interaction.reply({
-                content: 'You are already a member.',
-                flags: MessageFlags.Ephemeral,
-            });
-        const role = interaction.guild.roles.cache.find(
-            (r) => r.name === 'Member'
-        );
-        interaction.member.roles.add(role);
-        interaction.reply({
-            content: 'You are now a Viking Motorsports member. Welcome!',
-            flags: MessageFlags.Ephemeral,
-        });
-    } catch (error) {
-        console.error(error);
-        if (!interaction.replied)
-            await interaction.reply({
-                content: `Error executing command:\n${codeBlock('js', error)}`,
-                flags: MessageFlags.Ephemeral,
-            });
-    }
+    // Implementation for the join button would go here
+    console.log(`'join' button clicked by ${interaction.user.tag}`);
+    await interaction.reply({ content: 'Button interaction received!', ephemeral: true });
 }
