@@ -45,10 +45,10 @@ function embed() {
         .setTitle('Viking Motorsports Social Media')
         .setColor('#004426')
         .addFields(
-            { name: 'Website', value: website },
-            { name: 'YouTube', value: youtube },
-            { name: 'Facebook', value: facebook },
-            { name: 'Instagram', value: instagram }
+            { name: 'Website', value: website || 'unset' },
+            { name: 'YouTube', value: youtube || 'unset' },
+            { name: 'Facebook', value: facebook || 'unset' },
+            { name: 'Instagram', value: instagram || 'unset' }
         );
 
     return { embeds: [embed] };
