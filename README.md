@@ -1,6 +1,7 @@
 # Cone Bot for Discord
 
-Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone), adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.
+Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone),
+adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.
 
 This bot requires a `config.json` file in the root directory to load environment variables. The variables used are:
 - `token`: Discord bot token to login to
@@ -15,8 +16,6 @@ This bot requires a `config.json` file in the root directory to load environment
 Other files to create before using the bot:
 - `emails.json` - fill with empty object {null}
 - `phones.json` - fill with empty object {null}
-- `polls.json` - fill with empty object {null}
-- `soda.json` - fill with empty array [null]
 - `links.json` - fill with the following key-value pair:
     - `affiliate`: link to document for affiliating with a school on sae.org
     - `calendar`: link to team calendar
@@ -32,7 +31,10 @@ Other files to create before using the bot:
     - `purchases`: link to member facing purchasing spreadsheet
     - `library`: link to the team's library
     - `roster`: link to the team roster
-    - `rules`: link to the latest FSAE rulebook
+    - `rules`: link to the latest BAJA/FSAE rulebook
+    - `onshape`: link to sign up for an OnShape education account.
     - `website`: link to the team's website
 
-test
+Other files not required:
+- `polls.json` - fill with empty object {null}
+- `soda.json` - fill with empty array [null]

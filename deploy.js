@@ -1,49 +1,44 @@
+/**
+ * @file Register slash commands.
+ */
+
+const { REST, Routes, ApplicationCommandType } = require('discord.js');
 const { token, clientID, guildID } = require('./config.json');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { writeFile, readdirSync } = require('fs');
-// const { SlashCommandBuilder } = require('@discordjs/builders');
+const fs = require('node:fs');
+const path = require('node:path');
 
-// const slashCommands = ['help', 'bonk', 'checkin', 'cointoss', 'drive', 'email', 'inventory', 'invite', 'license', 'order', 'pdm', 'phone', 'poll', 'role', 'roll', 'socialmedia', 'soda', 'stash', 'tutorials', 'update', 'waiver'];
 const commandsPayload = [];
-const commandFiles = readdirSync('./cmds').filter((file) =>
-    file.endsWith('.js')
-);
+const foldersPath = path.join(__dirname, 'cmds');
+const commandFolders = fs
+    .readdirSync(foldersPath)
+    .filter((file) => file !== 'README.md');
 
-// for (const f of slashCommands) {
-//     const command = require(`./cmds/${f}.js`);
-//     if (f === 'update') {
-//         const data = command.data.toJSON();
-//         data['default_permission'] = false;
-//         commandsPayload.push(data);
-//         continue;
-//     }
-//     commandsPayload.push(command.data.toJSON());
-// }
-// const linksCommand = require('./cmds/links.js');
-
-for (const f of commandFiles) {
-    const command = require(`./cmds/${f}`);
-    if (command.data.name === 'update') {
-        const data = command.data.toJSON();
-        data['default_permission'] = false;
-        commandsPayload.push(data);
-        continue;
+for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = fs
+        .readdirSync(commandsPath)
+        .filter((file) => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        const command = require(filePath);
+        if ('data' in command && 'interact' in command) {
+            commandsPayload.push(command.data.toJSON());
+        }
     }
-    if (command.isSlashCommand) commandsPayload.push(command.data.toJSON());
 }
-// commandsPayload.push(linksCommand.data.toJSON());
+
 const emailContextMenu = {
     name: 'Get Email Address',
-    type: 2,
+    type: ApplicationCommandType.User,
 };
 const phoneContextMenu = {
     name: 'Get Phone Number',
-    type: 2,
+    type: ApplicationCommandType.User,
 };
+
 commandsPayload.push(emailContextMenu, phoneContextMenu);
 
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST().setToken(token);
 
 (async () => {
     try {
@@ -53,7 +48,7 @@ const rest = new REST({ version: '9' }).setToken(token);
             Routes.applicationGuildCommands(clientID, guildID),
             { body: commandsPayload }
         );
-        writeFile(
+        fs.writeFileSync(
             './slashCommands.json',
             JSON.stringify(res, null, '\t'),
             (err) => {
