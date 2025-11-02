@@ -17,7 +17,7 @@
     },
     "homepage": "https://github.com/gearysw/conebot-discord#readme",
     "dependencies": {
-        "axios": "^0.21.4",
+        "axios": "^1.13.1",
         "discord.js": "^14.24.0",
         "eslint": "^7.32.0",
         "googleapis": "^85.0.0",
