@@ -1,3 +1,19 @@
+# 2025-11-01-21:30 - edibble
+
+## Changes
+- Upgraded discord.js 13.9.0 -> 14.24.0
+- Upgraded axios to 0.21.1 -> 1.13.1
+- Upgraded node-cron 3.0.0 -> 3.0.3
+- Retired the following commands with possibility of being added back in the future: `bored`, `face`, `inspiration`, `joke`, `license`, `nyanpasu`, `po`, `roll`, `stash`, `vaporwave`, `eastereggs`, `greeting`, `inventory`, `kanye`, `mock`, `pdm`, `poll`, `soda`, `tronalddump`, `waiver`
+- Added the following command: `onshape`
+- Some commands got new options
+- Some commands were also made slash commands
+- Containerfile added
+- CONTRIBUTING.md added
+- github workflows added
+- simple interface test added
+- unused code moved to `/unused`
+
 # 2021-09-27-21:00 - gearysw
 
 ## Changes
