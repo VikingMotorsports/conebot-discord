@@ -43,13 +43,25 @@ module.exports = {
     usage: '<link name>',
     category: 'Team',
     isSlashCommand: true,
+    execute: async (_bot, _message, args) => {
+        const requestedLink = args.shift();
+        if (!(requestedLink in links)) {
+            return `\`${requestedLink}\` is not a valid option.`;
+        }
+
+        const linkString = links[requestedLink];
+        return linkString || 'error: field unset';
+    },
     interact: async (interaction) => {
         const requestedLink = interaction.options.getString('item');
-        const linkString = links[requestedLink];
-
-        if (!linkString) {
-            await interaction.reply('error: field unset');
+        if (!(requestedLink in links)) {
+            await interaction.reply(
+                `\`${requestedLink}\` is not a valid option.`
+            );
+            return;
         }
-        await interaction.reply(linkString);
+
+        const linkString = links[requestedLink];
+        await interaction.reply(linkString || 'error: field unset');
     },
 };
