@@ -42,38 +42,66 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('role')
         .setDescription('Add or remove your roles on the server')
-        .addStringOption((option) =>
-            option
-                .setName('action')
-                .setDescription('Do you want to add or remove a role?')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'List', value: 'list' },
-                    { name: 'Add', value: 'add' },
-                    { name: 'Remove', value: 'remove' },
-                    {
-                        name: 'Assign (Leadership only - requires target)',
-                        value: 'assign',
-                    },
-                    {
-                        name: 'Unassign (Leadership only - requires target)',
-                        value: 'unassign',
-                    }
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('list')
+                .setDescription('List all available roles')
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('add')
+                .setDescription('Add a role to yourself')
+                .addRoleOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to add')
+                        .setRequired(true)
                 )
         )
-        .addRoleOption((option) =>
-            option
-                .setName('role')
-                .setDescription('The role to add or remove')
-                .setRequired(false)
-        )
-        .addUserOption((option) =>
-            option
-                .setName('target')
-                .setDescription(
-                    'Target member to (un)assign a role to/from (Leadership only)'
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('remove')
+                .setDescription('Remove a role from yourself')
+                .addRoleOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to remove')
+                        .setRequired(true)
                 )
-                .setRequired(false)
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('assign')
+                .setDescription('[Leadership] Add a role to a member')
+                .addRoleOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to assign')
+                        .setRequired(true)
+                )
+                .addUserOption((option) =>
+                    option
+                        .setName('target')
+                        .setDescription('Target member')
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('unassign')
+                .setDescription('[Leadership] Remove a role from a member')
+                .addRoleOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to unassign')
+                        .setRequired(true)
+                )
+                .addUserOption((option) =>
+                    option
+                        .setName('target')
+                        .setDescription('Target member')
+                        .setRequired(true)
+                )
         ),
     aliases: ['roles'],
     category: 'Server Moderation',
@@ -184,7 +212,6 @@ module.exports = {
         }
     },
     interact: async (interaction) => {
-        const action = interaction.options.getString('action');
         const member = interaction.member;
         const role = interaction.options.getRole('role');
         const target = interaction.options.getMember('target');
@@ -194,7 +221,7 @@ module.exports = {
         const isLeader = interaction.member.roles.cache.has(leadershipRole.id);
 
         try {
-            switch (action) {
+            switch (interaction.options.getSubcommand()) {
                 case 'list':
                     await interaction.reply(
                         allowedRolesEmbed(interaction.guild)
@@ -244,6 +271,12 @@ module.exports = {
                     }
                     const reply = await unassignRole(target, role);
                     await interaction.reply(reply);
+                    return;
+                }
+                default: {
+                    await interaction.reply(
+                        'Invalid action: specify `list`, `add`, or `remove`.'
+                    );
                     return;
                 }
             }
