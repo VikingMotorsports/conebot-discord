@@ -5,7 +5,7 @@
  * /links item:name
  */
 
-const { SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const links = require('../../links.json');
 
 module.exports = {
@@ -16,9 +16,12 @@ module.exports = {
             option
                 .setName('item')
                 .setDescription('Item to get link for')
-                .setRequired(true)
+                .setRequired(false)
                 .addChoices(
-                    { name: 'SAE.org Team Affiliation', value: 'affiliate' },
+                    {
+                        name: 'SAE.org Team Affiliation',
+                        value: 'affiliate',
+                    },
                     { name: 'Team Calendar', value: 'calendar' },
                     { name: 'Working Car Folder', value: 'car' },
                     { name: 'Check in', value: 'checkin' },
@@ -27,7 +30,10 @@ module.exports = {
                     { name: 'Gantt chart', value: 'gantt' },
                     { name: 'Member Handbook', value: 'handbook' },
                     { name: 'Meeting Minutes', value: 'minutes' },
-                    { name: 'Material Safety Data Sheets', value: 'msds' },
+                    {
+                        name: 'Material Safety Data Sheets',
+                        value: 'msds',
+                    },
                     { name: 'Order', value: 'order' },
                     { name: 'Team Purchases', value: 'purchases' },
                     { name: 'Team Library', value: 'library' },
@@ -49,19 +55,45 @@ module.exports = {
             return `\`${requestedLink}\` is not a valid option.`;
         }
 
-        const linkString = links[requestedLink];
-        return linkString || 'error: field unset';
+        return links[requestedLink] || 'error: field unset';
     },
     interact: async (interaction) => {
         const requestedLink = interaction.options.getString('item');
-        if (!(requestedLink in links)) {
+        if (requestedLink !== null) {
+            if (!(requestedLink in links)) {
+                await interaction.reply(
+                    `\`${requestedLink}\` is not a valid option.`
+                );
+                return;
+            }
+
             await interaction.reply(
-                `\`${requestedLink}\` is not a valid option.`
+                links[requestedLink] || 'error: field unset'
             );
             return;
+        } else {
+            await interaction.reply(embed());
+            return;
         }
-
-        const linkString = links[requestedLink];
-        await interaction.reply(linkString || 'error: field unset');
     },
 };
+
+/**
+ * Return an embed with all available links.
+ */
+function embed() {
+    const linksEmbed = new EmbedBuilder()
+        .setTitle('All available links')
+        .setColor('#004225')
+        .addFields(
+            ...(() => {
+                const fields = [];
+                for (const key in links) {
+                    fields.push({ name: key, value: links[key] });
+                }
+                return fields;
+            })()
+        );
+
+    return { embeds: [linksEmbed] };
+}
