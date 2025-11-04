@@ -4,10 +4,8 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -32,5 +30,11 @@ jobs:
       run: npm ci
     - name: Build project
       run: npm run build --if-present
+    - name: Create temp files
+      run: |
+        echo '{}' > config.json
+        echo '{}' > links.json
+        echo '{}' > emails.json
+        echo '{}' > phones.json
     - name: Run tests
       run: npm test

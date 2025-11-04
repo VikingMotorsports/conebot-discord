@@ -11,7 +11,7 @@ test('command interface test', () => {
     const commandInterface = {
         data: true,
         execute: true,
-        //interact: true,
+        interact: true,
         //help: true,
     };
 
