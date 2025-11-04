@@ -3,17 +3,22 @@
 Functionally identical to [Orange Cone](https://github.com/gearysw/orangecone),
 adapted for use in Discord. Uses the [Discord.js](https://discord.js.org/#/) library.
 
-This bot requires a `config.json` file in the root directory to load environment variables. The variables used are:
-- `token`: Discord bot token to login to
-- `prefix`: String to prepend to a command for the bot to handle commands
-- `guildID`: ID of the server that this bot will be used in
-- `rulesChannel`: The Rules or Welcome channel that contains the message where bot will monitor for reactions
-- `announcementsChannel`: Announcements channel where bot will ignore any commands
-- `reactMsg`: ID of the message in the Rules or Welcome channel where bot will monitor for reactions
-- `pollsChannel`: ID of the channel where polls and their results will be sent
-- `spreadsheetID`: Google Sheets ID that this instance of bot uses to read order statuses
+## Configuration files 
 
-Other files to create before using the bot:
+### `config.json` stores various bot parameters:
+
+- `token`: Bot token secret;
+- `prefix`: Command prefix;
+- `clientID`: ID of the bot;
+- `guildID`: ID of the server;
+- `rulesChannel`: Landing page for invites;
+- `announcementsChannel`: Where bot will ignore any commands;
+
+> [!Note]
+> Minimum required parameters: `token`, `prefix`, `cliendID`, `guildID`.
+
+### Other files to create before using the bot:
+
 - `emails.json` - fill with empty object {null}
 - `phones.json` - fill with empty object {null}
 - `links.json` - fill with the following key-value pair:
@@ -31,10 +36,21 @@ Other files to create before using the bot:
     - `purchases`: link to member facing purchasing spreadsheet
     - `library`: link to the team's library
     - `roster`: link to the team roster
-    - `rules`: link to the latest BAJA/FSAE rulebook
+    - `rulesFSAE`: link to the latest Formula SAE rulebook
+    - `rulesBAJASAE`: link to the latest BAJA SAE rulebook
     - `onshape`: link to sign up for an OnShape education account.
     - `website`: link to the team's website
 
-Other files not required:
-- `polls.json` - fill with empty object {null}
-- `soda.json` - fill with empty array [null]
+> [!Note]
+> These additional files are only required if testing `email`, `phone`, or `link-related` commands.
+
+## Contributing
+
+Read [CONTRIBUTING.md][Contributing].
+
+## License
+
+This project is licensed under the [MIT License][License].
+
+[License]: ./LICENSE
+[Contributing]: ./CONTRIBUTING.md
