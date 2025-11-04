@@ -65,6 +65,16 @@ module.exports = {
             )
         );
     },
+    help: () => {
+        return `
+            Update bot parameters.
+
+            **Prefix command:**
+            \`<prefix>update <parameter> <value>\` -        Update bot parameter.
+
+            **Slash command:**
+            \`<prefix>update parameter:name value:value\` - Update bot parameter.`;
+    },
 };
 
 function updateParameter(leadershipRole, member, parameter, updatedValue) {

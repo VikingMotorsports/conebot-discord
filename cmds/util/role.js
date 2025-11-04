@@ -1,5 +1,5 @@
 /**
- * @file Add or remove your interactionroles on the server.
+ * @file Add or remove your roles on the server.
  *
  * Prefix command:
  * <prefix>role list                                 List allowed roles.
@@ -8,8 +8,10 @@
  *
  * slash command:
  * /role list                                        List allowed roles.
- * /role {add|remove}:<role name>                    Add or remove role.
- * /role {assign|unassign}:<role name> target:<user> Leadership assign role.
+ * /role add role:name                               Add role.
+ * /role remove role:name                            Remove role.
+ * /role assign role:name target:user                Leadership add role.
+ * /role unassign role:name target:user              Leadership remove role.
  */
 
 const {
@@ -287,6 +289,22 @@ module.exports = {
                 flags: MessageFlags.Ephemeral,
             });
         }
+    },
+    help: () => {
+        return `
+        Add or remove your roles on the server.
+
+        **Prefix command:**
+        \`<prefix>role list\` -                                 List allowed roles.
+        \`<prefix>role {add|remove} <role name>\` -             Add or remove role.
+        \`<prefix>role {assign|unassign} @user <role name>\` -  Leadership assign role.
+
+        **slash command:**
+        \`/role list\` -                           List allowed roles.
+        \`/role add role:name\` -                  Add role.
+        \`/role remove role:name\` -               Remove role.
+        \`/role assign role:name target:user\` -   Leadership add role.
+        \`/role unassign role:name target:user\` - Leadership remove role.`;
     },
 };
 

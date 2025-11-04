@@ -6,7 +6,6 @@
  * <prefix>email <@user>    Retrieve email for user.
  * <prefix>email <email>    Store/update own email.
  *
- *
  * Slash command:
  * /email                   Retrieve own email.
  * /email user:@user        Retrieve email for user.
@@ -63,6 +62,20 @@ module.exports = {
             await interaction.reply(storeEmail(interaction.user, email));
         else if (mentionedUser !== null)
             await interaction.reply(findEmail(mentionedUser));
+    },
+    help: () => {
+        return `
+        Stores and retrieves user emails.
+
+        **Prefix command:**
+        \`<prefix>email\` -         Retrieve own email.
+        \`<prefix>email <@user>\` - Retrieve email for user.
+        \`<prefix>email <email>\` - Store/update own email.
+
+        **Slash command:**
+        \`/email\` - Retrieve own email.
+        \`/email user:@user\` -  Retrieve email for user.
+        \`/email store:email\` - Store/update own email.`;
     },
 };
 

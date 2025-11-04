@@ -6,7 +6,6 @@
  * <prefix>phone <@user>            Retrieve phone for user.
  * <prefix>phone <xxx-xxx-xxx>      Store/update own phone.
  *
- *
  * Slash command:
  * /phone                           Retrieve own phone.
  * /phone user:@user                Retrieve phone for user.
@@ -62,6 +61,20 @@ module.exports = {
         else if (mentionedUser !== null)
             await interaction.reply(findNumber(mentionedUser));
     },
+    help: () => {
+        return `
+        Stores and retrieves user phone numbers.
+
+        **Prefix command:**
+        \`<prefix>phone\` -                    Retrieve own phone.
+        \`<prefix>phone <@user>\` -            Retrieve phone for user.
+        \`<prefix>phone <xxx-xxx-xxx>\` -      Store/update own phone.
+
+        **Slash command:**
+        \`/phone\` -                           Retrieve own phone.
+        \`/phone user:@user\` -                Retrieve phone for user.
+        \`/phone store:xxx-xxx-xxx\` -         Store/update own phone.`;
+    },
 };
 
 /**
@@ -74,7 +87,7 @@ function findNumber(member) {
     const number = phoneNumbers[member.user.id];
 
     if (!number) return `No phone number found for ${name}.`;
-    return `${name}'s phone number: ${number}`;
+    return `${name} 's phone number: ${number}`;
 }
 /**
  * @param {Object} user user collection from discord

@@ -8,7 +8,7 @@
  *
  * Slash command:
  * /help                         Show full help.
- * /help command:<_>             Show detailed help.
+ * /help command:name            Show detailed help.
  */
 
 const { prefix } = require('../../config.json');
@@ -46,6 +46,19 @@ module.exports = {
         } else {
             await interaction.reply(showFullHelp(interaction.client.commands));
         }
+    },
+    help: () => {
+        return `
+        Shows list of commands the bot can perform or info about a specific
+        command.
+
+        **Prefix command:**
+        \`<prefix>help\` -           Show full help.
+        \`<prefix>help <command>\` - Show detailed help.
+
+        **Slash command:**
+        \`/help\` -              Show full help.
+        \`/help command:name\` - Show detailed help.`;
     },
 };
 
@@ -93,8 +106,7 @@ function showFullHelp(commands) {
  * @param {string} commandHelp Command string to get detailed help for
  * @returns reply object
  */
-function showDetailedHelp(commands, commandHelp) {
-    let name = commandHelp;
+function showDetailedHelp(commands, name) {
     if (name.startsWith(prefix)) name = name.slice(prefix.length);
     const command =
         commands.get(name) ||
@@ -102,22 +114,27 @@ function showDetailedHelp(commands, commandHelp) {
 
     if (!command) return 'Command does not exist.';
 
-    const detailedHelp = new EmbedBuilder().setColor('#004225');
+    const detailedHelp = new EmbedBuilder()
+        .setColor('#004225')
+        .setTitle(`${prefix}${command.data.name}`);
 
-    if (command.aliases)
+    if (command.aliases) {
         detailedHelp.addFields({
-            name: 'Aliases',
+            name: '# Aliases',
             value: command.aliases.join(', '),
         });
-    if (command.isSlashCommand)
+    }
+    if (command.help) {
+        detailedHelp.addFields({
+            name: '# Description',
+            value: command.help(),
+        });
+    }
+    if (command.isSlashCommand) {
         detailedHelp.setFooter({
             text: 'This command is also a slash command.',
         });
-    if (command.description) detailedHelp.setDescription(command.description);
-    if (command.usage)
-        detailedHelp.setTitle(`${prefix}${command.data.name} ${command.usage}`);
-    else if (!command.usage)
-        detailedHelp.setTitle(`${prefix}${command.data.name}`);
+    }
 
     return { embeds: [detailedHelp] };
 }

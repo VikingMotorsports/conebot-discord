@@ -48,4 +48,12 @@ module.exports = {
         });
         return { embeds: userList };
     },
+    help: () => {
+        return `
+            Retrieve user info.
+
+            **Prefix command:**
+            \`<prefix>userinfo\` -          Retrieve own user info.
+            \`<prefix>userinfo <@user*>\` - Retrieve one or more user's info.`;
+    },
 };

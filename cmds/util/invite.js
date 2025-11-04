@@ -25,6 +25,16 @@ module.exports = {
     interact: async (interaction) => {
         await interaction.reply(await getInviteLink(interaction.client));
     },
+    help: () => {
+        return `
+        Generate invite link to the VMS Discord server.
+
+        **Prefix command:**
+        \`<prefix>invite\` -            Generate invite.
+
+        **Slash command:**
+        \`/invite\` -                   Generate invite.`;
+    },
 };
 
 async function getInviteLink(client) {
