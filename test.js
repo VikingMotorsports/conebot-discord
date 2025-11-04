@@ -33,7 +33,9 @@ test('command interface test', () => {
                 for (const field in commandInterface) {
                     if (!(field in command)) {
                         failed = true;
-                        console.error(`missing [${field}] ${command.data.name}`);
+                        console.error(
+                            `missing [${field}] ${command.data.name}`
+                        );
                     }
                 }
             }
